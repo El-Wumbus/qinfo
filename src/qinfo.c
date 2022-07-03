@@ -1,21 +1,31 @@
 #include <stdio.h>
 #include "config.h"
+#include "qinfo.h"
+#include "system.h"
+#include "color.h"
 
 int main()
 {
-  FILE *cpu_info = fopen("/proc/cpuinfo", "r");
-  if (cpu_info == NULL) {
-    fprintf(stderr,"Error: Could not open /proc/cpuinfo\n");
-    return 1;
+  unsigned int core_count;
+  unsigned int thread_count;
+  unsigned int total_memory;
+  char hostname[256];
+  char cpu_model[100];
+  char os_name[256];
+  
+  if (OPERATING_SYSTEM == "Linux")
+  {
+    core_count = get_core_count();
+    thread_count = get_thread_count();
+    total_memory = get_total_memory();
+    get_hostname(hostname);
+    get_cpu_model(cpu_model);
+    get_operating_system_name(os_name);
   }
 
-  unsigned int thread_count, core_count;
-  while (!fscanf(cpu_info, "siblings\t: %u", &thread_count))
-    fscanf(cpu_info, "%*[^s]");
-  while (!fscanf(cpu_info, "cpu cores\t: %u", &core_count))
-    fscanf(cpu_info, "%*[^c]");
-  fclose(cpu_info);
-
-  fprintf(stdout, "CPU: %u cores, %u threads\n", core_count, thread_count);
+  fprintf(stdout, "%sHostname:%s %s\n",BWHT,COLOR_END, hostname);
+  fprintf(stdout, "%sCPU:%s %s (%u cores, %u threads)\n",BWHT,COLOR_END, cpu_model, core_count, thread_count);
+  fprintf(stdout, "%sMemory:%s reset %u kB \n",BWHT,COLOR_END, total_memory);
+  fprintf(stdout, "%sOperating System:%s %s (%s)\n",BWHT,COLOR_END, OPERATING_SYSTEM, os_name);
   return 0;
 }
