@@ -1,12 +1,12 @@
 CC = gcc
-headder_files = $(wildcard src/*.h)
+header_files = $(wildcard src/*.h)
 source_file = src/qinfo.c
 output_dir = dist
 output_file = qinfo
 
 default: build
 
-build: $(source_file) $(headder_files)
+build: $(source_file) $(header_files)
 	mkdir -p $(output_dir)
 	$(CC) -o $(output_dir)/$(output_file) $(source_file)
 
