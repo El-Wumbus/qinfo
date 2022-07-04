@@ -66,37 +66,6 @@ unsigned int get_thread_count()
 }
 
 /**
- * @brief Get the cpu model object
- *
- * @param storage_variable
- * @return int
- */
-int get_cpu_model(char *storage_variable)
-{
-  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
-  FILE *cpu_info = fopen("/proc/cpuinfo", "r");
-
-  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 1. */
-  if (cpu_info == NULL)
-  {
-    fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
-    return 1;
-  }
-
-  char buffer[100];
-  /* Reading the file until it finds the line that starts with "model name:". */
-  while (!fscanf(cpu_info, "model name\t: %99[^\n]", &buffer))
-    fscanf(cpu_info, "%*[^m]");
-  fclose(cpu_info);
-
-  /* Copying the contents of the buffer into the storage_variable.
-     This fixes the returning pointer to a non-existant variable issue
-     that would occur when just returning the variable */
-  strcpy(storage_variable, buffer);
-  return 0;
-}
-
-/**
  * @brief Get the total memory
  *
  * @return unsigned int
@@ -125,8 +94,8 @@ int get_total_memory()
 
 /**
  * @brief Get the avalible memory
- * 
- * @return int 
+ *
+ * @return int
  */
 int get_avalible_memory()
 {
@@ -146,6 +115,56 @@ int get_avalible_memory()
   fclose(mem_info);
 
   return avalible_memory;
+}
+
+float get_uptime()
+{
+  FILE *uptime_file = fopen("/proc/uptime", "r");
+
+  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 0. */
+  if (uptime_file == NULL)
+  {
+    fprintf(stderr, "Error: Could not open /proc/uptime\n");
+    return 0;
+  }
+
+  float uptime;
+  while (!fscanf(uptime_file, "%f", &uptime))
+    fscanf(uptime_file, "%*[^ ]");
+  fclose(uptime_file);
+
+  return(uptime);
+}
+
+/**
+ * @brief Get the cpu model object
+ *
+ * @param storage_variable
+ * @return int
+ */
+int get_cpu_model(char *storage_variable)
+{
+  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
+  FILE *cpu_info = fopen("/proc/cpuinfo", "r");
+
+  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 1. */
+  if (cpu_info == NULL)
+  {
+    fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
+    return 1;
+  }
+
+  char buffer[100];
+  /* Reading the file until it finds the line that starts with "model name:". */
+  while (!fscanf(cpu_info, "model name\t: %99[^\n]", &buffer))
+    fscanf(cpu_info, "%*[^m]");
+  fclose(cpu_info);
+
+  /* Copying the contents of the buffer into the storage_variable.
+     This fixes the returning pointer to a non-existant variable issue
+     that would occur when just returning the variable */
+  strcpy(storage_variable, buffer);
+  return 0;
 }
 
 /**
@@ -200,9 +219,9 @@ int get_hostname(char *storage_variable)
 
 /**
  * @brief return the output of the uname --kernel-name --kernel-release command
- * 
- * @param storage_variable 
- * @return int 
+ *
+ * @param storage_variable
+ * @return int
  */
 int uname(char *storage_variable)
 {

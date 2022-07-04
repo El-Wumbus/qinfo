@@ -9,6 +9,9 @@ bool DISPLAY_MEMORY_INFO      = true;
 /* Display the computer's hostname */
 bool DISPLAY_HOSTNAME         = true;
 
+/* Display the system uptime */
+bool DISPLAY_UPTIME           = true;
+
 /* Display the operating system name */
 bool DISPLAY_OPERATING_SYSTEM = true;
 
