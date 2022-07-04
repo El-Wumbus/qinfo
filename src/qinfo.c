@@ -97,6 +97,22 @@ int main()
     uptime_old = uptime;
     uptime = (uptime_old / (float)7);
   }
+  /* This is checking if the uptime is greater than 4 weeks. If it is, it will change the uptime
+  identifier to months and divide the uptime by 4. */
+  if (uptime > 4)
+  {
+    strcpy(uptime_identifier, "months(s)");
+    uptime_old = uptime;
+    uptime = (uptime_old / (float)4);
+  }
+  /* This is checking if the uptime is greater than 12 months. If it is, it will change the uptime
+  identifier to years and divide the uptime by 12. */
+  if (uptime > 12)
+  {
+    strcpy(uptime_identifier, "years(s)");
+    uptime_old = uptime;
+    uptime = (uptime_old / (float)12);
+  }
 
   /* Checking if the user wants to display the CPU information. If they do, it will print the CPU
   information. */
