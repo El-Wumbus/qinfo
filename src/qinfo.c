@@ -102,40 +102,40 @@ int main()
   information. */
   if (DISPLAY_CPU_INFO)
   {
-    fprintf(stdout, "%sCPU:%s %39s (%u cores, %u threads)\n", BWHT, COLOR_END, cpu_model, core_count, thread_count);
-  }
-
-  /* Checking if the user wants to display the operating system information. If they do, it will print
-  the operating system information. */
-  if (DISPLAY_OPERATING_SYSTEM)
-  {
-    fprintf(stdout, "%sOS:%s %16s (%s)\n", BWHT, COLOR_END, os_name, OPERATING_SYSTEM);
+    printf("%sCPU:%s %39s (%u cores, %u threads)\n", BWHT, COLOR_END, cpu_model, core_count, thread_count);
   }
 
   /* Checking if the user wants to display the memory information. If they do, it will print the memory
   information. */
   if (DISPLAY_MEMORY_INFO)
   {
-    fprintf(stdout, "%sMemory:%s %7.2f/%.2f %s \n", BWHT, COLOR_END, used_memory, total_memory, unit);
+    printf("%sRAM:%s %10.2f/%.2f %s \n", BWHT, COLOR_END, used_memory, total_memory, unit);
+  }
+
+  /* Checking if the user wants to display the operating system information. If they do, it will print
+  the operating system information. */
+  if (DISPLAY_OPERATING_SYSTEM)
+  {
+    printf("%sOS:%s %16s (%s)\n", BWHT, COLOR_END, os_name, OPERATING_SYSTEM);
   }
 
   /* Checking if the user wants to display the hostname. If they do, it will print the hostname. */
   if (DISPLAY_HOSTNAME)
   {
-    fprintf(stdout, "%sHostname:%s %s\n", BWHT, COLOR_END, hostname);
+    printf("%sHostname:%s %s\n", BWHT, COLOR_END, hostname);
   }
 
   /* This is checking if the user wants to display the uptime. If they do, it will print the uptime. */
   if (DISPLAY_UPTIME)
   {
-    fprintf(stdout, "%sUptime:%s   %.2f %s\n", BWHT, COLOR_END, uptime, uptime_identifier);
+    printf("%sUptime:%s   %.2f %s\n", BWHT, COLOR_END, uptime, uptime_identifier);
   }
 
   /* This is checking if the operating system is Linux and if the user wants to display the kernel
   version. If both of these are true, it will print the kernel version. */
   if (OPERATING_SYSTEM == "Linux" && DISPLAY_KERNEL_VERSION)
   {
-    fprintf(stdout, "%sKernel:%s   %s", BWHT, COLOR_END, kernel_version);
+    printf("%sKernel:%s   %s", BWHT, COLOR_END, kernel_version);
   }
 
   return 0;
