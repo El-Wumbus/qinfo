@@ -62,7 +62,7 @@ int get_cpu_model(char *storage_variable)
   /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
   FILE *cpu_info = fopen("/proc/cpuinfo", "r");
 
-  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 0. */
+  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 1. */
   if (cpu_info == NULL)
   {
     fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
@@ -87,7 +87,7 @@ int get_cpu_model(char *storage_variable)
  *
  * @return unsigned int
  */
-unsigned int get_total_memory()
+int get_total_memory()
 {
   /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
   FILE *mem_info = fopen("/proc/meminfo", "r");
@@ -99,7 +99,7 @@ unsigned int get_total_memory()
     return 0;
   }
 
-  unsigned int total_memory;
+  int total_memory;
 
   /* Reading the file until it finds the line that starts with "MemTotal:". */
   while (!fscanf(mem_info, "MemTotal:\t%u kB", &total_memory))
@@ -107,6 +107,26 @@ unsigned int get_total_memory()
   fclose(mem_info);
 
   return total_memory;
+}
+
+int get_avalible_memory()
+{
+  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
+  FILE *mem_info = fopen("/proc/meminfo", "r");
+
+  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 0. */
+  if (mem_info == NULL)
+  {
+    fprintf(stderr, "Error: Could not open /proc/meminfo\n");
+    return 0;
+  }
+
+  int avalible_memory;
+  while (!fscanf(mem_info, "MemAvailable:\t%u kB", &avalible_memory))
+    fscanf(mem_info, "%*[^M]");
+  fclose(mem_info);
+
+  return avalible_memory;
 }
 
 /**
@@ -136,9 +156,9 @@ int get_operating_system_name(char *storage_variable)
 
 /**
  * @brief Get the system hostname
- * 
- * @param storage_variable 
- * @return int 
+ *
+ * @param storage_variable
+ * @return int
  */
 int get_hostname(char *storage_variable)
 {
@@ -157,4 +177,30 @@ int get_hostname(char *storage_variable)
 
   strcpy(storage_variable, hostname);
   return 0;
+}
+
+int uname(char *storage_variable)
+{
+  FILE *fp;
+  char path[1024];
+
+  /* Open the command for reading. */
+  fp = popen("/bin/uname --kernel-name --kernel-release", "r");
+  if (fp == NULL)
+  {
+    printf("Failed to run command\n");
+    return 1;
+  }
+
+  char buffer[1024] = "";
+
+  /* Read the output a line at a time - output it. */
+  while (fgets(path, sizeof(path), fp) != NULL)
+  {
+    strcat(buffer, path);
+  }
+
+  /* close */
+  pclose(fp);
+  strcpy(storage_variable, buffer);
 }
