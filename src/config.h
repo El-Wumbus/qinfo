@@ -1,7 +1,15 @@
 #include <stdbool.h>
+
+/* Display cpu name and core/thread info */
 bool DISPLAY_CPU_INFO         = true;
+
+/* Display memory capacity and usage ratio */
 bool DISPLAY_MEMORY_INFO      = true;
+
+/* Display the computer's hostname */
 bool DISPLAY_HOSTNAME         = true;
+
+/* Display the operating system name */
 bool DISPLAY_OPERATING_SYSTEM = true;
 
 /* measure memory in gigabytes instead of kilobytes */

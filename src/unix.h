@@ -1,3 +1,17 @@
+/*
+  Copyright (C) 2020 Aidan Neal
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #include <stdio.h>
 #include <string.h>
 
@@ -109,6 +123,11 @@ int get_total_memory()
   return total_memory;
 }
 
+/**
+ * @brief Get the avalible memory
+ * 
+ * @return int 
+ */
 int get_avalible_memory()
 {
   /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
@@ -179,6 +198,12 @@ int get_hostname(char *storage_variable)
   return 0;
 }
 
+/**
+ * @brief return the output of the uname --kernel-name --kernel-release command
+ * 
+ * @param storage_variable 
+ * @return int 
+ */
 int uname(char *storage_variable)
 {
   FILE *fp;
