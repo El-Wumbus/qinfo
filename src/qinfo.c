@@ -73,40 +73,40 @@ int main() {
   /* Checking if the user wants to display the CPU information. If they do, it
   will print the CPU information. */
   if (DISPLAY_CPU_INFO) {
-    printf("%sCPU:%s %39s (%u cores, %u threads)\n", BWHT, COLOR_END, cpu_model,
+    printf("%sCPU:%s\t\t%s (%u cores, %u threads)\n", BWHT, COLOR_END, cpu_model,
            core_count, thread_count);
   }
 
   /* Checking if the user wants to display the memory information. If they do,
   it will print the memory information. */
   if (DISPLAY_MEMORY_INFO) {
-    printf("%sRAM:%s %10.2f/%.2f %s \n", BWHT, COLOR_END, used_memory,
+    printf("%sRAM:%s\t\t%.2f/%.2f %s \n", BWHT, COLOR_END, used_memory,
            total_memory, unit);
   }
 
   /* Checking if the user wants to display the operating system information. If
   they do, it will print the operating system information. */
   if (DISPLAY_OPERATING_SYSTEM) {
-    printf("%sOS:%s %16s (%s)\n", BWHT, COLOR_END, os_name, OPERATING_SYSTEM);
+    printf("%sOS:%s\t\t%s (%s)\n", BWHT, COLOR_END, os_name, OPERATING_SYSTEM);
   }
 
   /* Checking if the user wants to display the hostname. If they do, it will
    * print the hostname. */
   if (DISPLAY_HOSTNAME) {
-    printf("%sHostname:%s %s\n", BWHT, COLOR_END, hostname);
+    printf("%sHostname:%s\t%s\n", BWHT, COLOR_END, hostname);
   }
 
   /* This is checking if the user wants to display the uptime. If they do, it
    * will print the uptime. */
   if (DISPLAY_UPTIME) {
-    printf("%sUptime:%s\t %s\n", BWHT, COLOR_END, formatted_uptime(uptime));
+    printf("%sUptime:%s\t\t%s\n", BWHT, COLOR_END, formatted_uptime(uptime));
   }
 
   /* This is checking if the operating system is Linux and if the user wants to
   display the kernel version. If both of these are true, it will print the
   kernel version. */
   if (strcmp(OPERATING_SYSTEM, "Linux") && DISPLAY_KERNEL_VERSION) {
-    printf("%sKernel:%s   %s", BWHT, COLOR_END, kernel_version);
+    printf("%sKernel:%s\t\t%s", BWHT, COLOR_END, kernel_version);
   }
 
   return 0;

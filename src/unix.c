@@ -196,7 +196,7 @@ int get_hostname(char *storage_variable)
   char* hostname;
   hostname = (char *) malloc(sizeof(char) * 100);
 
-  while (!fscanf(hostname_file, "%255[^\n]", hostname))
+  while (!fscanf(hostname_file, "%99[^\n]", hostname))
     fscanf(hostname_file, "%*[^\n]");
   fclose(hostname_file);
 
