@@ -1,5 +1,7 @@
 #include <stdbool.h>
 
+
+
 /* Display cpu name and core/thread info */
 bool DISPLAY_CPU_INFO         = true;
 
@@ -20,4 +22,3 @@ bool USE_GIGABYTES            = true;
 
 /* Only supported properly on unix-like operating systems */
 bool DISPLAY_KERNEL_VERSION   = true;
-

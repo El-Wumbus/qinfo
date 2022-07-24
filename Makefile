@@ -1,14 +1,14 @@
 CC = gcc
-header_files = $(wildcard src/*.h)
-source_file = src/qinfo.c
+CFLAGS=-g -Wall -Werror
+source_files = $(wildcard src/*.c)
 output_dir = dist
 output_file = qinfo
 
 default: build
 
-build: $(source_file) $(header_files)
+build:
 	mkdir -p $(output_dir)
-	$(CC) -o $(output_dir)/$(output_file) $(source_file)
+	$(CC) -o $(output_dir)/$(output_file) $(source_files) $(CFLAGS)
 
 clean:
 	rm -rf $(output_dir)

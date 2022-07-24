@@ -2,6 +2,7 @@
 // _WIN32 macro
 #ifdef _WIN32
 #define OPERATING_SYSTEM "Windows32"
+#include "windows.h"
 
 // Checking for mac OS with
 // __APPLE__ macro
@@ -12,7 +13,6 @@
 // __linux__ macro
 #elif __linux__
 #define OPERATING_SYSTEM "Linux"
-#include "unix.h"
 
 // Checking for iOS embedded OS with
 // TARGET_OS_EMBEDDED macro
