@@ -1,7 +1,6 @@
 # qinfo
 
-A cross platform system info program. Fetches system info and displays it.  
-**Currently only supports Linux.(It will support more very soon)**
+A Linux system info program. Fetches system info and displays it.  
 
 ## Compile from source (Linux)
 
