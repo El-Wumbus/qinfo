@@ -12,6 +12,9 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#ifndef UNIX_H
+#define UNIX_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -75,3 +78,4 @@ int get_hostname(char *storage_variable);
  * @return int
  */
 int uname(char *storage_variable);
+#endif // UNIX_H
