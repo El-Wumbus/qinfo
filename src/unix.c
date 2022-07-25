@@ -102,7 +102,7 @@ int get_avalible_memory()
   return avalible_memory;
 }
 
-float get_uptime()
+long get_uptime()
 {
   FILE *uptime_file = fopen("/proc/uptime", "r");
 

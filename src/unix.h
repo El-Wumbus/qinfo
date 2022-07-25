@@ -43,7 +43,7 @@ int get_total_memory();
  */
 int get_avalible_memory();
 
-float get_uptime();
+long get_uptime();
 
 /**
  * @brief Get the cpu model object

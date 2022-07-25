@@ -5,4 +5,4 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *formatted_uptime(float uptime);
+char *formatted_uptime(long uptime);

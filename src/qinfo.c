@@ -15,7 +15,7 @@
 
 #include "qinfo.h"
 
-char *formatted_uptime(float uptime) {
+char *formatted_uptime(long uptime) {
   /* Calculating the number of days, hours, minutes and seconds. */
   unsigned int days = (unsigned int)uptime / 86400;
   unsigned int hours = (unsigned int)uptime / 3600 % 24;
@@ -38,7 +38,7 @@ char *formatted_uptime(float uptime) {
 int main() {
   unsigned int core_count = 0;
   unsigned int thread_count = 0;
-  float uptime = 0;
+  long uptime = 0;
   float available_memory;
   float used_memory = 0;
   float total_memory = 0;
