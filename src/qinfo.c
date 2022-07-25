@@ -21,10 +21,10 @@ Author: Aidan Neal <decator.c@proton.me>
 
 char *formatted_uptime(long uptime) {
   /* Calculating the number of days, hours, minutes and seconds. */
-  unsigned int days = (unsigned int)uptime / 86400;
-  unsigned int hours = (unsigned int)uptime / 3600 % 24;
-  unsigned int minutes = (unsigned int)uptime / 60 % 60;
-  unsigned int seconds = (unsigned int)uptime % 60;
+  unsigned int days = (unsigned int)uptime / SECOND_DAY_CONVERSION;
+  unsigned int hours = (unsigned int)uptime / SECOND_HOUR_CONVERSION % HOUR_DAY_CONVERSION;
+  unsigned int minutes = (unsigned int)uptime / SECOND_MINUTE_CONVERSION % MINUTE_HOUR_CONVERSION;
+  unsigned int seconds = (unsigned int)uptime % SECOND_MINUTE_CONVERSION;
   /* Allocating memory for the string. */
   char *string = malloc(sizeof(char) * 100);
   /* Checking if the memory was allocated successfully. If it was not, it prints
@@ -66,8 +66,8 @@ int main() {
 
   /* Checking to display the memory in gigabytes or kilobytes. */
   if (USE_GIGABYTES) {
-    used_memory = ((total_memory - available_memory) / (float)1048576);
-    total_memory = get_total_memory() / (float)1048576;
+    used_memory = ((total_memory - available_memory) / (float)KILOBYTE_GIGABYTE_CONVERSION);
+    total_memory = get_total_memory() / (float)KILOBYTE_GIGABYTE_CONVERSION;
     strcpy(unit, "GB");
   } else {
     strcpy(unit, "kB");

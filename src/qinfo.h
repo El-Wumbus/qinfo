@@ -25,6 +25,14 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <stdio.h>
 #include <stdlib.h>
 
+#define SECOND_DAY_CONVERSION 86400 // Number of seconds in a day
+#define SECOND_HOUR_CONVERSION 3600 // Number of seconds in an hour
+#define SECOND_MINUTE_CONVERSION 60 // Number of seconds in a minute
+#define HOUR_DAY_CONVERSION 24 // Number of hours in a day
+#define MINUTE_HOUR_CONVERSION 60 // Number of minutes in an hour
+
+#define KILOBYTE_GIGABYTE_CONVERSION 1048576 // Number of kilobytes in a gigabyte
+
 char *formatted_uptime(long uptime);
 
 #endif
