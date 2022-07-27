@@ -51,7 +51,7 @@ $ qinfo
 CPU:            AMD Ryzen 5 5600X 6-Core Processor (6 cores, 12 threads)
 RAM:            9.72/31.27 GB 
 OS:             Arch Linux (Linux)
-Hostname:       Aidan-PC
+Hostname:       Linux-PC
 Uptime:         1 days, 23 hours, 39 minutes, 20 seconds
 ```
 
