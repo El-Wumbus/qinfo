@@ -253,3 +253,30 @@ int uname(char *storage_variable)
   strcpy(storage_variable, buffer);
   return 0;
 }
+
+int get_rootfs_age(char *storage_variable)
+{
+  FILE *fp;
+  char path[1024];
+
+  /* Open the command for reading. */
+  fp = popen("stat / | grep \"Birth\" | sed 's/Birth: //g' | cut -b 2-11 | sed 's/-/ /g'", "r");
+  if (fp == NULL)
+  {
+    printf("Failed to run command\n");
+    return 1;
+  }
+
+  char buffer[64] = "";
+
+  /* Read the output a line at a time - output it. */
+  while (fgets(path, sizeof(path), fp) != NULL)
+  {
+    strcat(buffer, path);
+  }
+
+  /* close */
+  pclose(fp);
+  strcpy(storage_variable, buffer);
+  return 0;
+}

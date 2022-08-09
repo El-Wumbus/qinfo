@@ -26,4 +26,6 @@ bool USE_GIGABYTES            = true;
 /* Only supported properly on unix-like operating systems */
 bool DISPLAY_KERNEL_VERSION   = true;
 
+bool DISPLAY_ROOTFS_BIRTHDAY  = true;
+
 #endif /* CONFIG_H */

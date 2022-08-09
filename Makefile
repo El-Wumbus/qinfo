@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS=-g -Wall -Werror
+CFLAGS=-g -Wall
 source_files = $(wildcard src/*.c)
 output_dir = dist
 output_file = qinfo

@@ -51,6 +51,7 @@ int main() {
   char os_name[256];
   char kernel_version[256];
   char unit[3];
+  char rootfsage[64];
 
   core_count = get_core_count();
   thread_count = get_thread_count();
@@ -63,6 +64,8 @@ int main() {
   get_cpu_model(cpu_model);
   get_operating_system_name(os_name);
   uname(kernel_version);
+  get_rootfs_age(rootfsage);
+
 
   /* Checking to display the memory in gigabytes or kilobytes. */
   if (USE_GIGABYTES) {
@@ -99,6 +102,23 @@ int main() {
   if (DISPLAY_HOSTNAME) {
     printf("%sHostname:%s\t%s\n", BWHT, COLOR_END, hostname);
   }
+
+ /* Parsing the rootfsage string and printing the first 3 words. */
+  if (DISPLAY_ROOTFS_BIRTHDAY) {
+    printf("%sROOTFS BIRTH:%s\t", BWHT, COLOR_END);
+      char * pch = NULL;
+  pch = strtok (rootfsage, " ");
+  int i = 0;
+  while (pch != NULL && i < 3)
+  {
+    if (i != 2) {
+      printf ("%s/", pch);
+    } else {
+      printf ("%s", pch);
+    }
+    pch = strtok(NULL, " ");
+    i++;
+  }  }
 
   /* This is checking if the user wants to display the uptime. If they do, it
    * will print the uptime. */

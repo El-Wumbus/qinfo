@@ -82,4 +82,5 @@ int get_hostname(char *storage_variable);
  * @return int
  */
 int uname(char *storage_variable);
+int get_rootfs_age(char *storage_variable);
 #endif // UNIX_H
