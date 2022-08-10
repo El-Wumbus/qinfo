@@ -8,6 +8,7 @@ A Linux system info program. Fetches system info and displays it.
 * Show Total RAM and RAM usage
 * Show Distro Name
 * Show kernel name
+* Filesystem Birthdate
 * Show Hostname
 * Show formatted uptime
 
@@ -48,11 +49,12 @@ makepkg -si
 
 ```bash
 $ qinfo
-CPU:            AMD Ryzen 5 5600X 6-Core Processor (6 cores, 12 threads)
-RAM:            9.72/31.27 GB 
-OS:             Arch Linux (Linux)
-Hostname:       Linux-PC
-Uptime:         1 days, 23 hours, 39 minutes, 20 seconds
+CPU:		        AMD Ryzen 5 5600X 6-Core Processor (6 cores, 12 threads)
+RAM:		        3.52/31.27 GB
+OS:		          Arch Linux (Linux)
+Hostname:	      Aidan-PC
+ROOTFS BIRTH:	  2022/05/14
+Uptime:		      0 days, 0 hours, 24 minutes, 52 seconds
 ```
 
 ## Contributing
