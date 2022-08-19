@@ -49,12 +49,12 @@ makepkg -si
 
 ```bash
 $ qinfo
-CPU:		AMD Ryzen 5 5600X 6-Core Processor (6 cores, 12 threads)
-RAM:		3.52/31.27 GB
-OS:		Arch Linux (Linux)
-Hostname:	Aidan-PC
-ROOTFS BIRTH:	2022/05/14
-Uptime:		0 days, 0 hours, 24 minutes, 52 seconds
+CPU:            AMD Ryzen 5 5600X 6-Core Processor (6 cores, 12 threads)
+RAM:            4.14/31.27 GB
+OS:             Arch Linux (Linux)
+Hostname:       Aidan-PC
+ROOTFS BIRTH:   2022/05/14
+Uptime:         30 minutes, 4 seconds
 ```
 
 ## Contributing
