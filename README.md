@@ -51,46 +51,30 @@ makepkg -si
 $ qinfo
 CPU:            AMD Ryzen 5 5600X 6-Core Processor (6 cores, 12 threads)
 EXTRA CPU INFO: Model number 0xA21, Family Value: 0x19
-RAM:            6.80/31.27 GB 
+RAM:            6.80/31.27 GB
 OS:             Arch Linux (Linux)
 Hostname:       Aidan-PC
 ROOTFS BIRTH:   5/14/2022
 Uptime:         19 hours 48 minutes 46 seconds
 ```
 
-Anything printed here is configurable at compile-time. You may do so in `src/config.h`. The default configuration looks like this:
+Anything printed here is configurable at `$HOME/.config/.qinfo.conf`. An example configuration looks like this:
 
-```C
-/* Display cpu name and core/thread info */
-bool DISPLAY_CPU_INFO         = true;
-
-/* Display extra cpu info */
-bool DISPLAY_ETC_CPU_INFO     = true;
-
-/* Display memory capacity and usage ratio */
-bool DISPLAY_MEMORY_INFO      = true;
-
-/* Display the computer's hostname */
-bool DISPLAY_HOSTNAME         = true;
-
-/* Display the system uptime */
-bool DISPLAY_UPTIME           = true;
-
-/* Display the operating system name */
-bool DISPLAY_OPERATING_SYSTEM = true;
-
-/* measure memory in gigabytes instead of kilobytes */
-bool USE_GIGABYTES            = true;
-
-/* Only supported properly on unix-like operating systems */
-bool DISPLAY_KERNEL_VERSION   = true;
-
-/* Display the rootfs birthday */
-bool DISPLAY_ROOTFS_BIRTHDAY  = true;
-
-/* Otherwise print in MM/DD/YYYY format. */
-bool DISPLAY_DATES_YYYY_MM_DD = false;
+```ini
+[Display]
+DISPLAY_CPU_INFO = true ; Display cpu name and core/thread info
+DISPLAY_EXTRA_CPU_INFO = false ; Display extra cpu info
+DISPLAY_MEMORY_INFO = true ; Display memory capacity and usage ratio
+DISPLAY_HOSTNAME = true ; Display the computer's hostname
+DISPLAY_UPTIME = true ; Display the system uptime
+DISPLAY_OPERATING_SYSTEM = true ; Display the operating system name
+USE_GIGABYTES = true ; Measure memory in gigabytes instead of kilobytes
+DISPLAY_KERNEL_VERSION = true ; Only supported properly on unix-like operating systems
+DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
+DISPLAY_DATES_YYYY_MM_DD = true ; Otherwise print in MM/DD/YYYY format.
 ```
+
+If no configuration is found then this notice will appear above the defualt output: `$HOMNE/.config/.qinfo.conf' not found, not loading configuration`
 
 ## Contributing
 

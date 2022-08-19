@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS=-g -Wall
-source_files = $(wildcard src/*.c)
+CFLAGS=-g -Wall -Wextra
+source_files = $(wildcard src/*.c) $(wildcard library/*.c)
 output_dir = dist
 output_file = qinfo
 

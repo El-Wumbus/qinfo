@@ -1,38 +1,24 @@
 #ifndef  CONFIG_H
 #define CONFIG_H
-
+#include <stdio.h>
+#include <stdlib.h>
+#define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
+#define MAX_PATH 2048
 #include <stdbool.h>
 
+typedef struct {
+  bool DISPLAY_CPU_INFO;
+  bool DISPLAY_ETC_CPU_INFO;
+  bool DISPLAY_MEMORY_INFO;
+  bool DISPLAY_HOSTNAME;
+  bool DISPLAY_UPTIME;
+  bool DISPLAY_OPERATING_SYSTEM;
+  bool USE_GIGABYTES;
+  bool DISPLAY_KERNEL_VERSION;
+  bool DISPLAY_ROOTFS_BIRTHDAY;
+  bool DISPLAY_DATES_YYYY_MM_DD;
+} configuration;
 
-/* Display cpu name and core/thread info */
-bool DISPLAY_CPU_INFO         = true;
-
-/* Display extra cpu info */
-bool DISPLAY_ETC_CPU_INFO     = true;
-
-/* Display memory capacity and usage ratio */
-bool DISPLAY_MEMORY_INFO      = true;
-
-/* Display the computer's hostname */
-bool DISPLAY_HOSTNAME         = true;
-
-/* Display the system uptime */
-bool DISPLAY_UPTIME           = true;
-
-/* Display the operating system name */
-bool DISPLAY_OPERATING_SYSTEM = true;
-
-/* measure memory in gigabytes instead of kilobytes */
-bool USE_GIGABYTES            = true;
-
-/* Only supported properly on unix-like operating systems */
-bool DISPLAY_KERNEL_VERSION   = true;
-
-/* Display the rootfs birthday */
-bool DISPLAY_ROOTFS_BIRTHDAY  = true;
-
-/* Otherwise print in MM/DD/YYYY format. */
-bool DISPLAY_DATES_YYYY_MM_DD = false;
-
+int parse_config();
 
 #endif /* CONFIG_H */
