@@ -19,24 +19,15 @@ Author: Aidan Neal <decator.c@proton.me>
 
 #include "qinfo.h"
 
-char *formatted_uptime(long uptime) {
+
+struct uptime formatted_uptime(long uptime) {
+  struct uptime upt;
   /* Calculating the number of days, hours, minutes and seconds. */
-  unsigned int days = (unsigned int)uptime / SECOND_DAY_CONVERSION;
-  unsigned int hours = (unsigned int)uptime / SECOND_HOUR_CONVERSION % HOUR_DAY_CONVERSION;
-  unsigned int minutes = (unsigned int)uptime / SECOND_MINUTE_CONVERSION % MINUTE_HOUR_CONVERSION;
-  unsigned int seconds = (unsigned int)uptime % SECOND_MINUTE_CONVERSION;
-  /* Allocating memory for the string. */
-  char *string = malloc(sizeof(char) * 100);
-  /* Checking if the memory was allocated successfully. If it was not, it prints
-    an error message and returns NULL. */
-  if (string == NULL) {
-    fprintf(stderr, "Error: Could not allocate memory for the string\n");
-    return NULL;
-  }
-  /* Copying the string into the allocated memory. */
-  sprintf(string, "%u days, %u hours, %u minutes, %u seconds", days, hours,
-          minutes, seconds);
-  return string;
+  upt.days = (unsigned int)uptime / SECOND_DAY_CONVERSION;
+  upt.hours = (unsigned int)uptime / SECOND_HOUR_CONVERSION % HOUR_DAY_CONVERSION;
+  upt.minutes = (unsigned int)uptime / SECOND_MINUTE_CONVERSION % MINUTE_HOUR_CONVERSION;
+  upt.seconds = (unsigned int)uptime % SECOND_MINUTE_CONVERSION;
+  return upt;
 }
 
 int main() {
@@ -66,7 +57,11 @@ int main() {
   uname(kernel_version);
   get_rootfs_age(rootfsage);
 
-
+  struct uptime upt = formatted_uptime(uptime);
+  /*if (strcmp(os_name, "Arch Linux"))
+  {
+    display_logo("arch");
+  } */
   /* Checking to display the memory in gigabytes or kilobytes. */
   if (USE_GIGABYTES) {
     used_memory = ((total_memory - available_memory) / (float)KILOBYTE_GIGABYTE_CONVERSION);
@@ -123,7 +118,18 @@ int main() {
   /* This is checking if the user wants to display the uptime. If they do, it
    * will print the uptime. */
   if (DISPLAY_UPTIME) {
-    printf("%sUptime:%s\t\t%s\n", BWHT, COLOR_END, formatted_uptime(uptime));
+    if (upt.days > 0) {
+      printf("%sUptime:%s\t\t%u days, %u hours, %u minutes, %u seconds\n", BWHT,
+             COLOR_END, upt.days, upt.hours, upt.minutes, upt.seconds);
+    } else if (upt.hours > 0) {
+      printf("%sUptime:%s\t\t%u hours, %u minutes, %u seconds\n", BWHT, COLOR_END,
+             upt.hours, upt.minutes, upt.seconds);
+    } else if (upt.minutes > 0) {
+      printf("%sUptime:%s\t\t%u minutes, %u seconds\n", BWHT, COLOR_END,
+             upt.minutes, upt.seconds);
+    } else {
+      printf("%sUptime:%s\t\t%u seconds\n", BWHT, COLOR_END, upt.seconds);
+    }
   }
 
   /* This is checking if the operating system is Linux and if the user wants to

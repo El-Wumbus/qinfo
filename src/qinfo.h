@@ -24,6 +24,7 @@ Author: Aidan Neal <decator.c@proton.me>
 #include "unix.h"
 #include <stdio.h>
 #include <stdlib.h>
+/* #include "logo.h" */
 
 #define SECOND_DAY_CONVERSION 86400 // Number of seconds in a day
 #define SECOND_HOUR_CONVERSION 3600 // Number of seconds in an hour
@@ -33,6 +34,13 @@ Author: Aidan Neal <decator.c@proton.me>
 
 #define KILOBYTE_GIGABYTE_CONVERSION 1048576 // Number of kilobytes in a gigabyte
 
-char *formatted_uptime(long uptime);
+struct uptime {
+  unsigned int days;
+  unsigned int hours;
+  unsigned int minutes;
+  unsigned int seconds;
+};
+
+struct uptime formatted_uptime(long uptime);
 
 #endif
