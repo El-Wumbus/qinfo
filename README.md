@@ -19,7 +19,7 @@ You probably already have it installed, you can check `git --version`.
 If you get an error message then you must install `git` from your distro's repositories.
 
 For the installation of this software a C compiler is required. Your distro already has one installed, it's probably `gcc`.
-If not, then you need to install `gcc` You can check with `gcc --version`. If you get an error message then you must install
+If not, then you need to install `gcc` (or have another compiler symlinked to it) You can check with `gcc --version`. If you get an error message then you must install
 `gcc` from your distro's repositories.
 
 You'll also need `make`, you likely already have this installed. You can check with `make --version`.
