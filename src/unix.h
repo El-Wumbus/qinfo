@@ -22,6 +22,14 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+struct date {
+  unsigned int day;
+  unsigned int month;
+  unsigned int year;
+};
+
+
 /**
  * @brief Get the number of cores
  *
@@ -82,5 +90,7 @@ int get_hostname(char *storage_variable);
  * @return int
  */
 int uname(char *storage_variable);
-int get_rootfs_age(char *storage_variable);
+int get_rootfs_age(struct date *storage_variable);
+
+
 #endif // UNIX_H

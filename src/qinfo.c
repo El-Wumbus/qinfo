@@ -44,7 +44,7 @@ int main() {
   char os_name[256];
   char kernel_version[256];
   char unit[3];
-  char rootfsage[64];
+  struct date rootfsage;
 
   core_count = get_core_count();
   thread_count = get_thread_count();
@@ -57,7 +57,7 @@ int main() {
   get_cpu_model(cpu_model);
   get_operating_system_name(os_name);
   uname(kernel_version);
-  get_rootfs_age(rootfsage);
+  get_rootfs_age(&rootfsage);
 
   struct uptime upt = formatted_uptime(uptime);
   /*if (strcmp(os_name, "Arch Linux"))
@@ -82,7 +82,7 @@ int main() {
   }
 
   if (DISPLAY_ETC_CPU_INFO) {
-    printf("EXTRA CPU INFO: Model number 0x%X, Family Value: 0x%X\n",
+    printf("%sEXTRA CPU INFO:%s Model number 0x%X, Family Value: 0x%X\n", BWHT, COLOR_END,
            cpu_get_modelnum(), cpu_get_family_value());
   }
 
@@ -108,18 +108,10 @@ int main() {
   /* Parsing the rootfsage string and printing the first 3 words. */
   if (DISPLAY_ROOTFS_BIRTHDAY) {
     printf("%sROOTFS BIRTH:%s\t", BWHT, COLOR_END);
-    char *pch = NULL;
-    pch = strtok(rootfsage, " ");
-    int i = 0;
-    while (pch != NULL && i < 3) {
-      if (i != 2) {
-        printf("%s/", pch);
-      } else {
-        printf("%s", pch);
-      }
-      pch = strtok(NULL, " ");
-      i++;
-    }
+    if (DISPLAY_DATES_YYYY_MM_DD) {
+      printf("%d/%d/%d\n", rootfsage.year, rootfsage.month, rootfsage.day);
+    } else {
+      printf("%d/%d/%d\n", rootfsage.month, rootfsage.day, rootfsage.year);
   }
 
   /* This is checking if the user wants to display the uptime. If they do, it
@@ -149,4 +141,5 @@ int main() {
   }
 
   return 0;
+}
 }

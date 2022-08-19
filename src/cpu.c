@@ -1,22 +1,18 @@
-#include <stdint.h>
 #include "cpu.h"
 
-
 // Register values for CPUID.
+
 static uint32_t eax, ebx, ecx, edx;
 
-
-static inline void cpuid(uint32_t leaf, uint32_t* eax, uint32_t* ebx, uint32_t* ecx, uint32_t* edx) {
+static inline void cpuid(uint32_t leaf, uint32_t *eax, uint32_t *ebx,
+                         uint32_t *ecx, uint32_t *edx) {
   __asm__ __volatile__("cpuid"
-               : "=a"(*eax), "=b"(*ebx), "=c"(*ecx), "=d"(*edx)
-               : "a"(leaf), "c"(0x0)
-               : "memory");
+                       : "=a"(*eax), "=b"(*ebx), "=c"(*ecx), "=d"(*edx)
+                       : "a"(leaf), "c"(0x0)
+                       : "memory");
 }
 
-
-#define CPUID(leaf) \
-	cpuid(leaf, &eax, &ebx, &ecx, &edx);
-
+#define CPUID(leaf) cpuid(leaf, &eax, &ebx, &ecx, &edx);
 
 int cpu_get_modelnum(void) {
   // System Info.
@@ -25,7 +21,6 @@ int cpu_get_modelnum(void) {
   uint32_t m = (eax >> 4) & 0xF;
   return (extended_model << 4) + m;
 }
-
 
 int cpu_get_family_value(void) {
   CPUID(1);

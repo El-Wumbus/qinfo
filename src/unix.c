@@ -254,7 +254,7 @@ int uname(char *storage_variable)
   return 0;
 }
 
-int get_rootfs_age(char *storage_variable)
+int get_rootfs_age(struct date *storage_variable)
 {
   FILE *fp;
   char path[1024];
@@ -277,6 +277,10 @@ int get_rootfs_age(char *storage_variable)
 
   /* close */
   pclose(fp);
-  strcpy(storage_variable, buffer);
+
+  struct date fs_birthdate;
+
+  sscanf(buffer, "%u %u %u", &fs_birthdate.year, &fs_birthdate.month, &fs_birthdate.day);
+  * storage_variable = fs_birthdate;
   return 0;
 }

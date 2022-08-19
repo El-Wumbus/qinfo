@@ -31,5 +31,8 @@ bool DISPLAY_KERNEL_VERSION   = true;
 /* Display the rootfs birthday */
 bool DISPLAY_ROOTFS_BIRTHDAY  = true;
 
+/* Otherwise print in MM/DD/YYYY format. */
+bool DISPLAY_DATES_YYYY_MM_DD = false;
+
 
 #endif /* CONFIG_H */
