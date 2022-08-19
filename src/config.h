@@ -8,6 +8,9 @@
 /* Display cpu name and core/thread info */
 bool DISPLAY_CPU_INFO         = true;
 
+/* Display extra cpu info */
+bool DISPLAY_ETC_CPU_INFO  = true;
+
 /* Display memory capacity and usage ratio */
 bool DISPLAY_MEMORY_INFO      = true;
 
@@ -27,5 +30,6 @@ bool USE_GIGABYTES            = true;
 bool DISPLAY_KERNEL_VERSION   = true;
 
 bool DISPLAY_ROOTFS_BIRTHDAY  = true;
+
 
 #endif /* CONFIG_H */
