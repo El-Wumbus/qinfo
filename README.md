@@ -4,13 +4,14 @@ A Linux system info program. Fetches system info and displays it.
 
 ## Feature Set
 
-* Show CPU model name, cores and threads
+* Show CPU model name, model number, cores, threads, and family.
 * Show Total RAM and RAM usage
 * Show Distro Name
 * Show kernel name
 * Filesystem Birthdate
 * Show Hostname
 * Show formatted uptime
+* Runtime ini configuration parsing (using [inih](https://github.com/benhoyt/inih))
 
 ## How to install
 
