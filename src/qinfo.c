@@ -56,8 +56,15 @@ int main() {
   get_hostname(hostname);
   get_cpu_model(cpu_model);
   get_operating_system_name(os_name);
-  uname(kernel_version);
-  get_rootfs_age(&rootfsage);
+  if (uname(kernel_version))
+  {
+    strcpy(kernel_version, "Unknown");
+  }
+  if (get_rootfs_age(&rootfsage))
+    {
+      fprintf(stderr, "Error getting rootfs age\n");
+      return 1;
+    }
 
   struct uptime upt = formatted_uptime(uptime);
   /*if (strcmp(os_name, "Arch Linux"))
