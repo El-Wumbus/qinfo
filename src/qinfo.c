@@ -20,13 +20,14 @@ Author: Aidan Neal <decator.c@proton.me>
 #include "qinfo.h"
 #include "cpu.h"
 
-
 struct uptime formatted_uptime(long uptime) {
   struct uptime upt;
   /* Calculating the number of days, hours, minutes and seconds. */
   upt.days = (unsigned int)uptime / SECOND_DAY_CONVERSION;
-  upt.hours = (unsigned int)uptime / SECOND_HOUR_CONVERSION % HOUR_DAY_CONVERSION;
-  upt.minutes = (unsigned int)uptime / SECOND_MINUTE_CONVERSION % MINUTE_HOUR_CONVERSION;
+  upt.hours =
+      (unsigned int)uptime / SECOND_HOUR_CONVERSION % HOUR_DAY_CONVERSION;
+  upt.minutes =
+      (unsigned int)uptime / SECOND_MINUTE_CONVERSION % MINUTE_HOUR_CONVERSION;
   upt.seconds = (unsigned int)uptime % SECOND_MINUTE_CONVERSION;
   return upt;
 }
@@ -65,23 +66,24 @@ int main() {
   } */
   /* Checking to display the memory in gigabytes or kilobytes. */
   if (USE_GIGABYTES) {
-    used_memory = ((total_memory - available_memory) / (float)KILOBYTE_GIGABYTE_CONVERSION);
+    used_memory = ((total_memory - available_memory) /
+                   (float)KILOBYTE_GIGABYTE_CONVERSION);
     total_memory = get_total_memory() / (float)KILOBYTE_GIGABYTE_CONVERSION;
     strcpy(unit, "GB");
   } else {
     strcpy(unit, "kB");
   }
 
-
   /* Checking if the user wants to display the CPU information. If they do, it
   will print the CPU information. */
   if (DISPLAY_CPU_INFO) {
-    printf("%sCPU:%s\t\t%s (%u cores, %u threads)\n", BWHT, COLOR_END, cpu_model,
-           core_count, thread_count);
+    printf("%sCPU:%s\t\t%s (%u cores, %u threads)\n", BWHT, COLOR_END,
+           cpu_model, core_count, thread_count);
   }
 
   if (DISPLAY_ETC_CPU_INFO) {
-    printf("EXTRA CPU INFO: Model number 0x%X, Family Value: 0x%X\n", cpu_get_modelnum(), cpu_get_family_value());
+    printf("EXTRA CPU INFO: Model number 0x%X, Family Value: 0x%X\n",
+           cpu_get_modelnum(), cpu_get_family_value());
   }
 
   /* Checking if the user wants to display the memory information. If they do,
@@ -103,38 +105,40 @@ int main() {
     printf("%sHostname:%s\t%s\n", BWHT, COLOR_END, hostname);
   }
 
- /* Parsing the rootfsage string and printing the first 3 words. */
+  /* Parsing the rootfsage string and printing the first 3 words. */
   if (DISPLAY_ROOTFS_BIRTHDAY) {
     printf("%sROOTFS BIRTH:%s\t", BWHT, COLOR_END);
-      char * pch = NULL;
-  pch = strtok (rootfsage, " ");
-  int i = 0;
-  while (pch != NULL && i < 3)
-  {
-    if (i != 2) {
-      printf ("%s/", pch);
-    } else {
-      printf ("%s", pch);
+    char *pch = NULL;
+    pch = strtok(rootfsage, " ");
+    int i = 0;
+    while (pch != NULL && i < 3) {
+      if (i != 2) {
+        printf("%s/", pch);
+      } else {
+        printf("%s", pch);
+      }
+      pch = strtok(NULL, " ");
+      i++;
     }
-    pch = strtok(NULL, " ");
-    i++;
-  }  }
+  }
 
   /* This is checking if the user wants to display the uptime. If they do, it
    * will print the uptime. */
   if (DISPLAY_UPTIME) {
+    printf("%sUptime:%s\t\t", BWHT, COLOR_END);
     if (upt.days > 0) {
-      printf("%sUptime:%s\t\t%u days, %u hours, %u minutes, %u seconds\n", BWHT,
-             COLOR_END, upt.days, upt.hours, upt.minutes, upt.seconds);
-    } else if (upt.hours > 0) {
-      printf("%sUptime:%s\t\t%u hours, %u minutes, %u seconds\n", BWHT, COLOR_END,
-             upt.hours, upt.minutes, upt.seconds);
-    } else if (upt.minutes > 0) {
-      printf("%sUptime:%s\t\t%u minutes, %u seconds\n", BWHT, COLOR_END,
-             upt.minutes, upt.seconds);
-    } else {
-      printf("%sUptime:%s\t\t%u seconds\n", BWHT, COLOR_END, upt.seconds);
+      printf("%u days ", upt.days);
     }
+    if (upt.hours > 0) {
+      printf("%u hours ", upt.hours);
+    }
+    if (upt.minutes > 0) {
+      printf("%u minutes ", upt.minutes);
+    }
+    if (upt.seconds > 0) {
+      printf("%u seconds", upt.seconds);
+    }
+    printf("\n");
   }
 
   /* This is checking if the operating system is Linux and if the user wants to

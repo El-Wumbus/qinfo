@@ -4,12 +4,11 @@
 #include <stdbool.h>
 
 
-
 /* Display cpu name and core/thread info */
 bool DISPLAY_CPU_INFO         = true;
 
 /* Display extra cpu info */
-bool DISPLAY_ETC_CPU_INFO  = true;
+bool DISPLAY_ETC_CPU_INFO     = true;
 
 /* Display memory capacity and usage ratio */
 bool DISPLAY_MEMORY_INFO      = true;
@@ -29,6 +28,7 @@ bool USE_GIGABYTES            = true;
 /* Only supported properly on unix-like operating systems */
 bool DISPLAY_KERNEL_VERSION   = true;
 
+/* Display the rootfs birthday */
 bool DISPLAY_ROOTFS_BIRTHDAY  = true;
 
 
