@@ -18,6 +18,7 @@ Author: Aidan Neal <decator.c@proton.me>
 */
 
 #include "qinfo.h"
+#include "cpu.h"
 
 
 struct uptime formatted_uptime(long uptime) {
@@ -77,6 +78,10 @@ int main() {
   if (DISPLAY_CPU_INFO) {
     printf("%sCPU:%s\t\t%s (%u cores, %u threads)\n", BWHT, COLOR_END, cpu_model,
            core_count, thread_count);
+  }
+
+  if (DISPLAY_ETC_CPU_INFO) {
+    printf("EXTRA CPU INFO: Model number 0x%X, Family Value: 0x%X\n", cpu_get_modelnum(), cpu_get_family_value());
   }
 
   /* Checking if the user wants to display the memory information. If they do,
