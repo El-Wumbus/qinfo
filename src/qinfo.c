@@ -20,6 +20,27 @@ Author: Aidan Neal <decator.c@proton.me>
 #include "qinfo.h"
 #include "cpu.h"
 
+const char *logo_arch =
+"                 █\n"
+"                ███\n"
+"               █████\n"
+"              ███████\n"
+"              ▀▀██████\n"
+"            ██▄▄ ▀█████\n"
+"           █████████████\n"
+"          ███████████████\n"
+"         █████████████████\n"
+"        ███████████████████\n"
+"       █████████▀▀▀▀████████\n"
+"      ████████▀      ▀███████\n"
+"     █████████        ████▀▀██\n"
+"    ██████████        ██████▄▄▄\n"
+"   ██████████▀        ▀█████████\n"
+"  ██████▀▀▀              ▀▀██████\n"
+" ███▀▀                       ▀▀███\n"
+"▀▀                               ▀▀\n";
+
+
 struct uptime formatted_uptime(long uptime) {
   struct uptime upt;
   /* Calculating the number of days, hours, minutes and seconds. */
@@ -38,6 +59,7 @@ int main() {
   parse_config(&config);
   col.ansi_id_color = config.IDCOLOR;
   col.ansi_text_color = config.TXTCOLOR;
+  col.logo_color = config.LOGOCOLOR;
 
   unsigned int core_count = 0;
   unsigned int thread_count = 0;
@@ -75,12 +97,14 @@ int main() {
     }
 
   struct uptime upt = formatted_uptime(uptime);
-  /*if (strcmp(os_name, "Arch Linux"))
-  {
-    display_logo("arch");
-  } */
-  /* Checking to display the memory in gigabytes or kilobytes. */
+  if (config.DISPLAY_LOGO) {
+    if (strcmp(os_name, "Arch Linux") ==0)
+    {
+      printf("%s%s%s",col.logo_color, logo_arch, COLOR_END);
+    }
+  }
 
+  /* Checking to display the memory in gigabytes or kilobytes. */
 
   if (config.USE_GIGABYTES) {
     used_memory = ((total_memory - available_memory) /

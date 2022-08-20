@@ -72,6 +72,7 @@ DISPLAY_OPERATING_SYSTEM = true ; Display the operating system name
 DISPLAY_KERNEL_VERSION = true ; Only supported properly on unix-like operating systems
 DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
 DISPLAY_MOTHERBOARD_INFO = true ; Display motherboard info
+DISPLAY_LOGO = true ; Will only apply if your os is detected and is supported.
 
 [Color]
 ; Availible Color Options:
@@ -90,10 +91,11 @@ DISPLAY_MOTHERBOARD_INFO = true ; Display motherboard info
 ; - bold magenta
 ; - bold cyan
 ; - bold white
-; - None
+; - none
 
 IDCOLOR = bold cyan ; Color for the id column
-TXTCOLOR = white ; Color for the text column
+TXTCOLOR = none ; Color for the text column
+LOGOCOLOR = red ; Color for the logo
 
 [Extra]
 USE_GIGABYTES = true ; Measure memory in gigabytes instead of kilobytes

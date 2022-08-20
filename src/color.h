@@ -77,4 +77,5 @@
 struct color {
   char *ansi_id_color;
   char *ansi_text_color;
+  char *logo_color;
 };

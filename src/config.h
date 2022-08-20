@@ -21,8 +21,10 @@ typedef struct {
   bool DISPLAY_ROOTFS_BIRTHDAY;
   bool DISPLAY_DATES_YYYY_MM_DD;
   bool DISPLAY_MOTHERBOARD_INFO;
+  bool DISPLAY_LOGO;
   char* IDCOLOR;
   char* TXTCOLOR;
+  char *LOGOCOLOR;
 } configuration;
 
 int parse_config();

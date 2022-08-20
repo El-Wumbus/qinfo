@@ -78,10 +78,15 @@ static int handler(void *user, const char *section, const char *name,
   } else if (MATCH("Display", "DISPLAY_MOTHERBOARD_INFO")) {
     pconfig->DISPLAY_MOTHERBOARD_INFO =
         (strcmp(value, "true") == 0) ? true : false;
+  }else if (MATCH("Display", "DISPLAY_LOGO")) {
+    pconfig->DISPLAY_LOGO =
+        (strcmp(value, "true") == 0) ? true : false;
   } else if (MATCH("Color", "IDCOLOR")) {
     pconfig->IDCOLOR = get_color(value);
   } else if (MATCH("Color", "TXTCOLOR")) {
     pconfig->TXTCOLOR = get_color(value);
+  } else if (MATCH("Color", "LOGOCOLOR")) {
+    pconfig->LOGOCOLOR = get_color(value);
   } else {
     return 0; /* unknown section/name, error */
   }
@@ -106,10 +111,12 @@ int parse_config(configuration *pconfig) {
   config.DISPLAY_OPERATING_SYSTEM = true;
   config.USE_GIGABYTES = true;
   config.DISPLAY_KERNEL_VERSION = true;
+  config.DISPLAY_LOGO = true;
   config.DISPLAY_ROOTFS_BIRTHDAY = true;
   config.DISPLAY_DATES_YYYY_MM_DD = true;
   config.IDCOLOR = BWHT;
   config.TXTCOLOR = WHT;
+  config.LOGOCOLOR = WHT;
 
   if (ini_parse(CONFIG_FILE_NAME, handler, &config) < 0) {
     fprintf(stderr, "'%s' not found, not loading configuration\n", CONFIG_FILE_NAME);
