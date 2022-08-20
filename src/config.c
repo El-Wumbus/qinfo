@@ -37,7 +37,7 @@ static char * get_color(const char *value)
      return BWHT;
     } else if (strcmp(value, "bold black") == 0) {
      return BBLK;
-    } else return NULL;
+    } else return "";
 }
 
 static int handler(void *user, const char *section, const char *name,

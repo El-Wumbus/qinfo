@@ -90,6 +90,7 @@ DISPLAY_MOTHERBOARD_INFO = true ; Display motherboard info
 ; - bold magenta
 ; - bold cyan
 ; - bold white
+; - None
 
 IDCOLOR = bold cyan ; Color for the id column
 TXTCOLOR = white ; Color for the text column
