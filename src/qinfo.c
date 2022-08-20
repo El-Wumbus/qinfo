@@ -40,6 +40,46 @@ const char *logo_arch =
 " ███▀▀                       ▀▀███\n"
 "▀▀                               ▀▀\n";
 
+const char *alpine_logo =
+"       .hddddddddddddddddddddddh.\n"
+"      :dddddddddddddddddddddddddd:\n"
+"     /dddddddddddddddddddddddddddd/\n"
+"    +dddddddddddddddddddddddddddddd+\n"
+"  `sdddddddddddddddddddddddddddddddds`\n"
+" `ydddddddddddd++hdddddddddddddddddddy`\n"
+".hddddddddddd+`  `+ddddh:-sdddddddddddh.\n"
+"hdddddddddd+`      `+y:    .sddddddddddh\n"
+"ddddddddh+`   `//`   `.`     -sddddddddd\n"
+"ddddddh+`   `/hddh/`   `:s-    -sddddddd\n"
+"ddddh+`   `/+/dddddh/`   `+s-    -sddddd\n"
+"ddd+`   `/o` :dddddddh/`   `oy-    .yddd\n"
+"hdddyo+ohddyosdddddddddho+oydddy++ohdddh\n"
+".hddddddddddddddddddddddddddddddddddddh.\n"
+" `yddddddddddddddddddddddddddddddddddy`\n"
+"  `sdddddddddddddddddddddddddddddddds`\n"
+"    +dddddddddddddddddddddddddddddd+\n"
+"     /dddddddddddddddddddddddddddd/\n"
+"      :dddddddddddddddddddddddddd:\n"
+"       .hddddddddddddddddddddddh.\n";
+
+const char *genaric_logo =
+"            @@@%%%%%%%%%@@\n"
+"         @@@%%%%%%%%%#######%@@\n"
+"       @@@@%%%%%%%######?######%@\n"
+"      @@@@%%%%%%%#######:########%@\n"
+"    @@@@@%%%%%%#########:??#######%\n"
+"    @@@%%%%%####???###?+:??####?###@\n"
+"   @@@%%%%%%#?+???###?:+?##??###?##@\n"
+" @??%@%%%##????????++:;+?+????????#@\n"
+" #  ;?%#?+; ..::+?+ ::;++++++?+???#\n"
+" %  :?%;;;:  ....:#+ :;+++????+???@\n"
+" #;;+??+++:   ...;##: ;;;++???++?%\n"
+" %#%+::++?#+;:::;?##+ ;;;;++??++#\n"
+" %?% : :???+?++???######?+;;+??#\n"
+" @%# ; ;??;;+ ;???+;;:..::.:+?%\n"
+"  @???;;?+;;;+ ;:;;......;;;#@\n"
+"  %##?++?+++;+ ??% @%%@@@@\n"
+"  @_:?_:+_:_:#%\n";
 
 struct uptime formatted_uptime(long uptime) {
   struct uptime upt;
@@ -100,7 +140,13 @@ int main() {
   if (config.DISPLAY_LOGO) {
     if (strcmp(os_name, "Arch Linux") ==0)
     {
-      printf("%s%s%s",col.logo_color, logo_arch, COLOR_END);
+      printf("%s%s%s\n",col.logo_color, logo_arch, COLOR_END);
+    } else if (strcmp(os_name, "Alpine Linux") ==0)
+    {
+      printf("%s%s%s\n",col.logo_color, alpine_logo, COLOR_END);
+    } else
+    {
+      printf("%s%s%s\n",col.logo_color, genaric_logo, COLOR_END);
     }
   }
 
