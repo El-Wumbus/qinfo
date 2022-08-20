@@ -47,6 +47,7 @@ int main() {
   char os_name[256];
   char kernel_version[256];
   char unit[3];
+  char motherboard_info[256];
   struct date rootfsage;
 
   core_count = get_core_count();
@@ -54,6 +55,7 @@ int main() {
   available_memory = get_avalible_memory();
   total_memory = get_total_memory();
   uptime = get_uptime();
+  get_board_model(&motherboard_info);
 
   used_memory = total_memory - available_memory;
   get_hostname(hostname);
@@ -112,7 +114,7 @@ int main() {
   }
 
   if (config.DISPLAY_MOTHERBOARD_INFO) {
-    printf("%sMotherboard:%s\t%s\n", BWHT, COLOR_END, get_board_model());
+    printf("%sMotherboard:%s\t%s\n", BWHT, COLOR_END, motherboard_info);
   }
   else printf("%d", config.DISPLAY_MOTHERBOARD_INFO);
   /* Checking if the user wants to display the hostname. If they do, it will

@@ -285,15 +285,16 @@ int get_rootfs_age(struct date *storage_variable)
   return 0;
 }
 
-char *get_board_model() {
-  FILE *fp;
+static char *get_board_name()
+{
+    FILE *fp;
   char * line =NULL;
   size_t len = 0;
   ssize_t read;
 
-  fp = fopen("/sys/devices/virtual/dmi/id/product_name", "r");
+  fp = fopen("/sys/devices/virtual/dmi/id/board_name", "r");
   if (fp == NULL) {
-    fprintf(stderr, "Failed to get '/sys/devices/virtual/dmi/id/product_name'\n");
+    fprintf(stderr, "Failed to get '/sys/devices/virtual/dmi/id/board_name'\n");
     exit(1);
   }
 
@@ -311,4 +312,39 @@ char *get_board_model() {
 
   fclose(fp);
   return NULL;
+}
+
+static char *get_board_vendor()
+{
+    FILE *fp;
+  char * line =NULL;
+  size_t len = 0;
+  ssize_t read;
+
+  fp = fopen("/sys/devices/virtual/dmi/id/board_vendor", "r");
+  if (fp == NULL) {
+    fprintf(stderr, "Failed to get '/sys/devices/virtual/dmi/id/board_name'\n");
+    exit(1);
+  }
+
+  if ((read = getline(&line, &len, fp)) != -1)
+  {
+    fclose(fp);
+    for(unsigned int i =0; i < len; i++) {
+      if(line[i] == '\n') {
+        line[i] = '\0';
+        break;
+      }
+    }
+    return line;
+  }
+
+  fclose(fp);
+  return NULL;
+}
+
+void get_board_model(char *storage_variable) {
+  char buffer[156];
+  sprintf(buffer, "%s (%s)", get_board_name(), get_board_vendor());
+  strcpy(storage_variable, buffer);
 }
