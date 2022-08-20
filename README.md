@@ -72,6 +72,7 @@ DISPLAY_OPERATING_SYSTEM = true ; Display the operating system name
 DISPLAY_KERNEL_VERSION = true ; Only supported properly on unix-like operating systems
 DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
 DISPLAY_MOTHERBOARD_INFO = true ; Display motherboard info
+DISPLAY_LOGO = true ; Disable or Enable the logo display
 
 [Color]
 ; Availible Color Options:
