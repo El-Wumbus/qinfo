@@ -72,7 +72,6 @@ DISPLAY_OPERATING_SYSTEM = true ; Display the operating system name
 DISPLAY_KERNEL_VERSION = true ; Only supported properly on unix-like operating systems
 DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
 DISPLAY_MOTHERBOARD_INFO = true ; Display motherboard info
-DISPLAY_LOGO = true ; Will only apply if your os is detected and is supported.
 
 [Color]
 ; Availible Color Options:
@@ -100,7 +99,6 @@ LOGOCOLOR = red ; Color for the logo
 [Extra]
 USE_GIGABYTES = true ; Measure memory in gigabytes instead of kilobytes
 DISPLAY_DATES = MDY ; supported formats are YMD (YYYY/MM/DD) and MDY(MM/DD/YYYY).
-
 ```
 
 If no configuration is found then this notice will appear above the defualt output: `$HOME/.config/.qinfo.conf' not found, not loading configuration`.
