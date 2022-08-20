@@ -33,7 +33,7 @@ static int handler(void *user, const char *section, const char *name,
       pconfig->DISPLAY_DATES_YYYY_MM_DD = true;
     } else if (strcmp(value, "MDY") == 0) {
       pconfig->DISPLAY_DATES_YYYY_MM_DD = false;
-    }c
+    }
   } else {
     return 0; /* unknown section/name, error */
   }
