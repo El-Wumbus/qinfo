@@ -69,10 +69,13 @@ DISPLAY_MEMORY_INFO = true ; Display memory capacity and usage ratio
 DISPLAY_HOSTNAME = true ; Display the computer's hostname
 DISPLAY_UPTIME = true ; Display the system uptime
 DISPLAY_OPERATING_SYSTEM = true ; Display the operating system name
-USE_GIGABYTES = true ; Measure memory in gigabytes instead of kilobytes
 DISPLAY_KERNEL_VERSION = true ; Only supported properly on unix-like operating systems
 DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
+
+[Extra]
+USE_GIGABYTES = true ; Measure memory in gigabytes instead of kilobytes
 DISPLAY_DATES_YYYY_MM_DD = true ; Otherwise print in MM/DD/YYYY format.
+
 ```
 
 If no configuration is found then this notice will appear above the defualt output: `$HOME/.config/.qinfo.conf' not found, not loading configuration`

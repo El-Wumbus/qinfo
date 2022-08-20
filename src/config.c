@@ -20,7 +20,7 @@ static int handler(void *user, const char *section, const char *name,
   } else if (MATCH("Display", "DISPLAY_OPERATING_SYSTEM")) {
     pconfig->DISPLAY_OPERATING_SYSTEM =
         (strcmp(value, "true") == 0) ? true : false;
-  } else if (MATCH("Display", "USE_GIGABYTES")) {
+  } else if (MATCH("Extra", "USE_GIGABYTES")) {
     pconfig->USE_GIGABYTES = (strcmp(value, "true") == 0) ? true : false;
   } else if (MATCH("Display", "DISPLAY_KERNEL_VERSION")) {
     pconfig->DISPLAY_KERNEL_VERSION =
@@ -28,7 +28,7 @@ static int handler(void *user, const char *section, const char *name,
   } else if (MATCH("Display", "DISPLAY_ROOTFS_BIRTHDAY")) {
     pconfig->DISPLAY_ROOTFS_BIRTHDAY =
         (strcmp(value, "true") == 0) ? true : false;
-  } else if (MATCH("Display", "DISPLAY_DATES_YYYY_MM_DD")) {
+  } else if (MATCH("Extra", "DISPLAY_DATES_YYYY_MM_DD")) {
     pconfig->DISPLAY_DATES_YYYY_MM_DD =
         (strcmp(value, "true") == 0) ? true : false;
   } else {
