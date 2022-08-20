@@ -117,7 +117,27 @@ const char *ubuntu_logo =
 "        `:+ssssssssssssssssss+:`\n"
 "            .-/+oossssoo+/-.\n";
 
-const char *genaric_logo =
+const char *gentoo_logo =
+"         -/oyddmdhs+:.\n"
+"     -o               +-`\n"
+"   -y                    +-\n"
+" `o                         /`\n"
+" om            hhyyyo         o`\n"
+".y           hs++so/s          +`\n"
+" oyd           dyooy             d.\n"
+"  :o                             Mh\n"
+"    .:+                          my\n"
+"       /m                        s:\n"
+"    `o                         s+`\n"
+"  `s                          /.\n"
+" /N                        o:`\n"
+"+M                       /-\n"
+"yM                    /-`\n"
+"/h                 /-`\n"
+"`/            +/:.`\n"
+"  `-//////:--.\n";
+
+const char *generic_logo =
 "            @@@%%%%%%%%%@@\n"
 "         @@@%%%%%%%%%#######%@@\n"
 "       @@@@%%%%%%%######?######%@\n"

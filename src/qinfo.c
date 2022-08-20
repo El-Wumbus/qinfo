@@ -79,7 +79,7 @@ int main() {
 
   struct uptime upt = formatted_uptime(uptime);
   if (config.DISPLAY_LOGO) {
-    if (strcmp(os_name, "Arch Linux") ==0)
+    if (strcmp(os_name, "Arch Linux") == 0)
     {
       printf("%s%s%s\n",col.logo_color, logo_arch, COLOR_END);
     } else if (strstr(os_name, "Alpine Linux") != NULL)
@@ -95,12 +95,15 @@ int main() {
     {
       printf("%s%s%s\n",col.logo_color, bedrock_logo, COLOR_END);
     }
-    else if (strstr(os_name, "Ubuntu") != NULL)
+    else if (strcmp(os_name, "Ubuntu") == 0)
     {
       printf("%s%s%s\n",col.logo_color, ubuntu_logo, COLOR_END);
+    }else if (strstr(os_name, "Gentoo") != NULL)
+    {
+      printf("%s%s%s\n",col.logo_color, gentoo_logo, COLOR_END);
     }else
     {
-      printf("%s%s%s\n",col.logo_color, genaric_logo, COLOR_END);
+      printf("%s%s%s\n",col.logo_color, generic_logo, COLOR_END);
     }
   }
 
