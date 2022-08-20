@@ -91,6 +91,6 @@ int get_hostname(char *storage_variable);
  */
 int uname(char *storage_variable);
 int get_rootfs_age(struct date *storage_variable);
-
+char *get_board_model();
 
 #endif // UNIX_H

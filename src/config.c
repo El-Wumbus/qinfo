@@ -28,12 +28,19 @@ static int handler(void *user, const char *section, const char *name,
   } else if (MATCH("Display", "DISPLAY_ROOTFS_BIRTHDAY")) {
     pconfig->DISPLAY_ROOTFS_BIRTHDAY =
         (strcmp(value, "true") == 0) ? true : false;
-  } else if (MATCH("Extra", "DISPLAY_DATES")) {
-  if (strcmp(value, "YMD") == 0) {
-      pconfig->DISPLAY_DATES_YYYY_MM_DD = true;
-    } else if (strcmp(value, "MDY") == 0) {
-      pconfig->DISPLAY_DATES_YYYY_MM_DD = false;
-    }c
+  } else if (MATCH("Extra", "DISPLAY_DATES"))
+  {
+      if (strcmp(value, "YMD") == 0) {
+        pconfig->DISPLAY_DATES_YYYY_MM_DD = true;
+      }
+
+       else if (strcmp(value, "MDY") == 0) {
+        pconfig->DISPLAY_DATES_YYYY_MM_DD = false;
+      }
+
+  } else if (MATCH("Display", "DISPLAY_MOTHERBOARD_INFO")) {
+    pconfig->DISPLAY_MOTHERBOARD_INFO =
+        (strcmp(value, "true") == 0) ? true : false;
   } else {
     return 0; /* unknown section/name, error */
   }
@@ -42,14 +49,15 @@ static int handler(void *user, const char *section, const char *name,
 
 int parse_config(configuration *pconfig) {
 
-char *homedir = getenv("HOME");
-char CONFIG_FILE_NAME[MAX_PATH];
-sprintf(CONFIG_FILE_NAME, "%s/.config/.qinfo.conf", homedir);
+  char *homedir = getenv("HOME");
+  char CONFIG_FILE_NAME[MAX_PATH];
+  sprintf(CONFIG_FILE_NAME, "%s/.config/.qinfo.conf", homedir);
 
   configuration config;
   config.DISPLAY_CPU_INFO = true;
   config.DISPLAY_ETC_CPU_INFO = true;
   config.DISPLAY_MEMORY_INFO = true;
+  config.DISPLAY_MOTHERBOARD_INFO = true;
   config.DISPLAY_HOSTNAME = true;
   config.DISPLAY_UPTIME = true;
   config.DISPLAY_OPERATING_SYSTEM = true;
@@ -70,7 +78,8 @@ sprintf(CONFIG_FILE_NAME, "%s/.config/.qinfo.conf", homedir);
   printf("USE_GIGABYTES=%d\n", config.USE_GIGABYTES);
   printf("DISPLAY_KERNEL_VERSION=%d\n", config.DISPLAY_KERNEL_VERSION);
   printf("DISPLAY_ROOTFS_BIRTHDAY=%d\n", config.DISPLAY_ROOTFS_BIRTHDAY);
-  printf("DISPLAY_DATES_YYYY_MM_DD=%d\n", config.DISPLAY_DATES_YYYY_MM_DD); */
+  */
+
 
   *pconfig = config;
   return 0;

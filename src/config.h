@@ -17,6 +17,7 @@ typedef struct {
   bool DISPLAY_KERNEL_VERSION;
   bool DISPLAY_ROOTFS_BIRTHDAY;
   bool DISPLAY_DATES_YYYY_MM_DD;
+  bool DISPLAY_MOTHERBOARD_INFO;
 } configuration;
 
 int parse_config();

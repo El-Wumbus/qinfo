@@ -111,6 +111,10 @@ int main() {
     printf("%sOS:%s\t\t%s (%s)\n", BWHT, COLOR_END, os_name, OPERATING_SYSTEM);
   }
 
+  if (config.DISPLAY_MOTHERBOARD_INFO) {
+    printf("%sMotherboard:%s\t%s\n", BWHT, COLOR_END, get_board_model());
+  }
+  else printf("%d", config.DISPLAY_MOTHERBOARD_INFO);
   /* Checking if the user wants to display the hostname. If they do, it will
    * print the hostname. */
   if (config.DISPLAY_HOSTNAME) {
