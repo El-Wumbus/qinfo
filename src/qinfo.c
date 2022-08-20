@@ -19,122 +19,7 @@ Author: Aidan Neal <decator.c@proton.me>
 
 #include "qinfo.h"
 #include "cpu.h"
-
-const char *logo_arch =
-"                 █\n"
-"                ███\n"
-"               █████\n"
-"              ███████\n"
-"              ▀▀██████\n"
-"            ██▄▄ ▀█████\n"
-"           █████████████\n"
-"          ███████████████\n"
-"         █████████████████\n"
-"        ███████████████████\n"
-"       █████████▀▀▀▀████████\n"
-"      ████████▀      ▀███████\n"
-"     █████████        ████▀▀██\n"
-"    ██████████        ██████▄▄▄\n"
-"   ██████████▀        ▀█████████\n"
-"  ██████▀▀▀              ▀▀██████\n"
-" ███▀▀                       ▀▀███\n"
-"▀▀                               ▀▀\n";
-
-const char *alpine_logo =
-"       .hddddddddddddddddddddddh.\n"
-"      :dddddddddddddddddddddddddd:\n"
-"     /dddddddddddddddddddddddddddd/\n"
-"    +dddddddddddddddddddddddddddddd+\n"
-"  `sdddddddddddddddddddddddddddddddds`\n"
-" `ydddddddddddd++hdddddddddddddddddddy`\n"
-".hddddddddddd+`  `+ddddh:-sdddddddddddh.\n"
-"hdddddddddd+`      `+y:    .sddddddddddh\n"
-"ddddddddh+`   `//`   `.`     -sddddddddd\n"
-"ddddddh+`   `/hddh/`   `:s-    -sddddddd\n"
-"ddddh+`   `/+/dddddh/`   `+s-    -sddddd\n"
-"ddd+`   `/o` :dddddddh/`   `oy-    .yddd\n"
-"hdddyo+ohddyosdddddddddho+oydddy++ohdddh\n"
-".hddddddddddddddddddddddddddddddddddddh.\n"
-" `yddddddddddddddddddddddddddddddddddy`\n"
-"  `sdddddddddddddddddddddddddddddddds`\n"
-"    +dddddddddddddddddddddddddddddd+\n"
-"     /dddddddddddddddddddddddddddd/\n"
-"      :dddddddddddddddddddddddddd:\n"
-"       .hddddddddddddddddddddddh.\n";
-
-const char *arcolinux_logo =
-"                   ooo:\n"
-"                  yoooo/\n"
-"                 yooooooo\n"
-"                yooooooooo\n"
-"               yooooooooooo\n"
-"             .yooooooooooooo\n"
-"            .oooooooooooooooo\n"
-"           .oooooooarcoooooooo\n"
-"          .ooooooooo-oooooooooo\n"
-"         .ooooooooo-  oooooooooo\n"
-"        :ooooooooo.    :ooooooooo\n"
-"       :ooooooooo.      :ooooooooo\n"
-"      :oooarcooo         .oooarcooo\n"
-"     :ooooooooy           .ooooooooo\n"
-"    :ooooooooo   /ooooooooooooooooooo\n"
-"   :ooooooooo      .-ooooooooooooooooo.\n"
-"  ooooooooo-             -ooooooooooooo.\n"
-" ooooooooo-                 .-oooooooooo.\n"
-"ooooooooo.                     -ooooooooo\n";
-
-const char *artix_logo =
-"                  'o'\n"
-"                 'ooo'\n"
-"                'ooxoo'\n"
-"               'ooxxxoo'\n"
-"              'oookkxxoo'\n"
-"             'oiioxkkxxoo'\n"
-"            ':;:iiiioxxxoo'\n"
-"               `'.;::ioxxoo'\n"
-"          '-.      `':;jiooo'\n"
-"         'oooio-..     `'i:io'\n"
-"        'ooooxxxxoio:,.   `'-;'\n"
-"       'ooooxxxxxkkxoooIi:-.  `'\n"
-"      'ooooxxxxxkkkkxoiiiiiji'\n"
-"     'ooooxxxxxkxxoiiii:'`     .i'\n"
-"    'ooooxxxxxoi:::'`       .;ioxo'\n"
-"   'ooooxooi::'`         .:iiixkxxo'\n"
-"  'ooooi:'`                `'';ioxxo'\n"
-" 'i:'`                          '':io'\n"
-"'`                                   `'\n";
-
-const char *bedrock_logo =
-"   \\\\\\\\\\\\\\\\\\\\\\\\\n"
-"    \\\\\\      \\\\\\\n"
-"     \\\\\\      \\\\\\\n"
-"      \\\\\\      \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n"
-"       \\\\\\                    \\\\\\\n"
-"        \\\\\\                    \\\\\\\n"
-"         \\\\\\        ______      \\\\\\\n"
-"          \\\\\\                   ///\n"
-"           \\\\\\                 ///\n"
-"            \\\\\\               ///\n"
-"             \\\\\\////////////////\n";
-
-const char *genaric_logo =
-"            @@@%%%%%%%%%@@\n"
-"         @@@%%%%%%%%%#######%@@\n"
-"       @@@@%%%%%%%######?######%@\n"
-"      @@@@%%%%%%%#######:########%@\n"
-"    @@@@@%%%%%%#########:??#######%\n"
-"    @@@%%%%%####???###?+:??####?###@\n"
-"   @@@%%%%%%#?+???###?:+?##??###?##@\n"
-" @??%@%%%##????????++:;+?+????????#@\n"
-" #  ;?%#?+; ..::+?+ ::;++++++?+???#\n"
-" %  :?%;;;:  ....:#+ :;+++????+???@\n"
-" #;;+??+++:   ...;##: ;;;++???++?%\n"
-" %#%+::++?#+;:::;?##+ ;;;;++??++#\n"
-" %?% : :???+?++???######?+;;+??#\n"
-" @%# ; ;??;;+ ;???+;;:..::.:+?%\n"
-"  @???;;?+;;;+ ;:;;......;;;#@\n"
-"  %##?++?+++;+ ??% @%%@@@@\n"
-"  @_:?_:+_:_:#%\n";
+#include "logo.h"
 
 
 struct uptime formatted_uptime(long uptime) {
@@ -209,6 +94,10 @@ int main() {
     }else if (strstr(os_name, "Bedrock Linux") != NULL)
     {
       printf("%s%s%s\n",col.logo_color, bedrock_logo, COLOR_END);
+    }
+    else if (strstr(os_name, "Ubuntu") != NULL)
+    {
+      printf("%s%s%s\n",col.logo_color, ubuntu_logo, COLOR_END);
     }else
     {
       printf("%s%s%s\n",col.logo_color, genaric_logo, COLOR_END);
