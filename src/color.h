@@ -72,3 +72,8 @@
 #define COLOR_END "\e[0m"
 #define CRESET "\e[0m"
 #define COLOR_RESET "\e[0m"
+
+struct color {
+  char *ansi_id_color;
+  char *ansi_text_color;
+};

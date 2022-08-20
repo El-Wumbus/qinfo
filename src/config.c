@@ -3,6 +3,43 @@
 #include <stdlib.h>
 #include <string.h>
 
+static char * get_color(const char *value)
+{
+  if (strcmp(value, "red") == 0) {
+     return RED;
+    } else if (strcmp(value, "green") == 0) {
+     return GRN;
+    } else if (strcmp(value, "yellow") == 0) {
+     return YEL;
+    } else if (strcmp(value, "blue") == 0) {
+     return BLU;
+    } else if (strcmp(value, "magenta") == 0) {
+     return MAG;
+    } else if (strcmp(value, "cyan") == 0) {
+     return CYN;
+    } else if (strcmp(value, "white") == 0) {
+     return WHT;
+    } else if (strcmp(value, "black") == 0) {
+     return BLK;
+    } else if (strcmp(value, "bold red") == 0) {
+     return BRED;
+    } else if (strcmp(value, "bold green") == 0) {
+     return BGRN;
+    } else if (strcmp(value, "bold yellow") == 0) {
+     return BYEL;
+    } else if (strcmp(value, "bold blue") == 0) {
+     return BBLU;
+    } else if (strcmp(value, "bold magenta") == 0) {
+     return BMAG;
+    } else if (strcmp(value, "bold cyan") == 0) {
+     return BCYN;
+    } else if (strcmp(value, "bold white") == 0) {
+     return BWHT;
+    } else if (strcmp(value, "bold black") == 0) {
+     return BBLK;
+    } else return NULL;
+}
+
 static int handler(void *user, const char *section, const char *name,
                    const char *value) {
   configuration *pconfig = (configuration *)user;
@@ -41,6 +78,10 @@ static int handler(void *user, const char *section, const char *name,
   } else if (MATCH("Display", "DISPLAY_MOTHERBOARD_INFO")) {
     pconfig->DISPLAY_MOTHERBOARD_INFO =
         (strcmp(value, "true") == 0) ? true : false;
+  } else if (MATCH("Color", "IDCOLOR")) {
+    pconfig->IDCOLOR = get_color(value);
+  } else if (MATCH("Color", "TXTCOLOR")) {
+    pconfig->TXTCOLOR = get_color(value);
   } else {
     return 0; /* unknown section/name, error */
   }
@@ -54,6 +95,8 @@ int parse_config(configuration *pconfig) {
   sprintf(CONFIG_FILE_NAME, "%s/.config/.qinfo.conf", homedir);
 
   configuration config;
+
+  /* Setting the default values for the configuration. */
   config.DISPLAY_CPU_INFO = true;
   config.DISPLAY_ETC_CPU_INFO = true;
   config.DISPLAY_MEMORY_INFO = true;
@@ -65,21 +108,12 @@ int parse_config(configuration *pconfig) {
   config.DISPLAY_KERNEL_VERSION = true;
   config.DISPLAY_ROOTFS_BIRTHDAY = true;
   config.DISPLAY_DATES_YYYY_MM_DD = true;
+  config.IDCOLOR = BWHT;
+  config.TXTCOLOR = WHT;
+
   if (ini_parse(CONFIG_FILE_NAME, handler, &config) < 0) {
     fprintf(stderr, "'%s' not found, not loading configuration\n", CONFIG_FILE_NAME);
   }
-/*
-  printf("DISPLAY_CPU_INFO=%d\n", config.DISPLAY_CPU_INFO);
-  printf("DISPLAY_ETC_CPU_INFO=%d\n", config.DISPLAY_ETC_CPU_INFO);
-  printf("DISPLAY_MEMORY_INFO=%d\n", config.DISPLAY_MEMORY_INFO);
-  printf("DISPLAY_HOSTNAME=%d\n", config.DISPLAY_HOSTNAME);
-  printf("DISPLAY_UPTIME=%d\n", config.DISPLAY_UPTIME);
-  printf("DISPLAY_OPERATING_SYSTEM=%d\n", config.DISPLAY_OPERATING_SYSTEM);
-  printf("USE_GIGABYTES=%d\n", config.USE_GIGABYTES);
-  printf("DISPLAY_KERNEL_VERSION=%d\n", config.DISPLAY_KERNEL_VERSION);
-  printf("DISPLAY_ROOTFS_BIRTHDAY=%d\n", config.DISPLAY_ROOTFS_BIRTHDAY);
-  */
-
 
   *pconfig = config;
   return 0;

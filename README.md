@@ -51,12 +51,12 @@ makepkg -si
 ```bash
 $ qinfo
 CPU:            AMD Ryzen 5 5600X 6-Core Processor (6 cores, 12 threads)
-EXTRA CPU INFO: Model number 0xA21, Family Value: 0x19
-RAM:            6.80/31.27 GB
+RAM:            10.24/31.27 GB
 OS:             Arch Linux (Linux)
+Motherboard:    B550 GAMING X V2 (Gigabyte Technology Co., Ltd.)
 Hostname:       Aidan-PC
 ROOTFS BIRTH:   5/14/2022
-Uptime:         19 hours 48 minutes 46 seconds
+Uptime:         1 days 14 hours 48 minutes 26 seconds
 ```
 
 Anything printed here is configurable at `$HOME/.config/.qinfo.conf`. An example configuration looks like this:
@@ -71,6 +71,28 @@ DISPLAY_UPTIME = true ; Display the system uptime
 DISPLAY_OPERATING_SYSTEM = true ; Display the operating system name
 DISPLAY_KERNEL_VERSION = true ; Only supported properly on unix-like operating systems
 DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
+DISPLAY_MOTHERBOARD_INFO = true ; Display motherboard info
+
+[Color]
+; Availible Color Options:
+; - black
+; - red
+; - green
+; - yellow
+; - blue
+; - magenta
+; - cyan
+; - white
+; - bold red
+; - bold green
+; - bold yellow
+; - bold blue
+; - bold magenta
+; - bold cyan
+; - bold white
+
+IDCOLOR = bold cyan ; Color for the id column
+TXTCOLOR = white ; Color for the text column
 
 [Extra]
 USE_GIGABYTES = true ; Measure memory in gigabytes instead of kilobytes
@@ -78,7 +100,11 @@ DISPLAY_DATES = MDY ; supported formats are YMD (YYYY/MM/DD) and MDY(MM/DD/YYYY)
 
 ```
 
-If no configuration is found then this notice will appear above the defualt output: `$HOME/.config/.qinfo.conf' not found, not loading configuration`
+If no configuration is found then this notice will appear above the defualt output: `$HOME/.config/.qinfo.conf' not found, not loading configuration`.
+
+The output with the above configuration looks like this:
+
+![configuration Screenshot](https://i.imgur.com/ZmKwxAw.png)
 
 ## Contributing
 

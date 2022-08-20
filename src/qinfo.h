@@ -18,13 +18,12 @@ Author: Aidan Neal <decator.c@proton.me>
 #ifndef QINFO_H
 #define QINFO_H
 
-#include "color.h"
+/* #include "color.h" */
 #include "config.h"
 #include "system.h"
 #include "unix.h"
 #include <stdio.h>
 #include <stdlib.h>
-/* #include "logo.h" */
 
 #define SECOND_DAY_CONVERSION 86400 // Number of seconds in a day
 #define SECOND_HOUR_CONVERSION 3600 // Number of seconds in an hour

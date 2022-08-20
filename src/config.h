@@ -2,9 +2,12 @@
 #define CONFIG_H
 #include <stdio.h>
 #include <stdlib.h>
-#define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
-#define MAX_PATH 2048
 #include <stdbool.h>
+#include "color.h"
+#define MAX_PATH 2048
+#define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
+
+/* A macro that compares the section and name to the strings passed in. */
 
 typedef struct {
   bool DISPLAY_CPU_INFO;
@@ -18,6 +21,8 @@ typedef struct {
   bool DISPLAY_ROOTFS_BIRTHDAY;
   bool DISPLAY_DATES_YYYY_MM_DD;
   bool DISPLAY_MOTHERBOARD_INFO;
+  char* IDCOLOR;
+  char* TXTCOLOR;
 } configuration;
 
 int parse_config();

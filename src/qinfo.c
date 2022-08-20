@@ -34,7 +34,10 @@ struct uptime formatted_uptime(long uptime) {
 
 int main() {
   configuration config;
+  struct color col;
   parse_config(&config);
+  col.ansi_id_color = config.IDCOLOR;
+  col.ansi_text_color = config.TXTCOLOR;
 
   unsigned int core_count = 0;
   unsigned int thread_count = 0;
@@ -91,51 +94,50 @@ int main() {
   /* Checking if the user wants to display the CPU information. If they do, it
   will print the CPU information. */
   if (config.DISPLAY_CPU_INFO) {
-    printf("%sCPU:%s\t\t%s (%u cores, %u threads)\n", BWHT, COLOR_END,
-           cpu_model, core_count, thread_count);
+    printf("%sCPU:\t\t%s%s (%u cores, %u threads)%s\n", col.ansi_id_color, col.ansi_text_color,
+           cpu_model, core_count, thread_count, COLOR_END);
   }
 
   if (config.DISPLAY_ETC_CPU_INFO) {
-    printf("%sEXTRA CPU INFO:%s Model number 0x%X, Family Value: 0x%X\n", BWHT, COLOR_END,
-           cpu_get_modelnum(), cpu_get_family_value());
+    printf("%sEXTRA CPU INFO:%s Model number 0x%X, Family Value: 0x%X%s\n", col.ansi_id_color, col.ansi_text_color, cpu_get_modelnum(), cpu_get_family_value(), COLOR_END);
   }
 
   /* Checking if the user wants to display the memory information. If they do,
   it will print the memory information. */
   if (config.DISPLAY_MEMORY_INFO) {
-    printf("%sRAM:%s\t\t%.2f/%.2f %s \n", BWHT, COLOR_END, used_memory,
-           total_memory, unit);
+    printf("%sRAM:\t\t%s%.2f/%.2f %s%s\n", col.ansi_id_color, col.ansi_text_color, used_memory,
+           total_memory, unit, COLOR_END);
   }
 
   /* Checking if the user wants to display the operating system information. If
   they do, it will print the operating system information. */
   if (config.DISPLAY_OPERATING_SYSTEM) {
-    printf("%sOS:%s\t\t%s (%s)\n", BWHT, COLOR_END, os_name, OPERATING_SYSTEM);
+    printf("%sOS:\t\t%s%s (%s)%s\n", col.ansi_id_color, col.ansi_text_color, os_name, OPERATING_SYSTEM,COLOR_END);
   }
 
   if (config.DISPLAY_MOTHERBOARD_INFO) {
-    printf("%sMotherboard:%s\t%s\n", BWHT, COLOR_END, motherboard_info);
+    printf("%sMotherboard:%s\t%s%s\n", col.ansi_id_color,col.ansi_text_color, motherboard_info, COLOR_END);
   }
   else printf("%d", config.DISPLAY_MOTHERBOARD_INFO);
   /* Checking if the user wants to display the hostname. If they do, it will
    * print the hostname. */
   if (config.DISPLAY_HOSTNAME) {
-    printf("%sHostname:%s\t%s\n", BWHT, COLOR_END, hostname);
+    printf("%sHostname:%s\t%s%s\n", col.ansi_id_color, col.ansi_text_color, hostname, COLOR_END);
   }
 
   /* Parsing the rootfsage string and printing the first 3 words. */
   if (config.DISPLAY_ROOTFS_BIRTHDAY) {
-    printf("%sROOTFS BIRTH:%s\t", BWHT, COLOR_END);
+    printf("%sROOTFS BIRTH:%s\t", col.ansi_id_color, col.ansi_text_color);
     if (config.DISPLAY_DATES_YYYY_MM_DD) {
-      printf("%d/%d/%d\n", rootfsage.year, rootfsage.month, rootfsage.day);
+      printf("%d/%d/%d%s\n", rootfsage.year, rootfsage.month, rootfsage.day,COLOR_END);
     } else {
-      printf("%d/%d/%d\n", rootfsage.month, rootfsage.day, rootfsage.year);
+      printf("%d/%d/%d%s\n", rootfsage.month, rootfsage.day, rootfsage.year,COLOR_END);
   }
 
   /* This is checking if the user wants to display the uptime. If they do, it
    * will print the uptime. */
   if (config.DISPLAY_UPTIME) {
-    printf("%sUptime:%s\t\t", BWHT, COLOR_END);
+    printf("%sUptime:%s\t\t", col.ansi_id_color, col.ansi_text_color);
     if (upt.days > 0) {
       printf("%u days ", upt.days);
     }
@@ -148,14 +150,14 @@ int main() {
     if (upt.seconds > 0) {
       printf("%u seconds", upt.seconds);
     }
-    printf("\n");
+    printf("%s\n", COLOR_END);
   }
 
   /* This is checking if the operating system is Linux and if the user wants to
   display the kernel version. If both of these are true, it will print the
   kernel version. */
   if (strcmp(OPERATING_SYSTEM, "Linux") && config.DISPLAY_KERNEL_VERSION) {
-    printf("%sKernel:%s\t\t%s", BWHT, COLOR_END, kernel_version);
+    printf("%sKernel:%s\t\t%s", col.ansi_id_color, COLOR_END, kernel_version);
   }
 
   return 0;
