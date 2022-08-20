@@ -105,7 +105,7 @@ If no configuration is found then this notice will appear above the defualt outp
 
 The output with the above configuration looks like this:
 
-![configuration Screenshot](https://i.imgur.com/ZmKwxAw.png)
+![configuration Screenshot](https://i.imgur.com/iN3XJCM.png)
 
 ## Contributing
 
