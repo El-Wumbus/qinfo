@@ -62,6 +62,61 @@ const char *alpine_logo =
 "      :dddddddddddddddddddddddddd:\n"
 "       .hddddddddddddddddddddddh.\n";
 
+const char *arcolinux_logo =
+"                   ooo:\n"
+"                  yoooo/\n"
+"                 yooooooo\n"
+"                yooooooooo\n"
+"               yooooooooooo\n"
+"             .yooooooooooooo\n"
+"            .oooooooooooooooo\n"
+"           .oooooooarcoooooooo\n"
+"          .ooooooooo-oooooooooo\n"
+"         .ooooooooo-  oooooooooo\n"
+"        :ooooooooo.    :ooooooooo\n"
+"       :ooooooooo.      :ooooooooo\n"
+"      :oooarcooo         .oooarcooo\n"
+"     :ooooooooy           .ooooooooo\n"
+"    :ooooooooo   /ooooooooooooooooooo\n"
+"   :ooooooooo      .-ooooooooooooooooo.\n"
+"  ooooooooo-             -ooooooooooooo.\n"
+" ooooooooo-                 .-oooooooooo.\n"
+"ooooooooo.                     -ooooooooo\n";
+
+const char *artix_logo =
+"                  'o'\n"
+"                 'ooo'\n"
+"                'ooxoo'\n"
+"               'ooxxxoo'\n"
+"              'oookkxxoo'\n"
+"             'oiioxkkxxoo'\n"
+"            ':;:iiiioxxxoo'\n"
+"               `'.;::ioxxoo'\n"
+"          '-.      `':;jiooo'\n"
+"         'oooio-..     `'i:io'\n"
+"        'ooooxxxxoio:,.   `'-;'\n"
+"       'ooooxxxxxkkxoooIi:-.  `'\n"
+"      'ooooxxxxxkkkkxoiiiiiji'\n"
+"     'ooooxxxxxkxxoiiii:'`     .i'\n"
+"    'ooooxxxxxoi:::'`       .;ioxo'\n"
+"   'ooooxooi::'`         .:iiixkxxo'\n"
+"  'ooooi:'`                `'';ioxxo'\n"
+" 'i:'`                          '':io'\n"
+"'`                                   `'\n";
+
+const char *bedrock_logo =
+"   \\\\\\\\\\\\\\\\\\\\\\\\\n"
+"    \\\\\\      \\\\\\\n"
+"     \\\\\\      \\\\\\\n"
+"      \\\\\\      \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n"
+"       \\\\\\                    \\\\\\\n"
+"        \\\\\\                    \\\\\\\n"
+"         \\\\\\        ______      \\\\\\\n"
+"          \\\\\\                   ///\n"
+"           \\\\\\                 ///\n"
+"            \\\\\\               ///\n"
+"             \\\\\\////////////////\n";
+
 const char *genaric_logo =
 "            @@@%%%%%%%%%@@\n"
 "         @@@%%%%%%%%%#######%@@\n"
@@ -80,6 +135,7 @@ const char *genaric_logo =
 "  @???;;?+;;;+ ;:;;......;;;#@\n"
 "  %##?++?+++;+ ??% @%%@@@@\n"
 "  @_:?_:+_:_:#%\n";
+
 
 struct uptime formatted_uptime(long uptime) {
   struct uptime upt;
@@ -143,9 +199,17 @@ int main() {
       printf("%s%s%s\n",col.logo_color, logo_arch, COLOR_END);
     } else if (strstr(os_name, "Alpine Linux") != NULL)
     {
-
       printf("%s%s%s\n",col.logo_color, alpine_logo, COLOR_END);
-    } else
+    }else if (strstr(os_name, "Arco Linux") != NULL)
+    {
+      printf("%s%s%s\n",col.logo_color, arcolinux_logo, COLOR_END);
+    }else if (strstr(os_name, "Aritx Linux") != NULL)
+    {
+      printf("%s%s%s\n",col.logo_color, artix_logo, COLOR_END);
+    }else if (strstr(os_name, "Bedrock Linux") != NULL)
+    {
+      printf("%s%s%s\n",col.logo_color, bedrock_logo, COLOR_END);
+    }else
     {
       printf("%s%s%s\n",col.logo_color, genaric_logo, COLOR_END);
     }
