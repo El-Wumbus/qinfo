@@ -74,7 +74,7 @@ DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
 
 [Extra]
 USE_GIGABYTES = true ; Measure memory in gigabytes instead of kilobytes
-DISPLAY_DATES_YYYY_MM_DD = true ; Otherwise print in MM/DD/YYYY format.
+DISPLAY_DATES = MDY ; supported formats are YMD (YYYY/MM/DD) and MDY(MM/DD/YYYY).
 
 ```
 

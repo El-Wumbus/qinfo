@@ -28,9 +28,12 @@ static int handler(void *user, const char *section, const char *name,
   } else if (MATCH("Display", "DISPLAY_ROOTFS_BIRTHDAY")) {
     pconfig->DISPLAY_ROOTFS_BIRTHDAY =
         (strcmp(value, "true") == 0) ? true : false;
-  } else if (MATCH("Extra", "DISPLAY_DATES_YYYY_MM_DD")) {
-    pconfig->DISPLAY_DATES_YYYY_MM_DD =
-        (strcmp(value, "true") == 0) ? true : false;
+  } else if (MATCH("Extra", "DISPLAY_DATES")) {
+  if (strcmp(value, "YMD") == 0) {
+      pconfig->DISPLAY_DATES_YYYY_MM_DD = true;
+    } else if (strcmp(value, "MDY") == 0) {
+      pconfig->DISPLAY_DATES_YYYY_MM_DD = false;
+    }c
   } else {
     return 0; /* unknown section/name, error */
   }
