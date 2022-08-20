@@ -75,7 +75,7 @@ DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
 DISPLAY_DATES_YYYY_MM_DD = true ; Otherwise print in MM/DD/YYYY format.
 ```
 
-If no configuration is found then this notice will appear above the defualt output: `$HOMNE/.config/.qinfo.conf' not found, not loading configuration`
+If no configuration is found then this notice will appear above the defualt output: `$HOME/.config/.qinfo.conf' not found, not loading configuration`
 
 ## Contributing
 
