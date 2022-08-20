@@ -95,12 +95,12 @@ int main() {
     {
       printf("%s%s%s\n",col.logo_color, bedrock_logo, COLOR_END);
     }
-    else if (strcmp(os_name, "Ubuntu") == 0)
-    {
-      printf("%s%s%s\n",col.logo_color, ubuntu_logo, COLOR_END);
-    }else if (strstr(os_name, "Gentoo") != NULL)
+    else if (strstr(os_name, "Gentoo") != NULL)
     {
       printf("%s%s%s\n",col.logo_color, gentoo_logo, COLOR_END);
+    }else if (strstr(os_name, "Ubuntu") != NULL)
+    {
+      printf("%s%s%s\n",col.logo_color, ubuntu_logo, COLOR_END);
     }else
     {
       printf("%s%s%s\n",col.logo_color, generic_logo, COLOR_END);
