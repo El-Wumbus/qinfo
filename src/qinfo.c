@@ -141,7 +141,7 @@ int main() {
     if (strcmp(os_name, "Arch Linux") ==0)
     {
       printf("%s%s%s\n",col.logo_color, logo_arch, COLOR_END);
-    } else if (strstr(os_name, "Alpine Linux") == NULL)
+    } else if (strstr(os_name, "Alpine Linux") != NULL)
     {
 
       printf("%s%s%s\n",col.logo_color, alpine_logo, COLOR_END);
