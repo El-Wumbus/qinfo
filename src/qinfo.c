@@ -101,7 +101,7 @@ int main() {
     apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
   } else if (strstr(os_name, "Ubuntu") != NULL) {
     apk_packages = get_num_packages(APT_PACKAGE_MANAGER);
-  } else if (strcmp(os_name, "Bedrock Linux")) {
+  } else if (strstr (os_name, "Bedrock Linux")) {
     apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
     pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
     apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
