@@ -312,6 +312,14 @@ void get_board_model(char *storage_variable) {
   strcpy(storage_variable, buffer);
 }
 
+/**
+ * It gets the creation date of the file system and stores it in a struct date
+ *
+ * @param storage_variable A pointer to a struct date variable that will be used to
+ *
+ * @return The date of the file system's creation.
+ */
+
 int get_creation_date(struct date *storage_variable) {
 
   struct statx stx;
@@ -319,12 +327,12 @@ int get_creation_date(struct date *storage_variable) {
   time_t epochtime = stx.stx_btime.tv_sec;
   struct tm t;
   char buf[11];
+  struct date fs_birthdate;
 
   t = *localtime(&epochtime);
   strftime(buf, sizeof(buf), "%Y %m %d", &t);
   printf("%s\n", buf);
 
-  struct date fs_birthdate;
 
   sscanf(buf, "%u %u %u", &fs_birthdate.year, &fs_birthdate.month,
          &fs_birthdate.day);

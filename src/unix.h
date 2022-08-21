@@ -118,5 +118,14 @@ int get_hostname(char *storage_variable);
 int uname(char *storage_variable);
 int get_rootfs_age(struct date *storage_variable);
 void get_board_model();
+
+/**
+ * It gets the creation date of the file system and stores it in a struct date
+ *
+ * @param storage_variable A pointer to a struct date variable that will be used to
+ *
+ * @return The date of the file system's creation.
+ */
 int get_creation_date(struct date *storage_variable);
+
 #endif // UNIX_H
