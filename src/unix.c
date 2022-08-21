@@ -1,4 +1,5 @@
 #include "unix.h"
+#include <stdlib.h>
 /*
 Author: Aidan Neal <decator.c@proton.me>
   qinfo is free software; you can redistribute it and/or
@@ -247,9 +248,9 @@ int uname(char *storage_variable) {
 }
 
 /**
- * It reads the contents of the file `/sys/devices/virtual/dmi/id/board_name` and returns the contents
- * as a string
- * 
+ * It reads the contents of the file `/sys/devices/virtual/dmi/id/board_name`
+ * and returns the contents as a string
+ *
  * @return The board name of the system.
  */
 static char *get_board_name() {
@@ -281,7 +282,7 @@ static char *get_board_name() {
 
 /**
  * It opens a file, reads a line, and returns the line
- * 
+ *
  * @return The board vendor name.
  */
 static char *get_board_vendor() {
@@ -313,7 +314,7 @@ static char *get_board_vendor() {
 
 /**
  * It takes a string, and copies the board name and vendor into it
- * 
+ *
  * @param storage_variable The variable to store the board model in.
  */
 void get_board_model(char *storage_variable) {
@@ -325,7 +326,8 @@ void get_board_model(char *storage_variable) {
 /**
  * It gets the creation date of the file system and stores it in a struct date
  *
- * @param storage_variable A pointer to a struct date variable that will be used to
+ * @param storage_variable A pointer to a struct date variable that will be used
+ * to
  *
  * @return The date of the file system's creation.
  */
@@ -342,10 +344,20 @@ int get_creation_date(struct date *storage_variable) {
   t = *localtime(&epochtime);
   strftime(buf, sizeof(buf), "%Y %m %d", &t);
 
-
   sscanf(buf, "%u %u %u", &fs_birthdate.year, &fs_birthdate.month,
          &fs_birthdate.day);
   *storage_variable = fs_birthdate;
   return 0;
 }
 
+char *get_username() {
+  char *buf = getenv("USER");
+  if (buf == NULL) {
+    register uid_t uid = getuid();
+    register struct passwd *pw = getpwuid(uid);
+    if (pw) {
+      return pw->pw_name;
+    }
+  }
+  return buf;
+}

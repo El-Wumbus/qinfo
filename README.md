@@ -73,6 +73,7 @@ DISPLAY_KERNEL_VERSION = true ; Only supported properly on unix-like operating s
 DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
 DISPLAY_MOTHERBOARD_INFO = true ; Display motherboard info
 DISPLAY_LOGO = true ; Disable or Enable the logo display
+DISPLAY_USERNAME = true ; Display the username of the calling user
 
 [Color]
 ; Availible Color Options:

@@ -22,6 +22,7 @@ typedef struct {
   bool DISPLAY_DATES_YYYY_MM_DD;
   bool DISPLAY_MOTHERBOARD_INFO;
   bool DISPLAY_LOGO;
+  bool DISPLAY_USERNAME;
   char* IDCOLOR;
   char* TXTCOLOR;
   char *LOGOCOLOR;

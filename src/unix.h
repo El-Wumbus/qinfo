@@ -25,6 +25,7 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pwd.h>
 
 
 struct date {
@@ -104,5 +105,7 @@ void get_board_model();
  * @return The date of the file system's creation.
  */
 int get_creation_date(struct date *storage_variable);
+
+char *get_username();
 
 #endif // UNIX_H
