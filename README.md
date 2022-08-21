@@ -8,6 +8,8 @@ A Linux system info program. Fetches system info and displays it.
 * Show Total RAM and RAM usage
 * Show Distro Name
 * Show kernel name
+* Show Username
+* Show Motherboard model and vendor
 * Filesystem Birthdate
 * Show Hostname
 * Show formatted uptime
