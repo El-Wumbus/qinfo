@@ -117,7 +117,7 @@ int parse_config(configuration *pconfig) {
   config.DISPLAY_ROOTFS_BIRTHDAY = true;
   config.DISPLAY_DATES_YYYY_MM_DD = true;
   config.DISPLAY_USERNAME = true;
-  config.DISPLAY_PACKAGES = true;
+  config.DISPLAY_PACKAGES = false;
   config.IDCOLOR = BWHT;
   config.TXTCOLOR = WHT;
   config.LOGOCOLOR = WHT;
