@@ -33,9 +33,11 @@ struct uptime formatted_uptime(long uptime) {
   return upt;
 }
 
-struct packages formatted_packages(unsigned long pacman_packages,
-                                   unsigned long apt_packages,
-                                   unsigned long apk_packages) {
+struct packages formatted_packages(packagecount pacman_packages,
+                                   packagecount apt_packages,
+                                   packagecount apk_packages,
+                                   packagecount flatpak_packages,
+                                   packagecount snap_packages) {
   struct packages pkgs;
   if (pacman_packages > 0) {
     pkgs.pacman_packages = pacman_packages;
@@ -51,6 +53,16 @@ struct packages formatted_packages(unsigned long pacman_packages,
     pkgs.apk_packages = apk_packages;
   } else {
     pkgs.apk_packages = 0;
+  }
+  if (flatpak_packages > 0) {
+    pkgs.flatpak_packages = flatpak_packages;
+  } else {
+    pkgs.flatpak_packages = 0;
+  }
+  if (snap_packages > 0) {
+    pkgs.snap_packages = snap_packages;
+  } else {
+    pkgs.snap_packages = 0;
   }
   return pkgs;
 }
@@ -77,9 +89,11 @@ int main() {
   char unit[3];
   char motherboard_info[256];
   struct date rootfsage;
-  unsigned long pacman_packages = 0;
-  unsigned long apt_packages = 0;
-  unsigned long apk_packages = 0;
+  packagecount pacman_packages = 0;
+  packagecount apt_packages = 0;
+  packagecount apk_packages = 0;
+  packagecount flatpak_packages = 0;
+  packagecount snap_packages = 0;
 
   char *username = get_username();
   core_count = get_core_count();
@@ -95,17 +109,20 @@ int main() {
   if (get_operating_system_name_bedrock(os_name) == 1) {
     get_operating_system_name(os_name);
   }
+
+  flatpak_packages = get_num_packages(FLATPAK_PACKAGE_MANAGER);
+  snap_packages = get_num_packages(SNAP_PACKAGE_MANAGER);
   if (strcmp(os_name, "Arch Linux") == 0) {
     pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
   } else if (strcmp(os_name, "Debian") == 0) {
     apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
   } else if (strstr(os_name, "Ubuntu") != NULL) {
     apk_packages = get_num_packages(APT_PACKAGE_MANAGER);
-  } else if (strstr (os_name, "Bedrock Linux")) {
+  } else if (strstr(os_name, "Bedrock Linux")) {
     apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
     pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
     apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
-  } else if (strstr(os_name, "Alpine Linux" )) {
+  } else if (strstr(os_name, "Alpine Linux")) {
     apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
   }
 
@@ -180,7 +197,7 @@ int main() {
 
   if (config.DISPLAY_PACKAGES) {
 
-    pkgs = formatted_packages(pacman_packages, apt_packages, apk_packages);
+    pkgs = formatted_packages(pacman_packages, apt_packages, apk_packages, flatpak_packages,snap_packages);
     printf("%sPackages:%s\t%s", col.ansi_id_color, COLOR_END,
            col.ansi_text_color);
     if (pkgs.pacman_packages > 0) {
@@ -191,6 +208,12 @@ int main() {
     }
     if (pkgs.apk_packages > 0) {
       printf("%lu (Apk)", pkgs.apk_packages);
+    }
+    if (pkgs.flatpak_packages > 0) {
+      printf("%lu (Flatpak)", pkgs.flatpak_packages);
+    }
+    if (pkgs.snap_packages > 0) {
+      printf("%lu (Snap)", pkgs.snap_packages);
     }
     printf("%s\n", COLOR_END);
   }

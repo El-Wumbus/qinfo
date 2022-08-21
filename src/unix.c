@@ -379,13 +379,13 @@ char *get_username() {
   return buf;
 }
 
-static unsigned long get_num_packages_dpkg() {
+static packagecount get_num_packages_dpkg() {
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
-  fp = popen("apt list --installed", "r");
+  fp = popen("apt list --installed > /dev/null 2>error", "r");
   if (fp == NULL) {
     return 0;
   }
@@ -393,16 +393,20 @@ static unsigned long get_num_packages_dpkg() {
     num_packages++;
   }
   pclose(fp);
-  return num_packages - 1;
+  if (num_packages > 0)
+  {
+    return num_packages - 1;
+  }
+  return num_packages;
 }
 
-static unsigned long get_num_packages_apk() {
+static packagecount get_num_packages_apk() {
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
-  fp = popen("apk info", "r");
+  fp = popen("apk info 2> /dev/null", "r");
   if (fp == NULL) {
     return (0);
   }
@@ -416,13 +420,13 @@ static unsigned long get_num_packages_apk() {
   return num_packages;
 }
 
-static unsigned long get_num_packages_pacman() {
+static packagecount get_num_packages_pacman() {
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
-  fp = popen("pacman -Q", "r");
+  fp = popen("pacman -Q 2> /dev/null", "r");
   if (fp == NULL) {
     return (0);
   }
@@ -436,7 +440,51 @@ static unsigned long get_num_packages_pacman() {
   return num_packages;
 }
 
-unsigned long get_num_packages(unsigned short package_manager_id) {
+static packagecount get_num_packages_flatpak() {
+  FILE *fp;
+  char *line = NULL;
+  size_t len = 0;
+  ssize_t read;
+  unsigned long num_packages = 0;
+  fp = popen("flatpak list 2> /dev/null", "r");
+  if (fp == NULL) {
+    return (0);
+  }
+  while ((read = getline(&line, &len, fp)) != -1) {
+    num_packages++;
+  }
+  pclose(fp);
+  if (line) {
+    free(line);
+  }
+  return num_packages;
+}
+
+static packagecount get_num_packages_snap() {
+  FILE *fp;
+  char *line = NULL;
+  size_t len = 0;
+  ssize_t read;
+  packagecount num_packages = 0;
+  fp = popen("snap list 2> /dev/null", "r");
+  if (fp == NULL) {
+    return (0);
+  }
+  while ((read = getline(&line, &len, fp)) != -1) {
+    num_packages++;
+  }
+  pclose(fp);
+  if (line) {
+    free(line);
+  }
+  if (num_packages > 0)
+  {
+    return num_packages - 1;
+  }
+  return num_packages;
+}
+
+packagecount get_num_packages(unsigned short package_manager_id) {
   switch (package_manager_id) {
   case PACMAN_PACKAGE_MANAGER:
     return get_num_packages_pacman();
@@ -446,6 +494,12 @@ unsigned long get_num_packages(unsigned short package_manager_id) {
     break;
   case APK_PACKAGE_MANAGER:
     return get_num_packages_apk();
+    break;
+  case FLATPAK_PACKAGE_MANAGER:
+    return get_num_packages_flatpak();
+    break;
+  case SNAP_PACKAGE_MANAGER:
+    return get_num_packages_snap();
     break;
   }
   return 0;

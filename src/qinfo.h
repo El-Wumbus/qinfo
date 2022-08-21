@@ -42,9 +42,11 @@ struct uptime {
 };
 
 struct packages {
-  unsigned long pacman_packages;
-  unsigned long apt_packages;
-  unsigned long apk_packages;
+  packagecount pacman_packages;
+  packagecount apt_packages;
+  packagecount apk_packages;
+  packagecount flatpak_packages;
+  packagecount snap_packages;
 };
 
 struct uptime formatted_uptime(long uptime);
