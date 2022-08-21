@@ -71,7 +71,7 @@ int main() {
   {
     strcpy(kernel_version, "Unknown");
   }
-  if (get_rootfs_age(&rootfsage))
+  if (get_creation_date(&rootfsage))
     {
       fprintf(stderr, "Error getting rootfs age\n");
       return 1;

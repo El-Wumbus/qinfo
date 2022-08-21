@@ -19,16 +19,42 @@ Author: Aidan Neal <decator.c@proton.me>
 #ifndef UNIX_H
 #define UNIX_H
 
+#include <ctype.h>
+#include <errno.h>
+#include <linux/fcntl.h>
+#include <linux/stat.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <time.h>
+#include <unistd.h>
+#define statx foo
+#define statx_timestamp foo_timestamp
+struct statx;
+struct statx_timestamp;
+#include <sys/stat.h>
+#undef statx
+#undef statx_timestamp
+
+#define AT_STATX_SYNC_TYPE 0x6000
+#define AT_STATX_SYNC_AS_STAT 0x0000
+#define AT_STATX_FORCE_SYNC 0x2000
+#define AT_STATX_DONT_SYNC 0x4000
+#define AT_STATX_SYNC_TYPE_MASK 0x6000
+#define AT_STATX_MTIME 0x00000040U
+#define AT_STATX_BTIME 0x00000800U
+
+#ifndef __NR_statx
+#define __NR_statx -1
+#endif
 
 struct date {
   unsigned int day;
   unsigned int month;
   unsigned int year;
 };
-
 
 /**
  * @brief Get the number of cores
@@ -92,5 +118,5 @@ int get_hostname(char *storage_variable);
 int uname(char *storage_variable);
 int get_rootfs_age(struct date *storage_variable);
 void get_board_model();
-
+int get_creation_date(struct date *storage_variable);
 #endif // UNIX_H

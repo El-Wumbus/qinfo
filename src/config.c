@@ -3,41 +3,41 @@
 #include <stdlib.h>
 #include <string.h>
 
-static char * get_color(const char *value)
-{
+static char *get_color(const char *value) {
   if (strcmp(value, "red") == 0) {
-     return RED;
-    } else if (strcmp(value, "green") == 0) {
-     return GRN;
-    } else if (strcmp(value, "yellow") == 0) {
-     return YEL;
-    } else if (strcmp(value, "blue") == 0) {
-     return BLU;
-    } else if (strcmp(value, "magenta") == 0) {
-     return MAG;
-    } else if (strcmp(value, "cyan") == 0) {
-     return CYN;
-    } else if (strcmp(value, "white") == 0) {
-     return WHT;
-    } else if (strcmp(value, "black") == 0) {
-     return BLK;
-    } else if (strcmp(value, "bold red") == 0) {
-     return BRED;
-    } else if (strcmp(value, "bold green") == 0) {
-     return BGRN;
-    } else if (strcmp(value, "bold yellow") == 0) {
-     return BYEL;
-    } else if (strcmp(value, "bold blue") == 0) {
-     return BBLU;
-    } else if (strcmp(value, "bold magenta") == 0) {
-     return BMAG;
-    } else if (strcmp(value, "bold cyan") == 0) {
-     return BCYN;
-    } else if (strcmp(value, "bold white") == 0) {
-     return BWHT;
-    } else if (strcmp(value, "bold black") == 0) {
-     return BBLK;
-    } else return "";
+    return RED;
+  } else if (strcmp(value, "green") == 0) {
+    return GRN;
+  } else if (strcmp(value, "yellow") == 0) {
+    return YEL;
+  } else if (strcmp(value, "blue") == 0) {
+    return BLU;
+  } else if (strcmp(value, "magenta") == 0) {
+    return MAG;
+  } else if (strcmp(value, "cyan") == 0) {
+    return CYN;
+  } else if (strcmp(value, "white") == 0) {
+    return WHT;
+  } else if (strcmp(value, "black") == 0) {
+    return BLK;
+  } else if (strcmp(value, "bold red") == 0) {
+    return BRED;
+  } else if (strcmp(value, "bold green") == 0) {
+    return BGRN;
+  } else if (strcmp(value, "bold yellow") == 0) {
+    return BYEL;
+  } else if (strcmp(value, "bold blue") == 0) {
+    return BBLU;
+  } else if (strcmp(value, "bold magenta") == 0) {
+    return BMAG;
+  } else if (strcmp(value, "bold cyan") == 0) {
+    return BCYN;
+  } else if (strcmp(value, "bold white") == 0) {
+    return BWHT;
+  } else if (strcmp(value, "bold black") == 0) {
+    return BBLK;
+  } else
+    return "";
 }
 
 static int handler(void *user, const char *section, const char *name,
@@ -65,22 +65,20 @@ static int handler(void *user, const char *section, const char *name,
   } else if (MATCH("Display", "DISPLAY_ROOTFS_BIRTHDAY")) {
     pconfig->DISPLAY_ROOTFS_BIRTHDAY =
         (strcmp(value, "true") == 0) ? true : false;
-  } else if (MATCH("Extra", "DISPLAY_DATES"))
-  {
-      if (strcmp(value, "YMD") == 0) {
-        pconfig->DISPLAY_DATES_YYYY_MM_DD = true;
-      }
+  } else if (MATCH("Extra", "DISPLAY_DATES")) {
+    if (strcmp(value, "YMD") == 0) {
+      pconfig->DISPLAY_DATES_YYYY_MM_DD = true;
+    }
 
-       else if (strcmp(value, "MDY") == 0) {
-        pconfig->DISPLAY_DATES_YYYY_MM_DD = false;
-      }
+    else if (strcmp(value, "MDY") == 0) {
+      pconfig->DISPLAY_DATES_YYYY_MM_DD = false;
+    }
 
   } else if (MATCH("Display", "DISPLAY_MOTHERBOARD_INFO")) {
     pconfig->DISPLAY_MOTHERBOARD_INFO =
         (strcmp(value, "true") == 0) ? true : false;
-  }else if (MATCH("Display", "DISPLAY_LOGO")) {
-    pconfig->DISPLAY_LOGO =
-        (strcmp(value, "true") == 0) ? true : false;
+  } else if (MATCH("Display", "DISPLAY_LOGO")) {
+    pconfig->DISPLAY_LOGO = (strcmp(value, "true") == 0) ? true : false;
   } else if (MATCH("Color", "IDCOLOR")) {
     pconfig->IDCOLOR = get_color(value);
   } else if (MATCH("Color", "TXTCOLOR")) {
@@ -119,7 +117,8 @@ int parse_config(configuration *pconfig) {
   config.LOGOCOLOR = WHT;
 
   if (ini_parse(CONFIG_FILE_NAME, handler, &config) < 0) {
-    fprintf(stderr, "'%s' not found, not loading configuration\n", CONFIG_FILE_NAME);
+    fprintf(stderr, "'%s' not found, not loading configuration\n",
+            CONFIG_FILE_NAME);
   }
 
   *pconfig = config;

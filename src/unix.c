@@ -17,19 +17,25 @@ Author: Aidan Neal <decator.c@proton.me>
     USA
 */
 
+static __attribute__((unused)) ssize_t statx(int dfd, const char *filename,
+                                             unsigned flags, unsigned int mask,
+                                             struct statx *buffer) {
+  return syscall(__NR_statx, dfd, filename, flags, mask, buffer);
+}
+
 /**
  * @brief Get the number of cores
  *
  * @return unsigned int
  */
-unsigned int get_core_count()
-{
-  /* Opening the file /proc/cpuinfo and assigning the file pointer to cpu_info. */
+unsigned int get_core_count() {
+  /* Opening the file /proc/cpuinfo and assigning the file pointer to cpu_info.
+   */
   FILE *cpu_info = fopen("/proc/cpuinfo", "r");
 
-  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 0. */
-  if (cpu_info == NULL)
-  {
+  /* Checking if the file was opened successfully. If it was not, it prints an
+   * error message and returns 0. */
+  if (cpu_info == NULL) {
     fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
     return 0;
   }
@@ -46,14 +52,14 @@ unsigned int get_core_count()
  *
  * @return unsigned int
  */
-unsigned int get_thread_count()
-{
-  /* Opening the file /proc/cpuinfo and assigning the file pointer to cpu_info. */
+unsigned int get_thread_count() {
+  /* Opening the file /proc/cpuinfo and assigning the file pointer to cpu_info.
+   */
   FILE *cpu_info = fopen("/proc/cpuinfo", "r");
 
-  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 0. */
-  if (cpu_info == NULL)
-  {
+  /* Checking if the file was opened successfully. If it was not, it prints an
+   * error message and returns 0. */
+  if (cpu_info == NULL) {
     fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
     return 0;
   }
@@ -72,14 +78,14 @@ unsigned int get_thread_count()
  *
  * @return unsigned int
  */
-int get_total_memory()
-{
-  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
+int get_total_memory() {
+  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info.
+   */
   FILE *mem_info = fopen("/proc/meminfo", "r");
 
-  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 0. */
-  if (mem_info == NULL)
-  {
+  /* Checking if the file was opened successfully. If it was not, it prints an
+   * error message and returns 0. */
+  if (mem_info == NULL) {
     fprintf(stderr, "Error: Could not open /proc/meminfo\n");
     return 0;
   }
@@ -99,14 +105,14 @@ int get_total_memory()
  *
  * @return int
  */
-int get_avalible_memory()
-{
-  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
+int get_avalible_memory() {
+  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info.
+   */
   FILE *mem_info = fopen("/proc/meminfo", "r");
 
-  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 0. */
-  if (mem_info == NULL)
-  {
+  /* Checking if the file was opened successfully. If it was not, it prints an
+   * error message and returns 0. */
+  if (mem_info == NULL) {
     fprintf(stderr, "Error: Could not open /proc/meminfo\n");
     return 0;
   }
@@ -119,13 +125,12 @@ int get_avalible_memory()
   return avalible_memory;
 }
 
-long get_uptime()
-{
+long get_uptime() {
   FILE *uptime_file = fopen("/proc/uptime", "r");
 
-  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 0. */
-  if (uptime_file == NULL)
-  {
+  /* Checking if the file was opened successfully. If it was not, it prints an
+   * error message and returns 0. */
+  if (uptime_file == NULL) {
     fprintf(stderr, "Error: Could not open /proc/uptime\n");
     return 0;
   }
@@ -135,7 +140,7 @@ long get_uptime()
     fscanf(uptime_file, "%*[^ ]");
   fclose(uptime_file);
 
-  return(uptime);
+  return (uptime);
 }
 
 /**
@@ -144,19 +149,19 @@ long get_uptime()
  * @param storage_variable
  * @return int
  */
-int get_cpu_model(char *storage_variable)
-{
-  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info. */
+int get_cpu_model(char *storage_variable) {
+  /* Opening the file /proc/meminfo and assigning the file pointer to mem_info.
+   */
   FILE *cpu_info = fopen("/proc/cpuinfo", "r");
 
-  /* Checking if the file was opened successfully. If it was not, it prints an error message and returns 1. */
-  if (cpu_info == NULL)
-  {
+  /* Checking if the file was opened successfully. If it was not, it prints an
+   * error message and returns 1. */
+  if (cpu_info == NULL) {
     fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
     return 1;
   }
-  char* buffer;
-  buffer = (char *) malloc(sizeof(char) * 100);
+  char *buffer;
+  buffer = (char *)malloc(sizeof(char) * 100);
   /* Reading the file until it finds the line that starts with "model name:". */
   while (!fscanf(cpu_info, "model name\t: %99[^\n]", buffer))
     fscanf(cpu_info, "%*[^m]");
@@ -174,18 +179,16 @@ int get_cpu_model(char *storage_variable)
  *
  * @return char*
  */
-int get_operating_system_name(char *storage_variable)
-{
+int get_operating_system_name(char *storage_variable) {
   FILE *os_info = fopen("/etc/os-release", "r");
 
-  if (os_info == NULL)
-  {
+  if (os_info == NULL) {
     fprintf(stderr, "Error: Could not open /etc/os-release\n");
     return 1;
   }
 
-  char* os_name;
-  os_name = (char *) malloc(sizeof(char) * 128);
+  char *os_name;
+  os_name = (char *)malloc(sizeof(char) * 128);
   while (!fscanf(os_info, "PRETTY_NAME=\"%[^\"]\"", os_name))
     fscanf(os_info, "%*[^P]");
   fclose(os_info);
@@ -200,18 +203,16 @@ int get_operating_system_name(char *storage_variable)
  * @param storage_variable
  * @return int
  */
-int get_hostname(char *storage_variable)
-{
+int get_hostname(char *storage_variable) {
   FILE *hostname_file = fopen("/proc/sys/kernel/hostname", "r");
 
-  if (hostname_file == NULL)
-  {
+  if (hostname_file == NULL) {
     fprintf(stderr, "Error: Could not open /proc/sys/kernel/hostname\n");
     return 1;
   }
 
-  char* hostname;
-  hostname = (char *) malloc(sizeof(char) * 100);
+  char *hostname;
+  hostname = (char *)malloc(sizeof(char) * 100);
 
   while (!fscanf(hostname_file, "%99[^\n]", hostname))
     fscanf(hostname_file, "%*[^\n]");
@@ -227,15 +228,13 @@ int get_hostname(char *storage_variable)
  * @param storage_variable
  * @return int
  */
-int uname(char *storage_variable)
-{
+int uname(char *storage_variable) {
   FILE *fp;
   char path[1024];
 
   /* Open the command for reading. */
   fp = popen("/bin/uname --kernel-name --kernel-release", "r");
-  if (fp == NULL)
-  {
+  if (fp == NULL) {
     printf("Failed to run command\n");
     return 1;
   }
@@ -243,8 +242,7 @@ int uname(char *storage_variable)
   char buffer[1024] = "";
 
   /* Read the output a line at a time - output it. */
-  while (fgets(path, sizeof(path), fp) != NULL)
-  {
+  while (fgets(path, sizeof(path), fp) != NULL) {
     strcat(buffer, path);
   }
 
@@ -254,41 +252,9 @@ int uname(char *storage_variable)
   return 0;
 }
 
-int get_rootfs_age(struct date *storage_variable)
-{
+static char *get_board_name() {
   FILE *fp;
-  char path[1024];
-
-  /* Open the command for reading. */
-  fp = popen("stat / | grep \"Birth\" | sed 's/Birth: //g' | cut -b 2-11 | sed 's/-/ /g'", "r");
-  if (fp == NULL)
-  {
-    printf("Failed to run command\n");
-    return 1;
-  }
-
-  char buffer[64] = "";
-
-  /* Read the output a line at a time - output it. */
-  while (fgets(path, sizeof(path), fp) != NULL)
-  {
-    strcat(buffer, path);
-  }
-
-  /* close */
-  pclose(fp);
-
-  struct date fs_birthdate;
-
-  sscanf(buffer, "%u %u %u", &fs_birthdate.year, &fs_birthdate.month, &fs_birthdate.day);
-  * storage_variable = fs_birthdate;
-  return 0;
-}
-
-static char *get_board_name()
-{
-    FILE *fp;
-  char * line =NULL;
+  char *line = NULL;
   size_t len = 0;
   ssize_t read;
 
@@ -298,11 +264,10 @@ static char *get_board_name()
     exit(1);
   }
 
-  if ((read = getline(&line, &len, fp)) != -1)
-  {
+  if ((read = getline(&line, &len, fp)) != -1) {
     fclose(fp);
-    for(unsigned int i =0; i < len; i++) {
-      if(line[i] == '\n') {
+    for (unsigned int i = 0; i < len; i++) {
+      if (line[i] == '\n') {
         line[i] = '\0';
         break;
       }
@@ -314,10 +279,9 @@ static char *get_board_name()
   return NULL;
 }
 
-static char *get_board_vendor()
-{
-    FILE *fp;
-  char * line =NULL;
+static char *get_board_vendor() {
+  FILE *fp;
+  char *line = NULL;
   size_t len = 0;
   ssize_t read;
 
@@ -327,11 +291,10 @@ static char *get_board_vendor()
     exit(1);
   }
 
-  if ((read = getline(&line, &len, fp)) != -1)
-  {
+  if ((read = getline(&line, &len, fp)) != -1) {
     fclose(fp);
-    for(unsigned int i =0; i < len; i++) {
-      if(line[i] == '\n') {
+    for (unsigned int i = 0; i < len; i++) {
+      if (line[i] == '\n') {
         line[i] = '\0';
         break;
       }
@@ -347,4 +310,24 @@ void get_board_model(char *storage_variable) {
   char buffer[156];
   sprintf(buffer, "%s (%s)", get_board_name(), get_board_vendor());
   strcpy(storage_variable, buffer);
+}
+
+int get_creation_date(struct date *storage_variable) {
+
+  struct statx stx;
+  statx(AT_FDCWD, "/", AT_STATX_SYNC_AS_STAT, STATX_BTIME, &stx);
+  time_t epochtime = stx.stx_btime.tv_sec;
+  struct tm t;
+  char buf[11];
+
+  t = *localtime(&epochtime);
+  strftime(buf, sizeof(buf), "%Y %m %d", &t);
+  printf("%s\n", buf);
+
+  struct date fs_birthdate;
+
+  sscanf(buf, "%u %u %u", &fs_birthdate.year, &fs_birthdate.month,
+         &fs_birthdate.day);
+  *storage_variable = fs_birthdate;
+  return 0;
 }
