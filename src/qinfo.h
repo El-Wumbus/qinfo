@@ -16,7 +16,8 @@ Author: Aidan Neal <decator.c@proton.me>
     USA
 */
 #ifndef QINFO_H
-#define QINFO_H
+#define QINFO_Hstruct packages;
+
 
 /* #include "color.h" */
 #include "config.h"
@@ -40,6 +41,12 @@ struct uptime {
   unsigned int seconds;
 };
 
-struct uptime formatted_uptime(long uptime);
+struct packages {
+  unsigned long pacman_packages;
+  unsigned long apt_packages;
+  unsigned long apk_packages;
+};
 
+struct uptime formatted_uptime(long uptime);
+struct packages formatted_packages();
 #endif

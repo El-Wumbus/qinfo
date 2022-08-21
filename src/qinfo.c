@@ -33,9 +33,32 @@ struct uptime formatted_uptime(long uptime) {
   return upt;
 }
 
+struct packages formatted_packages(unsigned long pacman_packages,
+                                   unsigned long apt_packages,
+                                   unsigned long apk_packages) {
+  struct packages pkgs;
+  if (pacman_packages > 0) {
+    pkgs.pacman_packages = pacman_packages;
+  } else {
+    pkgs.pacman_packages = 0;
+  }
+  if (apt_packages > 0) {
+    pkgs.apt_packages = apt_packages;
+  } else {
+    pkgs.apt_packages = 0;
+  }
+  if (apk_packages > 0) {
+    pkgs.apk_packages = apk_packages;
+  } else {
+    pkgs.apk_packages = 0;
+  }
+  return pkgs;
+}
+
 int main() {
   configuration config;
   struct color col;
+  struct packages pkgs;
   parse_config(&config);
   col.ansi_id_color = config.IDCOLOR;
   col.ansi_text_color = config.TXTCOLOR;
@@ -54,6 +77,9 @@ int main() {
   char unit[3];
   char motherboard_info[256];
   struct date rootfsage;
+  unsigned long pacman_packages = 0;
+  unsigned long apt_packages = 0;
+  unsigned long apk_packages = 0;
 
   char *username = get_username();
   core_count = get_core_count();
@@ -69,10 +95,18 @@ int main() {
   if (get_operating_system_name_bedrock(os_name) == 1) {
     get_operating_system_name(os_name);
   }
+  if (strcmp(os_name, "Arch Linux") == 0) {
+    pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
+  } else if (strcmp(os_name, "Debian") == 0) {
+    apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
+  } else if (strstr(os_name, "Ubuntu") != NULL) {
+    apk_packages = get_num_packages(APT_PACKAGE_MANAGER);
+  }
 
   if (uname(kernel_version)) {
     strcpy(kernel_version, "Unknown");
   }
+
   if (get_creation_date(&rootfsage)) {
     fprintf(stderr, "Error getting rootfs age\n");
     return 1;
@@ -138,6 +172,22 @@ int main() {
            col.ansi_text_color, os_name, OPERATING_SYSTEM, COLOR_END);
   }
 
+  if (1) {
+
+    pkgs = formatted_packages(pacman_packages, apt_packages, apk_packages);
+    printf("%sPackages:%s\t%s", col.ansi_id_color, COLOR_END,
+           col.ansi_text_color);
+    if (pkgs.pacman_packages > 0) {
+      printf("%lu (Pacman) ", pkgs.pacman_packages);
+    }
+    if (pkgs.apt_packages > 0) {
+      printf("%lu (Apt) ", pkgs.apt_packages);
+    }
+    if (pkgs.apk_packages > 0) {
+      printf("%lu (Apk)", pkgs.apk_packages);
+    }
+    printf("%s\n", COLOR_END);
+  }
   if (config.DISPLAY_USERNAME) {
     printf("%sUser:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
            col.ansi_text_color, username, COLOR_END);

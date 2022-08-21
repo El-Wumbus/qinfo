@@ -192,9 +192,8 @@ int get_operating_system_name(char *storage_variable) {
   return 0;
 }
 
-int get_operating_system_name_bedrock(char *storage_variable)
-{
-FILE *os_info = fopen("/bedrock/etc/os-release", "r");
+int get_operating_system_name_bedrock(char *storage_variable) {
+  FILE *os_info = fopen("/bedrock/etc/os-release", "r");
 
   if (os_info == NULL) {
     return 1;
@@ -378,4 +377,79 @@ char *get_username() {
     }
   }
   return buf;
+}
+
+static unsigned long get_num_packages_dpkg() {
+  FILE *fp;
+  char *line = NULL;
+  size_t len = 0;
+  ssize_t read;
+  unsigned long num_packages = 0;
+  fp = fopen("/var/lib/dpkg/status", "r");
+  if (fp == NULL) {
+    fprintf(stderr, "Failed to get '/var/lib/dpkg/status'\n");
+    exit(1);
+  }
+  while ((read = getline(&line, &len, fp)) != -1) {
+    if (strstr(line, "Package: ") != NULL) {
+      num_packages++;
+    }
+  }
+  fclose(fp);
+  return num_packages;
+}
+
+static unsigned long get_num_packages_apk() {
+  FILE *fp;
+  char *line = NULL;
+  size_t len = 0;
+  ssize_t read;
+  unsigned long num_packages = 0;
+  fp = popen("apk info", "r");
+  if (fp == NULL) {
+    return (0);
+  }
+  while ((read = getline(&line, &len, fp)) != -1) {
+    num_packages++;
+  }
+  pclose(fp);
+  if (line) {
+    free(line);
+  }
+  return num_packages;
+}
+
+static unsigned long get_num_packages_pacman() {
+  FILE *fp;
+  char *line = NULL;
+  size_t len = 0;
+  ssize_t read;
+  unsigned long num_packages = 0;
+  fp = popen("pacman -Q", "r");
+  if (fp == NULL) {
+    return (0);
+  }
+  while ((read = getline(&line, &len, fp)) != -1) {
+    num_packages++;
+  }
+  pclose(fp);
+  if (line) {
+    free(line);
+  }
+  return num_packages;
+}
+
+unsigned long get_num_packages(unsigned short package_manager_id) {
+  switch (package_manager_id) {
+  case PACMAN_PACKAGE_MANAGER:
+    return get_num_packages_pacman();
+    break;
+  case APT_PACKAGE_MANAGER:
+    return get_num_packages_dpkg();
+    break;
+  case APK_PACKAGE_MANAGER:
+    return get_num_packages_apk();
+    break;
+  }
+  return 0;
 }

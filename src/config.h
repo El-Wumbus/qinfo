@@ -23,6 +23,7 @@ typedef struct {
   bool DISPLAY_MOTHERBOARD_INFO;
   bool DISPLAY_LOGO;
   bool DISPLAY_USERNAME;
+  bool DISPLAY_PACKAGES;
   char* IDCOLOR;
   char* TXTCOLOR;
   char *LOGOCOLOR;

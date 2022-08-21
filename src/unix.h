@@ -27,6 +27,10 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <string.h>
 #include <pwd.h>
 
+#define PACMAN_PACKAGE_MANAGER 0
+#define APT_PACKAGE_MANAGER 1
+#define APK_PACKAGE_MANAGER 2
+
 
 struct date {
   unsigned int day;
@@ -108,5 +112,6 @@ int get_creation_date(struct date *storage_variable);
 
 char *get_username();
 int get_operating_system_name_bedrock(char *storage_variable);
+unsigned long get_num_packages(unsigned short package_manager_id);
 
 #endif // UNIX_H

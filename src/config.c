@@ -79,6 +79,8 @@ static int handler(void *user, const char *section, const char *name,
         (strcmp(value, "true") == 0) ? true : false;
   } else if (MATCH("Display", "DISPLAY_LOGO")) {
     pconfig->DISPLAY_LOGO = (strcmp(value, "true") == 0) ? true : false;
+  } else if (MATCH("Display", "DISPLAY_PACKAGES")) {
+    pconfig->DISPLAY_PACKAGES = (strcmp(value, "true") == 0) ? true : false;
   } else if (MATCH("Color", "IDCOLOR")) {
     pconfig->IDCOLOR = get_color(value);
   } else if (MATCH("Color", "TXTCOLOR")) {
@@ -115,6 +117,7 @@ int parse_config(configuration *pconfig) {
   config.DISPLAY_ROOTFS_BIRTHDAY = true;
   config.DISPLAY_DATES_YYYY_MM_DD = true;
   config.DISPLAY_USERNAME = true;
+  config.DISPLAY_PACKAGES = true;
   config.IDCOLOR = BWHT;
   config.TXTCOLOR = WHT;
   config.LOGOCOLOR = WHT;
