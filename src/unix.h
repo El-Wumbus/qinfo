@@ -21,7 +21,6 @@ Author: Aidan Neal <decator.c@proton.me>
 
 #include <ctype.h>
 #include <errno.h>
-#include <linux/fcntl.h>
 #include <linux/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
