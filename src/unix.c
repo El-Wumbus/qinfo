@@ -385,18 +385,15 @@ static unsigned long get_num_packages_dpkg() {
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
-  fp = fopen("/var/lib/dpkg/status", "r");
+  fp = popen("apt list --installed", "r");
   if (fp == NULL) {
-    fprintf(stderr, "Failed to get '/var/lib/dpkg/status'\n");
-    exit(1);
+    return 0;
   }
   while ((read = getline(&line, &len, fp)) != -1) {
-    if (strstr(line, "Package: ") != NULL) {
-      num_packages++;
-    }
+    num_packages++;
   }
-  fclose(fp);
-  return num_packages;
+  pclose(fp);
+  return num_packages - 1;
 }
 
 static unsigned long get_num_packages_apk() {
