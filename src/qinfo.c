@@ -174,48 +174,7 @@ int main() {
            col.ansi_text_color, os_name, OPERATING_SYSTEM, COLOR_END);
   }
 
-  if (config.DISPLAY_PACKAGES) {
-    packagecount pacman_packages = 0;
-    packagecount apt_packages = 0;
-    packagecount apk_packages = 0;
-    packagecount flatpak_packages = 0;
-    packagecount snap_packages = 0;
-    flatpak_packages = get_num_packages(FLATPAK_PACKAGE_MANAGER);
-    snap_packages = get_num_packages(SNAP_PACKAGE_MANAGER);
-    if (strcmp(os_name, "Arch Linux") == 0) {
-      pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
-    } else if (strcmp(os_name, "Debian") == 0) {
-      apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
-    } else if (strstr(os_name, "Ubuntu") != NULL) {
-      apk_packages = get_num_packages(APT_PACKAGE_MANAGER);
-    } else if (strstr(os_name, "Bedrock Linux")) {
-      apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
-      pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
-      apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
-    } else if (strstr(os_name, "Alpine Linux")) {
-      apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
-    }
-    pkgs = formatted_packages(pacman_packages, apt_packages, apk_packages,
-                              flatpak_packages, snap_packages);
-    printf("%sPackages:%s\t%s", col.ansi_id_color, COLOR_END,
-           col.ansi_text_color);
-    if (pkgs.pacman_packages > 0) {
-      printf("%lu (Pacman) ", pkgs.pacman_packages);
-    }
-    if (pkgs.apt_packages > 0) {
-      printf("%lu (Apt) ", pkgs.apt_packages);
-    }
-    if (pkgs.apk_packages > 0) {
-      printf("%lu (Apk)", pkgs.apk_packages);
-    }
-    if (pkgs.flatpak_packages > 0) {
-      printf("%lu (Flatpak)", pkgs.flatpak_packages);
-    }
-    if (pkgs.snap_packages > 0) {
-      printf("%lu (Snap)", pkgs.snap_packages);
-    }
-    printf("%s\n", COLOR_END);
-  }
+
   if (config.DISPLAY_USERNAME) {
     printf("%sUser:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
            col.ansi_text_color, username, COLOR_END);
@@ -271,6 +230,49 @@ int main() {
     if (strcmp(OPERATING_SYSTEM, "Linux") && config.DISPLAY_KERNEL_VERSION) {
       printf("%sKernel:%s\t\t%s", col.ansi_id_color, COLOR_END, kernel_version);
     }
+
+    if (config.DISPLAY_PACKAGES) {
+    packagecount pacman_packages = 0;
+    packagecount apt_packages = 0;
+    packagecount apk_packages = 0;
+    packagecount flatpak_packages = 0;
+    packagecount snap_packages = 0;
+    flatpak_packages = get_num_packages(FLATPAK_PACKAGE_MANAGER);
+    snap_packages = get_num_packages(SNAP_PACKAGE_MANAGER);
+    if (strcmp(os_name, "Arch Linux") == 0) {
+      pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
+    } else if (strcmp(os_name, "Debian") == 0) {
+      apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
+    } else if (strstr(os_name, "Ubuntu") != NULL) {
+      apk_packages = get_num_packages(APT_PACKAGE_MANAGER);
+    } else if (strstr(os_name, "Bedrock Linux")) {
+      apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
+      pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
+      apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
+    } else if (strstr(os_name, "Alpine Linux")) {
+      apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
+    }
+    pkgs = formatted_packages(pacman_packages, apt_packages, apk_packages,
+                              flatpak_packages, snap_packages);
+    printf("%sPackages:%s\t%s", col.ansi_id_color, COLOR_END,
+           col.ansi_text_color);
+    if (pkgs.pacman_packages > 0) {
+      printf("%lu (Pacman) ", pkgs.pacman_packages);
+    }
+    if (pkgs.apt_packages > 0) {
+      printf("%lu (Apt) ", pkgs.apt_packages);
+    }
+    if (pkgs.apk_packages > 0) {
+      printf("%lu (Apk)", pkgs.apk_packages);
+    }
+    if (pkgs.flatpak_packages > 0) {
+      printf("%lu (Flatpak)", pkgs.flatpak_packages);
+    }
+    if (pkgs.snap_packages > 0) {
+      printf("%lu (Snap)", pkgs.snap_packages);
+    }
+    printf("%s\n", COLOR_END);
+  }
 
     return 0;
   }
