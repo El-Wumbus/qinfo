@@ -17,12 +17,6 @@ Author: Aidan Neal <decator.c@proton.me>
     USA
 */
 
-static __attribute__((unused)) ssize_t statx(int dfd, const char *filename,
-                                             unsigned flags, unsigned int mask,
-                                             struct statx *buffer) {
-  return syscall(__NR_statx, dfd, filename, flags, mask, buffer);
-}
-
 /**
  * @brief Get the number of cores
  *
@@ -252,6 +246,12 @@ int uname(char *storage_variable) {
   return 0;
 }
 
+/**
+ * It reads the contents of the file `/sys/devices/virtual/dmi/id/board_name` and returns the contents
+ * as a string
+ * 
+ * @return The board name of the system.
+ */
 static char *get_board_name() {
   FILE *fp;
   char *line = NULL;
@@ -279,6 +279,11 @@ static char *get_board_name() {
   return NULL;
 }
 
+/**
+ * It opens a file, reads a line, and returns the line
+ * 
+ * @return The board vendor name.
+ */
 static char *get_board_vendor() {
   FILE *fp;
   char *line = NULL;
@@ -306,6 +311,11 @@ static char *get_board_vendor() {
   return NULL;
 }
 
+/**
+ * It takes a string, and copies the board name and vendor into it
+ * 
+ * @param storage_variable The variable to store the board model in.
+ */
 void get_board_model(char *storage_variable) {
   char buffer[156];
   sprintf(buffer, "%s (%s)", get_board_name(), get_board_vendor());
@@ -331,7 +341,6 @@ int get_creation_date(struct date *storage_variable) {
 
   t = *localtime(&epochtime);
   strftime(buf, sizeof(buf), "%Y %m %d", &t);
-  printf("%s\n", buf);
 
 
   sscanf(buf, "%u %u %u", &fs_birthdate.year, &fs_birthdate.month,
@@ -339,3 +348,4 @@ int get_creation_date(struct date *storage_variable) {
   *storage_variable = fs_birthdate;
   return 0;
 }
+
