@@ -192,6 +192,24 @@ int get_operating_system_name(char *storage_variable) {
   return 0;
 }
 
+int get_operating_system_name_bedrock(char *storage_variable)
+{
+FILE *os_info = fopen("/bedrock/etc/os-release", "r");
+
+  if (os_info == NULL) {
+    return 1;
+  }
+
+  char *os_name;
+  os_name = (char *)malloc(sizeof(char) * 128);
+  while (!fscanf(os_info, "NAME=\"%[^\"]\"", os_name))
+    fscanf(os_info, "%*[^P]");
+  fclose(os_info);
+
+  strcpy(storage_variable, os_name);
+  return 0;
+}
+
 /**
  * @brief Get the system hostname
  *

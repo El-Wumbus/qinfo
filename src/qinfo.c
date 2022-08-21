@@ -66,7 +66,10 @@ int main() {
   used_memory = total_memory - available_memory;
   get_hostname(hostname);
   get_cpu_model(cpu_model);
-  get_operating_system_name(os_name);
+  if (get_operating_system_name_bedrock(os_name) == 1) {
+    get_operating_system_name(os_name);
+  }
+
   if (uname(kernel_version)) {
     strcpy(kernel_version, "Unknown");
   }

@@ -107,5 +107,6 @@ void get_board_model();
 int get_creation_date(struct date *storage_variable);
 
 char *get_username();
+int get_operating_system_name_bedrock(char *storage_variable);
 
 #endif // UNIX_H
