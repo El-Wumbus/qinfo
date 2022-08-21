@@ -30,13 +30,10 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
-#define statx foo
-#define statx_timestamp foo_timestamp
-struct statx;
-struct statx_timestamp;
+#define AT_FDCWD		-100    /* Special value used to indicate
+                                           openat should use the current
+                                           working directory. */
 #include <sys/stat.h>
-#undef statx
-#undef statx_timestamp
 
 #define AT_STATX_SYNC_TYPE 0x6000
 #define AT_STATX_SYNC_AS_STAT 0x0000
