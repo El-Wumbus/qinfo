@@ -284,7 +284,7 @@ static char *get_board_name() {
 
   if ((read = getline(&line, &len, fp)) != -1) {
     fclose(fp);
-    for (unsigned int i = 0; i < len; i++) {
+    for (register iterator i = 0; i < len; i++) {
       if (line[i] == '\n') {
         line[i] = '\0';
         break;
@@ -316,7 +316,7 @@ static char *get_board_vendor() {
 
   if ((read = getline(&line, &len, fp)) != -1) {
     fclose(fp);
-    for (unsigned int i = 0; i < len; i++) {
+    for (register iterator i = 0; i < len; i++) {
       if (line[i] == '\n') {
         line[i] = '\0';
         break;
@@ -385,7 +385,7 @@ static packagecount get_num_packages_dpkg() {
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
-  fp = popen("apt list --installed > /dev/null 2>error", "r");
+  fp = popen("apt list --installed 2>error", "r");
   if (fp == NULL) {
     return 0;
   }

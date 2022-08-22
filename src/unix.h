@@ -34,6 +34,7 @@ Author: Aidan Neal <decator.c@proton.me>
 #define SNAP_PACKAGE_MANAGER 4
 
 
+typedef unsigned short int iterator;
 typedef unsigned long int packagecount;
 struct date {
   unsigned int day;
