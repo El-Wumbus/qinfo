@@ -554,17 +554,8 @@ static void return_base(char *chararr, char* storage_variable)
 
 void get_shell_name(char *storage_variable)
 {
-  char *shell = getenv("SHELL");
+  char *shell = getenv("0");
   if (shell != NULL)
-  {
-    if (strstr(shell, "/"))
-    {
-      return_base(shell, shell);
-    }
-    strcpy(storage_variable, shell);
-    return;
-  }
-  else if ((shell = getenv("shell")) != NULL)
   {
     if (strstr(shell, "/"))
     {
