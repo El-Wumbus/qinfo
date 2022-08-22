@@ -385,7 +385,7 @@ static packagecount get_num_packages_dpkg() {
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
-  fp = popen("apt list --installed 2>error", "r");
+  fp = popen("apt list --installed 2>/dev/null", "r");
   if (fp == NULL) {
     return 0;
   }
