@@ -538,8 +538,42 @@ static packagecount get_num_packages_snap()
   }
   return num_packages;
 }
+
+static void return_base(char *chararr, char* storage_variable)
+{
+  char *token;
+  char buff[MAXLINE];
+  char *rest = chararr;
+  while ((token = strtok_r(rest, "/", &rest)))
+  {
+    strcpy(buff, token);
+  }
+  strcpy(storage_variable, buff);
+  return ;
+}
+
 void get_shell_name(char *storage_variable)
 {
+  char *shell = getenv("SHELL");
+  if (shell != NULL)
+  {
+    if (strstr(shell, "/"))
+    {
+      return_base(shell, shell);
+    }
+    strcpy(storage_variable, shell);
+    return;
+  }
+  else if ((shell = getenv("shell")) != NULL)
+  {
+    if (strstr(shell, "/"))
+    {
+      return_base(shell, shell);
+    }
+    strcpy(storage_variable, shell);
+    return;
+  }
+
   int ppid = getppid();
   char *token;
   char process[1024] = "";
