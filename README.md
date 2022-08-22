@@ -14,6 +14,7 @@ A Linux system info program. Fetches system info and displays it.
 * Show Hostname
 * Show formatted uptime
 * Runtime ini configuration parsing (using [inih](https://github.com/benhoyt/inih))
+* Show number of installed packages
 
 ## How to install
 
