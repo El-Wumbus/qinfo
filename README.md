@@ -18,6 +18,27 @@ A Linux system info program. Fetches system info and displays it.
 
 ## How to install
 
+## Arch User Repository
+
+On Arch linux and Arch Linux based systems (systems with `pacman` and `makepkg`) there's an AUR package available to you. You can install it in one of two ways:
+
+* With an AUR helper:
+
+  ```bash
+  # for example, yay
+  yay -S qinfo-git
+  ```
+
+* Manually:
+
+  ```bash
+   git clone https://aur.archlinux.org/qinfo-git.git
+   cd qinfo-git
+   makepkg -si
+  ```
+
+### Compile *Manually*
+
 To get the source code of this software you'll need the `git` version control software.
 You probably already have it installed, you can check `git --version`.
 If you get an error message then you must install `git` from your distro's repositories.
