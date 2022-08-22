@@ -26,6 +26,9 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <stdlib.h>
 #include <string.h>
 #include <pwd.h>
+#include <fcntl.h>
+
+#define MAXLINE 12
 
 #define PACMAN_PACKAGE_MANAGER 0
 #define APT_PACKAGE_MANAGER 1
@@ -36,6 +39,8 @@ Author: Aidan Neal <decator.c@proton.me>
 
 typedef unsigned short int iterator;
 typedef unsigned long int packagecount;
+typedef pid_t pid;
+
 struct date {
   unsigned int day;
   unsigned int month;
@@ -117,5 +122,6 @@ int get_creation_date(struct date *storage_variable);
 char *get_username();
 int get_operating_system_name_bedrock(char *storage_variable);
 packagecount get_num_packages(unsigned short package_manager_id);
+void get_shell_name();
 
 #endif // UNIX_H

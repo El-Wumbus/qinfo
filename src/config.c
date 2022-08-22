@@ -90,7 +90,10 @@ static int handler(void *user, const char *section, const char *name,
     return 0; /* unknown section/name, error */
   } else if (MATCH("Display", "DISPLAY_USERNAME")) {
     pconfig->DISPLAY_USERNAME = (strcmp(value, "true") == 0) ? true : false;
-  } else {
+  } else if (MATCH("Display", "DISPLAY_SHELL")) {
+    pconfig->DISPLAY_SHELL = (strcmp(value, "true") == 0) ? true : false;
+  } 
+  else {
   }
   return 1;
 }
@@ -117,10 +120,12 @@ int parse_config(configuration *pconfig) {
   config.DISPLAY_ROOTFS_BIRTHDAY = true;
   config.DISPLAY_DATES_YYYY_MM_DD = true;
   config.DISPLAY_USERNAME = true;
-  config.DISPLAY_PACKAGES = false;
+  config.DISPLAY_PACKAGES = true;
+  config.DISPLAY_SHELL = true;
   config.IDCOLOR = BWHT;
   config.TXTCOLOR = WHT;
   config.LOGOCOLOR = WHT;
+  
 
   if (ini_parse(CONFIG_FILE_NAME, handler, &config) < 0) {
     fprintf(stderr, "'%s' not found, not loading configuration\n",

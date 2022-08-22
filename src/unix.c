@@ -3,7 +3,7 @@
 /*
 Author: Aidan Neal <decator.c@proton.me>
   qinfo is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
+    modify it under the processs of the GNU Lesser General Public
     License as published by the Free Software Foundation; either
     version 3 of the License, or (at your option) any later version.
 
@@ -23,14 +23,16 @@ Author: Aidan Neal <decator.c@proton.me>
  *
  * @return unsigned int
  */
-unsigned int get_core_count() {
+unsigned int get_core_count()
+{
   /* Opening the file /proc/cpuinfo and assigning the file pointer to cpu_info.
    */
   FILE *cpu_info = fopen("/proc/cpuinfo", "r");
 
   /* Checking if the file was opened successfully. If it was not, it prints an
    * error message and returns 0. */
-  if (cpu_info == NULL) {
+  if (cpu_info == NULL)
+  {
     fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
     return 0;
   }
@@ -47,14 +49,16 @@ unsigned int get_core_count() {
  *
  * @return unsigned int
  */
-unsigned int get_thread_count() {
+unsigned int get_thread_count()
+{
   /* Opening the file /proc/cpuinfo and assigning the file pointer to cpu_info.
    */
   FILE *cpu_info = fopen("/proc/cpuinfo", "r");
 
   /* Checking if the file was opened successfully. If it was not, it prints an
    * error message and returns 0. */
-  if (cpu_info == NULL) {
+  if (cpu_info == NULL)
+  {
     fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
     return 0;
   }
@@ -73,14 +77,16 @@ unsigned int get_thread_count() {
  *
  * @return unsigned int
  */
-int get_total_memory() {
+int get_total_memory()
+{
   /* Opening the file /proc/meminfo and assigning the file pointer to mem_info.
    */
   FILE *mem_info = fopen("/proc/meminfo", "r");
 
   /* Checking if the file was opened successfully. If it was not, it prints an
    * error message and returns 0. */
-  if (mem_info == NULL) {
+  if (mem_info == NULL)
+  {
     fprintf(stderr, "Error: Could not open /proc/meminfo\n");
     return 0;
   }
@@ -100,14 +106,16 @@ int get_total_memory() {
  *
  * @return int
  */
-int get_avalible_memory() {
+int get_avalible_memory()
+{
   /* Opening the file /proc/meminfo and assigning the file pointer to mem_info.
    */
   FILE *mem_info = fopen("/proc/meminfo", "r");
 
   /* Checking if the file was opened successfully. If it was not, it prints an
    * error message and returns 0. */
-  if (mem_info == NULL) {
+  if (mem_info == NULL)
+  {
     fprintf(stderr, "Error: Could not open /proc/meminfo\n");
     return 0;
   }
@@ -120,12 +128,14 @@ int get_avalible_memory() {
   return avalible_memory;
 }
 
-long get_uptime() {
+long get_uptime()
+{
   FILE *uptime_file = fopen("/proc/uptime", "r");
 
   /* Checking if the file was opened successfully. If it was not, it prints an
    * error message and returns 0. */
-  if (uptime_file == NULL) {
+  if (uptime_file == NULL)
+  {
     fprintf(stderr, "Error: Could not open /proc/uptime\n");
     return 0;
   }
@@ -144,14 +154,16 @@ long get_uptime() {
  * @param storage_variable
  * @return int
  */
-int get_cpu_model(char *storage_variable) {
+int get_cpu_model(char *storage_variable)
+{
   /* Opening the file /proc/meminfo and assigning the file pointer to mem_info.
    */
   FILE *cpu_info = fopen("/proc/cpuinfo", "r");
 
   /* Checking if the file was opened successfully. If it was not, it prints an
    * error message and returns 1. */
-  if (cpu_info == NULL) {
+  if (cpu_info == NULL)
+  {
     fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
     return 1;
   }
@@ -174,10 +186,12 @@ int get_cpu_model(char *storage_variable) {
  *
  * @return char*
  */
-int get_operating_system_name(char *storage_variable) {
+int get_operating_system_name(char *storage_variable)
+{
   FILE *os_info = fopen("/etc/os-release", "r");
 
-  if (os_info == NULL) {
+  if (os_info == NULL)
+  {
     fprintf(stderr, "Error: Could not open /etc/os-release\n");
     return 1;
   }
@@ -192,10 +206,12 @@ int get_operating_system_name(char *storage_variable) {
   return 0;
 }
 
-int get_operating_system_name_bedrock(char *storage_variable) {
+int get_operating_system_name_bedrock(char *storage_variable)
+{
   FILE *os_info = fopen("/bedrock/etc/os-release", "r");
 
-  if (os_info == NULL) {
+  if (os_info == NULL)
+  {
     return 1;
   }
 
@@ -215,10 +231,12 @@ int get_operating_system_name_bedrock(char *storage_variable) {
  * @param storage_variable
  * @return int
  */
-int get_hostname(char *storage_variable) {
+int get_hostname(char *storage_variable)
+{
   FILE *hostname_file = fopen("/proc/sys/kernel/hostname", "r");
 
-  if (hostname_file == NULL) {
+  if (hostname_file == NULL)
+  {
     fprintf(stderr, "Error: Could not open /proc/sys/kernel/hostname\n");
     return 1;
   }
@@ -240,13 +258,15 @@ int get_hostname(char *storage_variable) {
  * @param storage_variable
  * @return int
  */
-int uname(char *storage_variable) {
+int uname(char *storage_variable)
+{
   FILE *fp;
   char path[1024];
 
   /* Open the command for reading. */
   fp = popen("/bin/uname --kernel-name --kernel-release", "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     printf("Failed to run command\n");
     return 1;
   }
@@ -254,7 +274,8 @@ int uname(char *storage_variable) {
   char buffer[1024] = "";
 
   /* Read the output a line at a time - output it. */
-  while (fgets(path, sizeof(path), fp) != NULL) {
+  while (fgets(path, sizeof(path), fp) != NULL)
+  {
     strcat(buffer, path);
   }
 
@@ -270,22 +291,27 @@ int uname(char *storage_variable) {
  *
  * @return The board name of the system.
  */
-static char *get_board_name() {
+static char *get_board_name()
+{
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
 
   fp = fopen("/sys/devices/virtual/dmi/id/board_name", "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     fprintf(stderr, "Failed to get '/sys/devices/virtual/dmi/id/board_name'\n");
     exit(1);
   }
 
-  if ((read = getline(&line, &len, fp)) != -1) {
+  if ((read = getline(&line, &len, fp)) != -1)
+  {
     fclose(fp);
-    for (register iterator i = 0; i < len; i++) {
-      if (line[i] == '\n') {
+    for (register iterator i = 0; i < len; i++)
+    {
+      if (line[i] == '\n')
+      {
         line[i] = '\0';
         break;
       }
@@ -302,22 +328,27 @@ static char *get_board_name() {
  *
  * @return The board vendor name.
  */
-static char *get_board_vendor() {
+static char *get_board_vendor()
+{
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
 
   fp = fopen("/sys/devices/virtual/dmi/id/board_vendor", "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     fprintf(stderr, "Failed to get '/sys/devices/virtual/dmi/id/board_name'\n");
     exit(1);
   }
 
-  if ((read = getline(&line, &len, fp)) != -1) {
+  if ((read = getline(&line, &len, fp)) != -1)
+  {
     fclose(fp);
-    for (register iterator i = 0; i < len; i++) {
-      if (line[i] == '\n') {
+    for (register iterator i = 0; i < len; i++)
+    {
+      if (line[i] == '\n')
+      {
         line[i] = '\0';
         break;
       }
@@ -334,7 +365,8 @@ static char *get_board_vendor() {
  *
  * @param storage_variable The variable to store the board model in.
  */
-void get_board_model(char *storage_variable) {
+void get_board_model(char *storage_variable)
+{
   char buffer[156];
   sprintf(buffer, "%s (%s)", get_board_name(), get_board_vendor());
   strcpy(storage_variable, buffer);
@@ -349,7 +381,8 @@ void get_board_model(char *storage_variable) {
  * @return The date of the file system's creation.
  */
 
-int get_creation_date(struct date *storage_variable) {
+int get_creation_date(struct date *storage_variable)
+{
 
   struct statx stx;
   statx(AT_FDCWD, "/", AT_STATX_SYNC_AS_STAT, STATX_BTIME, &stx);
@@ -367,29 +400,35 @@ int get_creation_date(struct date *storage_variable) {
   return 0;
 }
 
-char *get_username() {
+char *get_username()
+{
   char *buf = getenv("USER");
-  if (buf == NULL) {
+  if (buf == NULL)
+  {
     register uid_t uid = getuid();
     register struct passwd *pw = getpwuid(uid);
-    if (pw) {
+    if (pw)
+    {
       return pw->pw_name;
     }
   }
   return buf;
 }
 
-static packagecount get_num_packages_dpkg() {
+static packagecount get_num_packages_dpkg()
+{
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
   fp = popen("apt list --installed 2>/dev/null", "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     return 0;
   }
-  while ((read = getline(&line, &len, fp)) != -1) {
+  while ((read = getline(&line, &len, fp)) != -1)
+  {
     num_packages++;
   }
   pclose(fp);
@@ -400,81 +439,97 @@ static packagecount get_num_packages_dpkg() {
   return num_packages;
 }
 
-static packagecount get_num_packages_apk() {
+static packagecount get_num_packages_apk()
+{
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
   fp = popen("apk info 2> /dev/null", "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     return (0);
   }
-  while ((read = getline(&line, &len, fp)) != -1) {
+  while ((read = getline(&line, &len, fp)) != -1)
+  {
     num_packages++;
   }
   pclose(fp);
-  if (line) {
+  if (line)
+  {
     free(line);
   }
   return num_packages;
 }
 
-static packagecount get_num_packages_pacman() {
+static packagecount get_num_packages_pacman()
+{
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
   fp = popen("pacman -Q 2> /dev/null", "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     return (0);
   }
-  while ((read = getline(&line, &len, fp)) != -1) {
+  while ((read = getline(&line, &len, fp)) != -1)
+  {
     num_packages++;
   }
   pclose(fp);
-  if (line) {
+  if (line)
+  {
     free(line);
   }
   return num_packages;
 }
 
-static packagecount get_num_packages_flatpak() {
+static packagecount get_num_packages_flatpak()
+{
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
   unsigned long num_packages = 0;
   fp = popen("flatpak list 2> /dev/null", "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     return (0);
   }
-  while ((read = getline(&line, &len, fp)) != -1) {
+  while ((read = getline(&line, &len, fp)) != -1)
+  {
     num_packages++;
   }
   pclose(fp);
-  if (line) {
+  if (line)
+  {
     free(line);
   }
   return num_packages;
 }
 
-static packagecount get_num_packages_snap() {
+static packagecount get_num_packages_snap()
+{
   FILE *fp;
   char *line = NULL;
   size_t len = 0;
   ssize_t read;
   packagecount num_packages = 0;
   fp = popen("snap list 2> /dev/null", "r");
-  if (fp == NULL) {
+  if (fp == NULL)
+  {
     return (0);
   }
-  while ((read = getline(&line, &len, fp)) != -1) {
+  while ((read = getline(&line, &len, fp)) != -1)
+  {
     num_packages++;
   }
   pclose(fp);
-  if (line) {
+  if (line)
+  {
     free(line);
   }
   if (num_packages > 0)
@@ -483,9 +538,37 @@ static packagecount get_num_packages_snap() {
   }
   return num_packages;
 }
+void get_shell_name(char *storage_variable)
+{
+  int ppid = getppid();
+  char *token;
+  char process[1024] = "";
+  char *buf = NULL; /* declare a pointer, and initialize to NULL */
+  buf = malloc(MAXLINE * sizeof *buf);
+  if (!buf)
+  {
+    perror("malloc");
+    exit(EXIT_FAILURE);
+  }
+  sprintf(buf, "/proc/%d/exe", ppid);
+  while (strcmp(process, "") == 0)
+    if (readlink(buf, process, sizeof(process)) < 0)
+    {
+      perror("readlink");
+      exit(1);
+    }
+  free(buf);
+  char *rest = process;
+  while ((token = strtok_r(rest, "/", &rest)))
+  {
+    strcpy(storage_variable, token);
+  }
+}
 
-packagecount get_num_packages(unsigned short package_manager_id) {
-  switch (package_manager_id) {
+packagecount get_num_packages(unsigned short package_manager_id)
+{
+  switch (package_manager_id)
+  {
   case PACMAN_PACKAGE_MANAGER:
     return get_num_packages_pacman();
     break;
