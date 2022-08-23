@@ -21,6 +21,18 @@ Author: Aidan Neal <decator.c@proton.me>
 #include "cpu.h"
 #include "logo.h"
 
+static char os_name[256];
+static struct color col;
+static configuration config;
+
+static void initconfig()
+{
+  parse_config(&config);
+  col.ansi_id_color = config.IDCOLOR;
+  col.ansi_text_color = config.TXTCOLOR;
+  col.logo_color = config.LOGOCOLOR;
+}
+
 struct uptime formatted_uptime(long uptime)
 {
   struct uptime upt;
@@ -84,98 +96,92 @@ struct packages formatted_packages(packagecount pacman_packages,
   return pkgs;
 }
 
-int main()
+static void printos()
 {
-  configuration config;
-  struct color col;
-  struct packages pkgs;
-  parse_config(&config);
-  col.ansi_id_color = config.IDCOLOR;
-  col.ansi_text_color = config.TXTCOLOR;
-  col.logo_color = config.LOGOCOLOR;
-
-  unsigned int core_count = 0;
-  unsigned int thread_count = 0;
-  long uptime = 0;
-  float available_memory;
-  float used_memory = 0;
-  float total_memory = 0;
-  char hostname[256];
-  char cpu_model[100];
-  char os_name[256];
-  char kernel_version[256];
-  char unit[3];
-  char motherboard_info[256];
-  char shell[MAXLINE];
-  struct date rootfsage;
-
-  char *username = get_username();
-  core_count = get_core_count();
-  thread_count = get_thread_count();
-  available_memory = get_avalible_memory();
-  total_memory = get_total_memory();
-  uptime = get_uptime();
-  get_board_model(&motherboard_info);
-  used_memory = total_memory - available_memory;
-  get_hostname(hostname);
-  get_cpu_model(cpu_model);
-  get_shell_name(shell);
   if (get_operating_system_name_bedrock(os_name) == 1)
   {
     get_operating_system_name(os_name);
   }
 
-  if (uname(kernel_version))
+  printf("%sOS:%s\t\t%s%s (%s)%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, os_name, OPERATING_SYSTEM, COLOR_END);
+}
+
+static void printlogo()
+{
+
+  if (get_operating_system_name_bedrock(os_name) == 1)
   {
-    strcpy(kernel_version, "Unknown");
+    get_operating_system_name(os_name);
   }
-
-  if (get_creation_date(&rootfsage))
+  if (strcmp(os_name, "Arch Linux") == 0)
   {
-    fprintf(stderr, "Error getting rootfs age\n");
-    return 1;
+    printf("%s%s%s\n", col.logo_color, logo_arch, COLOR_END);
   }
-
-  struct uptime upt = formatted_uptime(uptime);
-  if (config.DISPLAY_LOGO)
+  else if (strstr(os_name, "Alpine Linux") != NULL)
   {
-    if (strcmp(os_name, "Arch Linux") == 0)
-    {
-      printf("%s%s%s\n", col.logo_color, logo_arch, COLOR_END);
-    }
-    else if (strstr(os_name, "Alpine Linux") != NULL)
-    {
-      printf("%s%s%s\n", col.logo_color, alpine_logo, COLOR_END);
-    }
-    else if (strstr(os_name, "Arco Linux") != NULL)
-    {
-      printf("%s%s%s\n", col.logo_color, arcolinux_logo, COLOR_END);
-    }
-    else if (strstr(os_name, "Aritx Linux") != NULL)
-    {
-      printf("%s%s%s\n", col.logo_color, artix_logo, COLOR_END);
-    }
-    else if (strstr(os_name, "Bedrock Linux") != NULL)
-    {
-      printf("%s%s%s\n", col.logo_color, bedrock_logo, COLOR_END);
-    }
-    else if (strstr(os_name, "Gentoo") != NULL)
-    {
-      printf("%s%s%s\n", col.logo_color, gentoo_logo, COLOR_END);
-    }
-    else if (strstr(os_name, "Ubuntu") != NULL)
-    {
-      printf("%s%s%s\n", col.logo_color, ubuntu_logo, COLOR_END);
-    }
-    else
-    {
-      printf("%s%s%s\n", col.logo_color, generic_logo, COLOR_END);
-    }
+    printf("%s%s%s\n", col.logo_color, alpine_logo, COLOR_END);
   }
+  else if (strstr(os_name, "Arco Linux") != NULL)
+  {
+    printf("%s%s%s\n", col.logo_color, arcolinux_logo, COLOR_END);
+  }
+  else if (strstr(os_name, "Aritx Linux") != NULL)
+  {
+    printf("%s%s%s\n", col.logo_color, artix_logo, COLOR_END);
+  }
+  else if (strstr(os_name, "Bedrock Linux") != NULL)
+  {
+    printf("%s%s%s\n", col.logo_color, bedrock_logo, COLOR_END);
+  }
+  else if (strstr(os_name, "Gentoo") != NULL)
+  {
+    printf("%s%s%s\n", col.logo_color, gentoo_logo, COLOR_END);
+  }
+  else if (strstr(os_name, "Ubuntu") != NULL)
+  {
+    printf("%s%s%s\n", col.logo_color, ubuntu_logo, COLOR_END);
+  }
+  else
+  {
+    printf("%s%s%s\n", col.logo_color, generic_logo, COLOR_END);
+  }
+}
 
-  /* Checking to display the memory in gigabytes or kilobytes. */
+static void printcpuinfo(bool extra)
+{
+  if (extra)
+  {
+    printf("%sEXTRA CPU INFO:%s%s Model number 0x%X, Family Value: 0x%X%s\n",
+           col.ansi_id_color, COLOR_END, col.ansi_text_color,
+           cpu_get_modelnum(), cpu_get_family_value(), COLOR_END);
+  }
+  else
+  {
+    char cpu_model[100];
+    unsigned int core_count = 0;
+    unsigned int thread_count = 0;
+    core_count = get_core_count();
+    thread_count = get_thread_count();
+    get_cpu_model(cpu_model);
+    printf("%sCPU:%s\t\t%s%s (%u cores, %u threads)%s\n", col.ansi_id_color,
+           COLOR_END, col.ansi_text_color, cpu_model, core_count, thread_count,
+           COLOR_END);
+  }
+}
 
-  if (config.USE_GIGABYTES)
+static void printmem(bool gigs)
+{
+  char unit[3];
+  float available_memory,
+      used_memory = 0,
+      total_memory = 0;
+
+  available_memory = get_avalible_memory();
+  total_memory = get_total_memory();
+  used_memory = total_memory - available_memory;
+
+  if (gigs)
   {
     used_memory = ((total_memory - available_memory) /
                    (float)KILOBYTE_GIGABYTE_CONVERSION);
@@ -186,152 +192,211 @@ int main()
   {
     strcpy(unit, "kB");
   }
+  printf("%sRAM:%s\t\t%s%.2f/%.2f %s%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, used_memory, total_memory, unit, COLOR_END);
+}
 
-  /* Checking if the user wants to display the CPU information. If they do, it
-  will print the CPU information. */
+static void printuser()
+{
+  char *username = get_username();
+  printf("%sUser:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, username, COLOR_END);
+}
+
+static void printshell()
+{
+  char shell[MAXLINE];
+
+  get_shell_name(shell);
+
+  printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, shell, COLOR_END);
+}
+
+static void printhostname()
+{
+  char hostname[256];
+  get_hostname(hostname);
+  printf("%sHostname:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, hostname, COLOR_END);
+}
+
+static void printboard()
+{
+  char motherboard_info[256];
+  get_board_model(&motherboard_info);
+  printf("%sMotherboard:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, motherboard_info, COLOR_END);
+}
+
+static void printrootfsbirth(bool format)
+{
+  struct date rootfsage;
+
+  if (get_creation_date(&rootfsage))
+  {
+    fprintf(stderr, "Error getting rootfs age\n");
+    exit(1);
+  }
+  printf("%sROOTFS BIRTH:%s%s\t", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color);
+  if (format)
+  {
+    printf("%d/%d/%d%s\n", rootfsage.year, rootfsage.month, rootfsage.day,
+           COLOR_END);
+  }
+  else
+  {
+    printf("%d/%d/%d%s\n", rootfsage.month, rootfsage.day, rootfsage.year,
+           COLOR_END);
+  }
+}
+
+static void printuptime()
+{
+  long uptime = get_uptime();
+  struct uptime upt = formatted_uptime(uptime);
+
+  printf("%sUptime:%s%s\t\t", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color);
+  if (upt.days > 0)
+  {
+    printf("%u days ", upt.days);
+  }
+  if (upt.hours > 0)
+  {
+    printf("%u hours ", upt.hours);
+  }
+  if (upt.minutes > 0)
+  {
+    printf("%u minutes ", upt.minutes);
+  }
+  if (upt.seconds > 0)
+  {
+    printf("%u seconds", upt.seconds);
+  }
+  printf("%s\n", COLOR_END);
+}
+
+static void printkernel()
+{
+  char kernel_version[256];
+
+  if (uname(kernel_version))
+  {
+    strcpy(kernel_version, "Unknown");
+  }
+  printf("%sKernel:%s\t\t%s%s%s", col.ansi_id_color, COLOR_END, col.ansi_text_color, kernel_version, COLOR_END);
+}
+
+static void printpackages()
+{
+  struct packages pkgs;
+  packagecount pacman_packages = 0;
+  packagecount apt_packages = 0;
+  packagecount apk_packages = 0;
+  packagecount flatpak_packages = 0;
+  packagecount snap_packages = 0;
+  flatpak_packages = get_num_packages(FLATPAK_PACKAGE_MANAGER);
+  snap_packages = get_num_packages(SNAP_PACKAGE_MANAGER);
+  pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
+  apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
+  apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
+  pkgs = formatted_packages(pacman_packages, apt_packages, apk_packages,
+                            flatpak_packages, snap_packages);
+  printf("%sPackages:%s\t%s", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color);
+  if (pkgs.pacman_packages > 0)
+  {
+    printf("%lu (Pacman) ", pkgs.pacman_packages);
+  }
+  if (pkgs.apt_packages > 0)
+  {
+    printf("%lu (Apt) ", pkgs.apt_packages);
+  }
+  if (pkgs.apk_packages > 0)
+  {
+    printf("%lu (Apk)", pkgs.apk_packages);
+  }
+  if (pkgs.flatpak_packages > 0)
+  {
+    printf("%lu (Flatpak)", pkgs.flatpak_packages);
+  }
+  if (pkgs.snap_packages > 0)
+  {
+    printf("%lu (Snap)", pkgs.snap_packages);
+  }
+  printf("%s\n", COLOR_END);
+}
+
+int main()
+{
+  initconfig();
+
+  if (config.DISPLAY_LOGO)
+  {
+    printlogo();
+  }
+
   if (config.DISPLAY_CPU_INFO)
   {
-    printf("%sCPU:%s\t\t%s%s (%u cores, %u threads)%s\n", col.ansi_id_color,
-           COLOR_END, col.ansi_text_color, cpu_model, core_count, thread_count,
-           COLOR_END);
+    printcpuinfo(false);
   }
 
   if (config.DISPLAY_ETC_CPU_INFO)
   {
-    printf("%sEXTRA CPU INFO:%s%s Model number 0x%X, Family Value: 0x%X%s\n",
-           col.ansi_id_color, COLOR_END, col.ansi_text_color,
-           cpu_get_modelnum(), cpu_get_family_value(), COLOR_END);
+    printcpuinfo(true);
   }
 
-  /* Checking if the user wants to display the memory information. If they do,
-  it will print the memory information. */
   if (config.DISPLAY_MEMORY_INFO)
   {
-    printf("%sRAM:%s\t\t%s%.2f/%.2f %s%s\n", col.ansi_id_color, COLOR_END,
-           col.ansi_text_color, used_memory, total_memory, unit, COLOR_END);
+    printmem(config.USE_GIGABYTES);
   }
 
-  /* Checking if the user wants to display the operating system information. If
-  they do, it will print the operating system information. */
   if (config.DISPLAY_OPERATING_SYSTEM)
   {
-    printf("%sOS:%s\t\t%s%s (%s)%s\n", col.ansi_id_color, COLOR_END,
-           col.ansi_text_color, os_name, OPERATING_SYSTEM, COLOR_END);
+    printos();
   }
 
   if (config.DISPLAY_USERNAME)
   {
-    printf("%sUser:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
-           col.ansi_text_color, username, COLOR_END);
+    printuser();
   }
 
   if (config.DISPLAY_SHELL)
   {
-    printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
-           col.ansi_text_color, shell, COLOR_END);
+    printshell();
   }
 
-  /* Checking if the user wants to display the hostname. If they do, it will
-   * print the hostname. */
   if (config.DISPLAY_HOSTNAME)
   {
-    printf("%sHostname:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END,
-           col.ansi_text_color, hostname, COLOR_END);
+    printhostname();
   }
 
   if (config.DISPLAY_MOTHERBOARD_INFO)
   {
-    printf("%sMotherboard:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END,
-           col.ansi_text_color, motherboard_info, COLOR_END);
+    printboard();
   }
 
-  /* Parsing the rootfsage string and printing the first 3 words. */
   if (config.DISPLAY_ROOTFS_BIRTHDAY)
   {
-    printf("%sROOTFS BIRTH:%s%s\t", col.ansi_id_color, COLOR_END,
-           col.ansi_text_color);
-    if (config.DISPLAY_DATES_YYYY_MM_DD)
-    {
-      printf("%d/%d/%d%s\n", rootfsage.year, rootfsage.month, rootfsage.day,
-             COLOR_END);
-    }
-    else
-    {
-      printf("%d/%d/%d%s\n", rootfsage.month, rootfsage.day, rootfsage.year,
-             COLOR_END);
-    }
-
-    /* This is checking if the user wants to display the uptime. If they do, it
-     * will print the uptime. */
-    if (config.DISPLAY_UPTIME)
-    {
-      printf("%sUptime:%s%s\t\t", col.ansi_id_color, COLOR_END,
-             col.ansi_text_color);
-      if (upt.days > 0)
-      {
-        printf("%u days ", upt.days);
-      }
-      if (upt.hours > 0)
-      {
-        printf("%u hours ", upt.hours);
-      }
-      if (upt.minutes > 0)
-      {
-        printf("%u minutes ", upt.minutes);
-      }
-      if (upt.seconds > 0)
-      {
-        printf("%u seconds", upt.seconds);
-      }
-      printf("%s\n", COLOR_END);
-    }
-
-    /* This is checking if the operating system is Linux and if the user wants
-    to display the kernel version. If both of these are true, it will print the
-    kernel version. */
-    if (strcmp(OPERATING_SYSTEM, "Linux") && config.DISPLAY_KERNEL_VERSION)
-    {
-      printf("%sKernel:%s\t\t%s", col.ansi_id_color, COLOR_END, kernel_version);
-    }
-
-    if (config.DISPLAY_PACKAGES)
-    {
-      packagecount pacman_packages = 0;
-      packagecount apt_packages = 0;
-      packagecount apk_packages = 0;
-      packagecount flatpak_packages = 0;
-      packagecount snap_packages = 0;
-      flatpak_packages = get_num_packages(FLATPAK_PACKAGE_MANAGER);
-      snap_packages = get_num_packages(SNAP_PACKAGE_MANAGER);
-      pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
-      apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
-      apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
-      pkgs = formatted_packages(pacman_packages, apt_packages, apk_packages,
-                                flatpak_packages, snap_packages);
-      printf("%sPackages:%s\t%s", col.ansi_id_color, COLOR_END,
-             col.ansi_text_color);
-      if (pkgs.pacman_packages > 0)
-      {
-        printf("%lu (Pacman) ", pkgs.pacman_packages);
-      }
-      if (pkgs.apt_packages > 0)
-      {
-        printf("%lu (Apt) ", pkgs.apt_packages);
-      }
-      if (pkgs.apk_packages > 0)
-      {
-        printf("%lu (Apk)", pkgs.apk_packages);
-      }
-      if (pkgs.flatpak_packages > 0)
-      {
-        printf("%lu (Flatpak)", pkgs.flatpak_packages);
-      }
-      if (pkgs.snap_packages > 0)
-      {
-        printf("%lu (Snap)", pkgs.snap_packages);
-      }
-      printf("%s\n", COLOR_END);
-    }
-    return 0;
+    printrootfsbirth(config.DISPLAY_DATES_YYYY_MM_DD);
   }
+
+  if (config.DISPLAY_UPTIME)
+  {
+    printuptime();
+  }
+
+  if (config.DISPLAY_KERNEL_VERSION)
+  {
+    printkernel();
+  }
+
+  if (config.DISPLAY_PACKAGES)
+  {
+    printpackages();
+  }
+  
+  return 0;
 }
