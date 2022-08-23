@@ -258,30 +258,16 @@ int get_hostname(char *storage_variable)
  * @param storage_variable
  * @return int
  */
-int uname(char *storage_variable)
+int kuname(char *storage_variable)
 {
-  FILE *fp;
-  char path[1024];
+  struct utsname unameData;
 
-  /* Open the command for reading. */
-  fp = popen("/bin/uname --kernel-name --kernel-release", "r");
-  if (fp == NULL)
+  if (uname(&unameData) != 0)
   {
-    printf("Failed to run command\n");
+    perror("Uname");
     return 1;
   }
-
-  char buffer[1024] = "";
-
-  /* Read the output a line at a time - output it. */
-  while (fgets(path, sizeof(path), fp) != NULL)
-  {
-    strcat(buffer, path);
-  }
-
-  /* close */
-  pclose(fp);
-  strcpy(storage_variable, buffer);
+  sprintf(storage_variable,"Linux %s",unameData.release);
   return 0;
 }
 
@@ -539,7 +525,7 @@ static packagecount get_num_packages_snap()
   return num_packages;
 }
 
-static void return_base(char *chararr, char* storage_variable)
+static void return_base(char *chararr, char *storage_variable)
 {
   char *token;
   char buff[MAXLINE];
@@ -549,7 +535,7 @@ static void return_base(char *chararr, char* storage_variable)
     strcpy(buff, token);
   }
   strcpy(storage_variable, buff);
-  return ;
+  return;
 }
 
 void get_shell_name(char *storage_variable)

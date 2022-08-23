@@ -57,6 +57,24 @@ all the C libraries out there. Ensure you're using `glibc` before complaining ab
 
 Now that we have all the dependencies present we can compile the project. The following instructions assume the bash shell, though these instructions will work with the *vast* majority of linux shells (everything you're likely to use).
 
+#### Compiling on Alpine
+
+Despite having previously noted that this program isn't validated to work when compiling
+using any stdlib other than `glibc`, i've provided some instructions to *hopefully* get
+the program to compile on a non-glibc using distro, Alpine.  
+
+qinfo uses `argp` for argument parsing. `argp` is a GNU extention to libc,
+and thus isn't usually present when not using glibc. To add the neccesarry headers,
+needed for compilation, run the following:
+
+```bash
+apk add argp-standalone
+```
+
+This is required because Alpine Linux uses the `musl` C library.
+
+You'll also need to install `gcc`, or symlink `clang` to it. You'll need `make` as well.
+
 ```bash
 git clone https://github.com/El-Wumbus/qinfo.git
 cd qinfo
@@ -73,15 +91,22 @@ makepkg -si
 
 ## Usage
 
-```bash
-$ qinfo
-CPU:            AMD Ryzen 5 5600X 6-Core Processor (6 cores, 12 threads)
-RAM:            10.24/31.27 GB
-OS:             Arch Linux (Linux)
-Motherboard:    B550 GAMING X V2 (Gigabyte Technology Co., Ltd.)
-Hostname:       Aidan-PC
-ROOTFS BIRTH:   5/14/2022
-Uptime:         1 days 14 hours 48 minutes 26 seconds
+```txt
+$ ./dist/qinfo -?
+Usage: qinfo [OPTION...] 
+qinfo -- A system info program. Get's system info and displays it.
+
+  -c, --config=CONFIG_FILE   Use this config file instead of the defualt
+                             location.
+  -s, --hide_warnings        Hide any non-critical warnings.
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+  -V, --version              Print program version
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+
+Report bugs to <decator.c@proton.me>.
 ```
 
 Anything printed here is configurable at `$HOME/.config/.qinfo.conf`. An example configuration looks like this:
@@ -99,6 +124,7 @@ DISPLAY_ROOTFS_BIRTHDAY = true ; Display the rootfs birthday
 DISPLAY_MOTHERBOARD_INFO = true ; Display motherboard info
 DISPLAY_LOGO = true ; Disable or Enable the logo display
 DISPLAY_USERNAME = true ; Display the username of the calling user
+DISPLAY_PACKAGES = false ; Display the number packages installed using various package managers.
 
 [Color]
 ; Availible Color Options:
@@ -141,10 +167,19 @@ The output with the above configuration looks like this:
 * Don’t change the formatting - Dont reformat or otherwise change the formatting of source code or documentation in the repo. Use the same formatting as the rest of the codebase.
 * Make documentation - If adding features or otherwise changing the user experience create documentation regarding the added or changed features.
 * Use space only indentation in all source code files with the sole execption of Makefile - Do not use tabs or any form of indentation other than spaces. Use 2 space indentation.
+#### Compiling on Alpine:
 
-## LICENSE
+Despite having previously noted that this program isn't validated to work when compiling
+using any stdlib other than `glibc`, i've provided some instructions to *hopefully* get
+the program to compile on a non-glibc using distro, Alpine.  
 
-[![GNU LGPLv3 Image](https://www.gnu.org/graphics/lgplv3-147x51.png)](https://www.gnu.org/licenses/lgpl-3.0.html)  
+qinfo uses `argp` for argument parsing. `argp` is a GNU extention to libc,
+and thus isn't present when not using glibc. To add the neccesarry headers,
+needed for compilation, run the following:
 
-qinfo is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation;
-either version 3 of the License, or (at your option) any later version.
+    ```bash
+    apk add argp-standalone
+    ```
+This is required because Alpine Linux uses the `musl` C library.
+
+You'll also need to install `gcc`, or symlink `clang` to it. You'll need `make` as well.

@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+const char *argp_program_version =
+  "qinfo 0.0.1";
+const char *argp_program_bug_address =
+  "<decator.c@proton.me>";
+
 static char *get_color(const char *value) {
   if (strcmp(value, "red") == 0) {
     return RED;
@@ -98,11 +103,7 @@ static int handler(void *user, const char *section, const char *name,
   return 1;
 }
 
-int parse_config(configuration *pconfig) {
-
-  char *homedir = getenv("HOME");
-  char CONFIG_FILE_NAME[MAX_PATH];
-  sprintf(CONFIG_FILE_NAME, "%s/.config/.qinfo.conf", homedir);
+int parse_config(configuration *pconfig, char* CONFIG_FILE_NAME) {
 
   configuration config;
 

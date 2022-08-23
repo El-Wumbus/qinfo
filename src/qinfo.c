@@ -25,12 +25,127 @@ static char os_name[256];
 static struct color col;
 static configuration config;
 
-static void initconfig()
+char CONFIG_FILE_NAME[MAX_PATH];
+static void initconfig(char * config_file)
 {
-  parse_config(&config);
+  parse_config(&config, config_file);
   col.ansi_id_color = config.IDCOLOR;
   col.ansi_text_color = config.TXTCOLOR;
   col.logo_color = config.LOGOCOLOR;
+}
+
+/* Program documentation. */
+static char doc[] =
+  "qinfo -- A system info program. Get's system info and displays it.";
+
+/* A description of the arguments we accept. */
+static char args_doc[] = "";
+
+/* Parse a single option. */
+static error_t parse_opt (int key, char *arg, struct argp_state *state)
+{
+  /* Get the input argument from argp_parse, which we
+     know is a pointer to our arguments structure. */
+  struct arguments *arguments = state->input;
+
+  switch (key)
+    {
+    case 's':
+      arguments->silent = true;
+      break;
+    case 'c':
+      arguments->config_file = arg;
+      break;
+
+    }
+  return 0;
+}
+
+/* Our argp parser. */
+static struct argp argp = { options, parse_opt, args_doc, doc };
+
+int main(int argc, char **argv)
+{
+  struct arguments arguments;
+
+  /* Default values. */
+  arguments.silent = false;
+  arguments.config_file = CONFIG_FILE_NAME;
+
+  /* Parse our arguments; every option seen by parse_opt will
+     be reflected in arguments. */
+  argp_parse (&argp, argc, argv, 0, 0, &arguments);
+  
+  char *homedir = getenv("HOME");
+  sprintf(CONFIG_FILE_NAME, "%s/.config/.qinfo.conf", homedir);
+  initconfig(arguments.config_file);
+
+  if (config.DISPLAY_LOGO)
+  {
+    printlogo();
+  }
+
+  if (config.DISPLAY_CPU_INFO)
+  {
+    printcpuinfo(false);
+  }
+
+  if (config.DISPLAY_ETC_CPU_INFO)
+  {
+    printcpuinfo(true);
+  }
+
+  if (config.DISPLAY_MEMORY_INFO)
+  {
+    printmem(config.USE_GIGABYTES);
+  }
+
+  if (config.DISPLAY_OPERATING_SYSTEM)
+  {
+    printos();
+  }
+
+  if (config.DISPLAY_USERNAME)
+  {
+    printuser();
+  }
+
+  if (config.DISPLAY_SHELL)
+  {
+    printshell();
+  }
+
+  if (config.DISPLAY_HOSTNAME)
+  {
+    printhostname();
+  }
+
+  if (config.DISPLAY_MOTHERBOARD_INFO)
+  {
+    printboard();
+  }
+
+  if (config.DISPLAY_ROOTFS_BIRTHDAY)
+  {
+    printrootfsbirth(config.DISPLAY_DATES_YYYY_MM_DD);
+  }
+
+  if (config.DISPLAY_UPTIME)
+  {
+    printuptime();
+  }
+
+  if (config.DISPLAY_KERNEL_VERSION)
+  {
+    printkernel();
+  }
+
+  if (config.DISPLAY_PACKAGES)
+  {
+    printpackages();
+  }
+
+  return 0;
 }
 
 static struct uptime formatted_uptime(long uptime)
@@ -47,10 +162,10 @@ static struct uptime formatted_uptime(long uptime)
 }
 
 static struct packages formatted_packages(packagecount pacman_packages,
-                                   packagecount apt_packages,
-                                   packagecount apk_packages,
-                                   packagecount flatpak_packages,
-                                   packagecount snap_packages)
+                                          packagecount apt_packages,
+                                          packagecount apk_packages,
+                                          packagecount flatpak_packages,
+                                          packagecount snap_packages)
 {
   struct packages pkgs;
   if (pacman_packages > 0)
@@ -282,11 +397,12 @@ static void printkernel()
 {
   char kernel_version[256];
 
-  if (uname(kernel_version))
+  if (kuname(kernel_version)!=0)
   {
     strcpy(kernel_version, "Unknown");
   }
-  printf("%sKernel:%s\t\t%s%s%s", col.ansi_id_color, COLOR_END, col.ansi_text_color, kernel_version, COLOR_END);
+
+  printf("%sKernel:%s\t\t%s%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, kernel_version, COLOR_END);
 }
 
 static void printpackages()
@@ -327,76 +443,4 @@ static void printpackages()
     printf("%lu (Snap)", pkgs.snap_packages);
   }
   printf("%s\n", COLOR_END);
-}
-
-int main()
-{
-  initconfig();
-
-  if (config.DISPLAY_LOGO)
-  {
-    printlogo();
-  }
-
-  if (config.DISPLAY_CPU_INFO)
-  {
-    printcpuinfo(false);
-  }
-
-  if (config.DISPLAY_ETC_CPU_INFO)
-  {
-    printcpuinfo(true);
-  }
-
-  if (config.DISPLAY_MEMORY_INFO)
-  {
-    printmem(config.USE_GIGABYTES);
-  }
-
-  if (config.DISPLAY_OPERATING_SYSTEM)
-  {
-    printos();
-  }
-
-  if (config.DISPLAY_USERNAME)
-  {
-    printuser();
-  }
-
-  if (config.DISPLAY_SHELL)
-  {
-    printshell();
-  }
-
-  if (config.DISPLAY_HOSTNAME)
-  {
-    printhostname();
-  }
-
-  if (config.DISPLAY_MOTHERBOARD_INFO)
-  {
-    printboard();
-  }
-
-  if (config.DISPLAY_ROOTFS_BIRTHDAY)
-  {
-    printrootfsbirth(config.DISPLAY_DATES_YYYY_MM_DD);
-  }
-
-  if (config.DISPLAY_UPTIME)
-  {
-    printuptime();
-  }
-
-  if (config.DISPLAY_KERNEL_VERSION)
-  {
-    printkernel();
-  }
-
-  if (config.DISPLAY_PACKAGES)
-  {
-    printpackages();
-  }
-  
-  return 0;
 }

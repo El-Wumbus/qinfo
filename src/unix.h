@@ -27,6 +27,7 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <string.h>
 #include <pwd.h>
 #include <fcntl.h>
+#include <sys/utsname.h>
 
 #define MAXLINE 12
 
@@ -106,7 +107,7 @@ int get_hostname(char *storage_variable);
  * @param storage_variable
  * @return int
  */
-int uname(char *storage_variable);
+int kuname(char *storage_variable);
 int get_rootfs_age(struct date *storage_variable);
 void get_board_model();
 
