@@ -94,7 +94,7 @@ makepkg -si
 ```txt
 $ ./dist/qinfo -?
 Usage: qinfo [OPTION...] 
-qinfo -- A system info program. Get's system info and displays it.
+qinfo -- A system info program. Gets system info and displays it.
 
   -c, --config=CONFIG_FILE   Use this config file instead of the defualt
                              location.

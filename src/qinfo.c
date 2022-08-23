@@ -36,7 +36,7 @@ static void initconfig(char * config_file)
 
 /* Program documentation. */
 static char doc[] =
-  "qinfo -- A system info program. Get's system info and displays it.";
+  "qinfo -- A system info program. Gets system info and displays it.";
 
 /* A description of the arguments we accept. */
 static char args_doc[] = "";
