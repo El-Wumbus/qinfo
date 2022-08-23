@@ -103,7 +103,7 @@ static int handler(void *user, const char *section, const char *name,
   return 1;
 }
 
-int parse_config(configuration *pconfig, char* CONFIG_FILE_NAME) {
+int parse_config(configuration *pconfig, char* CONFIG_FILE_NAME, bool silent) {
 
   configuration config;
 
@@ -128,7 +128,7 @@ int parse_config(configuration *pconfig, char* CONFIG_FILE_NAME) {
   config.LOGOCOLOR = WHT;
   
 
-  if (ini_parse(CONFIG_FILE_NAME, handler, &config) < 0) {
+  if (ini_parse(CONFIG_FILE_NAME, handler, &config) < 0 && !silent) {
     fprintf(stderr, "'%s' not found, not loading configuration\n",
             CONFIG_FILE_NAME);
   }

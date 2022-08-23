@@ -30,6 +30,6 @@ typedef struct {
   char *LOGOCOLOR;
 } configuration;
 
-int parse_config(configuration *pconfig, char *config_location);
+int parse_config(configuration *pconfig, char *config_location, bool silent);
 
 #endif /* CONFIG_H */

@@ -26,9 +26,9 @@ static struct color col;
 static configuration config;
 
 char CONFIG_FILE_NAME[MAX_PATH];
-static void initconfig(char * config_file)
+static void initconfig(char * config_file, bool silent)
 {
-  parse_config(&config, config_file);
+  parse_config(&config, config_file, silent);
   col.ansi_id_color = config.IDCOLOR;
   col.ansi_text_color = config.TXTCOLOR;
   col.logo_color = config.LOGOCOLOR;
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
   
   char *homedir = getenv("HOME");
   sprintf(CONFIG_FILE_NAME, "%s/.config/.qinfo.conf", homedir);
-  initconfig(arguments.config_file);
+  initconfig(arguments.config_file, arguments.silent);
 
   if (config.DISPLAY_LOGO)
   {
