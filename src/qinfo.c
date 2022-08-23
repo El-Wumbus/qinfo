@@ -106,6 +106,7 @@ int main()
   char kernel_version[256];
   char unit[3];
   char motherboard_info[256];
+  char shell[MAXLINE];
   struct date rootfsage;
 
   char *username = get_username();
@@ -115,10 +116,10 @@ int main()
   total_memory = get_total_memory();
   uptime = get_uptime();
   get_board_model(&motherboard_info);
-
   used_memory = total_memory - available_memory;
   get_hostname(hostname);
   get_cpu_model(cpu_model);
+  get_shell_name(shell);
   if (get_operating_system_name_bedrock(os_name) == 1)
   {
     get_operating_system_name(os_name);
@@ -224,6 +225,12 @@ int main()
            col.ansi_text_color, username, COLOR_END);
   }
 
+  if (config.DISPLAY_SHELL)
+  {
+    printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
+           col.ansi_text_color, shell, COLOR_END);
+  }
+
   /* Checking if the user wants to display the hostname. If they do, it will
    * print the hostname. */
   if (config.DISPLAY_HOSTNAME)
@@ -325,7 +332,6 @@ int main()
       }
       printf("%s\n", COLOR_END);
     }
-
     return 0;
   }
 }

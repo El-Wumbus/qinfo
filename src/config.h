@@ -24,6 +24,7 @@ typedef struct {
   bool DISPLAY_LOGO;
   bool DISPLAY_USERNAME;
   bool DISPLAY_PACKAGES;
+  bool DISPLAY_SHELL;
   char* IDCOLOR;
   char* TXTCOLOR;
   char *LOGOCOLOR;
