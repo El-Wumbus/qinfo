@@ -33,7 +33,7 @@ static void initconfig()
   col.logo_color = config.LOGOCOLOR;
 }
 
-struct uptime formatted_uptime(long uptime)
+static struct uptime formatted_uptime(long uptime)
 {
   struct uptime upt;
   /* Calculating the number of days, hours, minutes and seconds. */
@@ -46,7 +46,7 @@ struct uptime formatted_uptime(long uptime)
   return upt;
 }
 
-struct packages formatted_packages(packagecount pacman_packages,
+static struct packages formatted_packages(packagecount pacman_packages,
                                    packagecount apt_packages,
                                    packagecount apk_packages,
                                    packagecount flatpak_packages,

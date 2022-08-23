@@ -49,6 +49,22 @@ struct packages {
   packagecount snap_packages;
 };
 
-struct uptime formatted_uptime(long uptime);
-struct packages formatted_packages();
+static struct uptime formatted_uptime(long uptime);
+static struct packages formatted_packages();
+#define DISPLAYCOUNT 13
+
+#define DISPLAYLOGO 0
+#define DISPLAYCPUINFO 1
+#define DISPLAYETCCPUINFO 2
+#define DISPLAYMEMORYINFO 3
+#define DISPLAYOS 4
+#define DISPLAYUSERNAME 5
+#define DISPLAYSHELL 6
+#define DISPLAYHOSTNAME 7
+#define DISPLAYMOTHERBOARDINFO 8
+#define DISPLAYROOTBIRTH 9
+#define DISPLAYUPTIME 10
+#define DISPLAYKERNELVERSION 11
+#define DISPLAYPACKAGES 12
+
 #endif
