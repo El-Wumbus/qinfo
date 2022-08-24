@@ -167,19 +167,3 @@ The output with the above configuration looks like this:
 * Don’t change the formatting - Dont reformat or otherwise change the formatting of source code or documentation in the repo. Use the same formatting as the rest of the codebase.
 * Make documentation - If adding features or otherwise changing the user experience create documentation regarding the added or changed features.
 * Use space only indentation in all source code files with the sole execption of Makefile - Do not use tabs or any form of indentation other than spaces. Use 2 space indentation.
-#### Compiling on Alpine:
-
-Despite having previously noted that this program isn't validated to work when compiling
-using any stdlib other than `glibc`, i've provided some instructions to *hopefully* get
-the program to compile on a non-glibc using distro, Alpine.  
-
-qinfo uses `argp` for argument parsing. `argp` is a GNU extention to libc,
-and thus isn't present when not using glibc. To add the neccesarry headers,
-needed for compilation, run the following:
-
-    ```bash
-    apk add argp-standalone
-    ```
-This is required because Alpine Linux uses the `musl` C library.
-
-You'll also need to install `gcc`, or symlink `clang` to it. You'll need `make` as well.
