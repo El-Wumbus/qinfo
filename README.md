@@ -96,7 +96,7 @@ $ ./dist/qinfo -?
 Usage: qinfo [OPTION...] 
 qinfo -- A system info program. Gets system info and displays it.
 
-  -c, --config=CONFIG_FILE   Use this config file instead of the defualt
+  -c, --config=CONFIG_FILE    Use this config file instead of the defualt
                              location.
   -s, --hide_warnings        Hide any non-critical warnings.
   -?, --help                 Give this help list
