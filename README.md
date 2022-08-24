@@ -30,7 +30,7 @@ On Arch linux and Arch Linux based systems (systems with `pacman` and `makepkg`)
   yay -S qinfo-git
   ```
 
-* Manually:
+* Manually 😎:
 
   ```bash
    git clone https://aur.archlinux.org/qinfo-git.git
