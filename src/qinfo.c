@@ -21,12 +21,11 @@ Author: Aidan Neal <decator.c@proton.me>
 #include "cpu.h"
 #include "logo.h"
 
-static char os_name[256];
 static struct color col;
 static configuration config;
 
 char CONFIG_FILE_NAME[MAX_PATH];
-static void initconfig(char * config_file, bool silent)
+static void initconfig(char *config_file, bool silent)
 {
   parse_config(&config, config_file, silent);
   col.ansi_id_color = config.IDCOLOR;
@@ -36,33 +35,32 @@ static void initconfig(char * config_file, bool silent)
 
 /* Program documentation. */
 static char doc[] =
-  "qinfo -- A system info program. Gets system info and displays it.";
+    "qinfo -- A system info program. Gets system info and displays it.";
 
 /* A description of the arguments we accept. */
 static char args_doc[] = "";
 
 /* Parse a single option. */
-static error_t parse_opt (int key, char *arg, struct argp_state *state)
+static error_t parse_opt(int key, char *arg, struct argp_state *state)
 {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
   struct arguments *arguments = state->input;
 
   switch (key)
-    {
-    case 's':
-      arguments->silent = true;
-      break;
-    case 'c':
-      arguments->config_file = arg;
-      break;
-
-    }
+  {
+  case 's':
+    arguments->silent = true;
+    break;
+  case 'c':
+    arguments->config_file = arg;
+    break;
+  }
   return 0;
 }
 
 /* Our argp parser. */
-static struct argp argp = { options, parse_opt, args_doc, doc };
+static struct argp argp = {options, parse_opt, args_doc, doc};
 
 int main(int argc, char **argv)
 {
@@ -74,8 +72,8 @@ int main(int argc, char **argv)
 
   /* Parse our arguments; every option seen by parse_opt will
      be reflected in arguments. */
-  argp_parse (&argp, argc, argv, 0, 0, &arguments);
-  
+  argp_parse(&argp, argc, argv, 0, 0, &arguments);
+
   char *homedir = getenv("HOME");
   sprintf(CONFIG_FILE_NAME, "%s/.config/.qinfo.conf", homedir);
   initconfig(arguments.config_file, arguments.silent);
@@ -213,21 +211,24 @@ static struct packages formatted_packages(packagecount pacman_packages,
 
 static void printos()
 {
-  if (get_operating_system_name_bedrock(os_name) == 1)
+  char *os_name;
+  if ((os_name = get_operating_system_name_bedrock()) == NULL)
   {
-    get_operating_system_name(os_name);
+    os_name = get_operating_system_name();
   }
 
   printf("%sOS:%s\t\t%s%s (%s)%s\n", col.ansi_id_color, COLOR_END,
          col.ansi_text_color, os_name, OPERATING_SYSTEM, COLOR_END);
+  free(os_name);
 }
 
 static void printlogo()
 {
 
-  if (get_operating_system_name_bedrock(os_name) == 1)
+  char *os_name;
+  if ((os_name = get_operating_system_name_bedrock()) == NULL)
   {
-    get_operating_system_name(os_name);
+    os_name = get_operating_system_name();
   }
   if (strcmp(os_name, "Arch Linux") == 0)
   {
@@ -261,6 +262,7 @@ static void printlogo()
   {
     printf("%s%s%s\n", col.logo_color, generic_logo, COLOR_END);
   }
+  free(os_name);
 }
 
 static void printcpuinfo(bool extra)
@@ -273,15 +275,15 @@ static void printcpuinfo(bool extra)
   }
   else
   {
-    char cpu_model[100];
+    char *cpu_model = get_cpu_model();
     unsigned int core_count = 0;
     unsigned int thread_count = 0;
     core_count = get_core_count();
     thread_count = get_thread_count();
-    get_cpu_model(cpu_model);
     printf("%sCPU:%s\t\t%s%s (%u cores, %u threads)%s\n", col.ansi_id_color,
            COLOR_END, col.ansi_text_color, cpu_model, core_count, thread_count,
            COLOR_END);
+    free(cpu_model);
   }
 }
 
@@ -320,39 +322,34 @@ static void printuser()
 
 static void printshell()
 {
-  char shell[MAXLINE];
 
-  get_shell_name(shell);
+  char *shell = get_shell_name();
 
   printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
          col.ansi_text_color, shell, COLOR_END);
+  free(shell);
 }
 
 static void printhostname()
 {
-  char hostname[256];
-  get_hostname(hostname);
+  char *hostname = get_hostname();
   printf("%sHostname:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END,
          col.ansi_text_color, hostname, COLOR_END);
+  free(hostname);
 }
 
 static void printboard()
 {
-  char motherboard_info[256];
-  get_board_model(&motherboard_info);
+  char *motherboard_info = get_board_model();
   printf("%sMotherboard:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END,
          col.ansi_text_color, motherboard_info, COLOR_END);
+  free(motherboard_info);
 }
 
 static void printrootfsbirth(bool format)
 {
-  struct date rootfsage;
+  struct date rootfsage = get_creation_date();
 
-  if (get_creation_date(&rootfsage))
-  {
-    fprintf(stderr, "Error getting rootfs age\n");
-    exit(1);
-  }
   printf("%sROOTFS BIRTH:%s%s\t", col.ansi_id_color, COLOR_END,
          col.ansi_text_color);
   if (format)
@@ -395,14 +392,15 @@ static void printuptime()
 
 static void printkernel()
 {
-  char kernel_version[256];
+  char *kernel_version = kuname();
 
-  if (kuname(kernel_version)!=0)
+  if (kernel_version == NULL)
   {
     strcpy(kernel_version, "Unknown");
   }
 
   printf("%sKernel:%s\t\t%s%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, kernel_version, COLOR_END);
+  free(kernel_version);
 }
 
 static void printpackages()

@@ -154,7 +154,7 @@ long get_uptime()
  * @param storage_variable
  * @return int
  */
-int get_cpu_model(char *storage_variable)
+char *get_cpu_model()
 {
   /* Opening the file /proc/meminfo and assigning the file pointer to mem_info.
    */
@@ -165,20 +165,20 @@ int get_cpu_model(char *storage_variable)
   if (cpu_info == NULL)
   {
     fprintf(stderr, "Error: Could not open /proc/cpuinfo\n");
-    return 1;
+    exit(1);
   }
-  char *buffer;
-  buffer = (char *)malloc(sizeof(char) * 100);
+
+  char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
+
   /* Reading the file until it finds the line that starts with "model name:". */
   while (!fscanf(cpu_info, "model name\t: %99[^\n]", buffer))
     fscanf(cpu_info, "%*[^m]");
   fclose(cpu_info);
 
-  /* Copying the contents of the buffer into the storage_variable.
-     This fixes the returning pointer to a non-existant variable issue
-     that would occur when just returning the variable */
-  strcpy(storage_variable, buffer);
-  return 0;
+  char *cpuname = (char *)calloc((strlen(buffer) + 1), sizeof(char));
+  strcpy(cpuname, buffer);
+  free(buffer); // 🥲
+  return cpuname;
 }
 
 /**
@@ -186,43 +186,45 @@ int get_cpu_model(char *storage_variable)
  *
  * @return char*
  */
-int get_operating_system_name(char *storage_variable)
+char *get_operating_system_name()
 {
   FILE *os_info = fopen("/etc/os-release", "r");
 
   if (os_info == NULL)
   {
     fprintf(stderr, "Error: Could not open /etc/os-release\n");
-    return 1;
+    return NULL;
   }
 
-  char *os_name;
-  os_name = (char *)malloc(sizeof(char) * 128);
-  while (!fscanf(os_info, "PRETTY_NAME=\"%[^\"]\"", os_name))
+  char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
+  while (!fscanf(os_info, "PRETTY_NAME=\"%[^\"]\"", buffer))
     fscanf(os_info, "%*[^P]");
   fclose(os_info);
 
-  strcpy(storage_variable, os_name);
-  return 0;
+  char *osname = (char *)calloc((strlen(buffer) + 1), sizeof(char));
+  strcpy(osname, buffer);
+  free(buffer); // 🥲
+  return osname;
 }
 
-int get_operating_system_name_bedrock(char *storage_variable)
+char *get_operating_system_name_bedrock()
 {
   FILE *os_info = fopen("/bedrock/etc/os-release", "r");
 
   if (os_info == NULL)
   {
-    return 1;
+    return NULL;
   }
 
-  char *os_name;
-  os_name = (char *)malloc(sizeof(char) * 128);
-  while (!fscanf(os_info, "NAME=\"%[^\"]\"", os_name))
+  char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
+  while (!fscanf(os_info, "NAME=\"%[^\"]\"", buffer))
     fscanf(os_info, "%*[^P]");
   fclose(os_info);
 
-  strcpy(storage_variable, os_name);
-  return 0;
+  char *osname = (char *)calloc((strlen(buffer) + 1), sizeof(char));
+  strcpy(osname, buffer);
+  free(buffer); // 🥲
+  return osname;
 }
 
 /**
@@ -231,25 +233,25 @@ int get_operating_system_name_bedrock(char *storage_variable)
  * @param storage_variable
  * @return int
  */
-int get_hostname(char *storage_variable)
+char *get_hostname()
 {
   FILE *hostname_file = fopen("/proc/sys/kernel/hostname", "r");
 
   if (hostname_file == NULL)
   {
     fprintf(stderr, "Error: Could not open /proc/sys/kernel/hostname\n");
-    return 1;
+    exit(1);
   }
 
-  char *hostname;
-  hostname = (char *)malloc(sizeof(char) * 100);
-
-  while (!fscanf(hostname_file, "%99[^\n]", hostname))
+  char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
+  while (!fscanf(hostname_file, "%99[^\n]", buffer))
     fscanf(hostname_file, "%*[^\n]");
   fclose(hostname_file);
 
-  strcpy(storage_variable, hostname);
-  return 0;
+  char *hostname = (char *)calloc((strlen(buffer) + 1), sizeof(char));
+  strcpy(hostname, buffer);
+  free(buffer); // 🥲
+  return hostname;
 }
 
 /**
@@ -258,17 +260,22 @@ int get_hostname(char *storage_variable)
  * @param storage_variable
  * @return int
  */
-int kuname(char *storage_variable)
+char *kuname()
 {
   struct utsname unameData;
 
   if (uname(&unameData) != 0)
   {
     perror("Uname");
-    return 1;
+    return NULL;
   }
-  sprintf(storage_variable,"Linux %s",unameData.release);
-  return 0;
+  char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
+  sprintf(buffer, "Linux %s", unameData.release);
+
+  char *kernelrel = (char *)calloc((strlen(buffer) + 1), sizeof(char));
+  strcpy(kernelrel, buffer);
+  free(buffer); // 🥲
+  return kernelrel;
 }
 
 /**
@@ -351,11 +358,14 @@ static char *get_board_vendor()
  *
  * @param storage_variable The variable to store the board model in.
  */
-void get_board_model(char *storage_variable)
+char *get_board_model()
 {
-  char buffer[156];
+  char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
   sprintf(buffer, "%s (%s)", get_board_name(), get_board_vendor());
-  strcpy(storage_variable, buffer);
+  char *model = (char *)calloc((strlen(buffer) + 1), sizeof(char));
+  strcpy(model, buffer);
+  free(buffer); // 🥲
+  return model;
 }
 
 /**
@@ -366,8 +376,7 @@ void get_board_model(char *storage_variable)
  *
  * @return The date of the file system's creation.
  */
-
-int get_creation_date(struct date *storage_variable)
+struct date get_creation_date()
 {
 
   struct statx stx;
@@ -382,8 +391,7 @@ int get_creation_date(struct date *storage_variable)
 
   sscanf(buf, "%u %u %u", &fs_birthdate.year, &fs_birthdate.month,
          &fs_birthdate.day);
-  *storage_variable = fs_birthdate;
-  return 0;
+  return fs_birthdate;
 }
 
 char *get_username()
@@ -528,17 +536,18 @@ static packagecount get_num_packages_snap()
 static void return_base(char *chararr, char *storage_variable)
 {
   char *token;
-  char buff[MAXLINE];
+  char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
   char *rest = chararr;
   while ((token = strtok_r(rest, "/", &rest)))
   {
-    strcpy(buff, token);
+    strcpy(buffer, token);
   }
-  strcpy(storage_variable, buff);
+  strcpy(storage_variable, buffer);
+  free(buffer);
   return;
 }
 
-void get_shell_name(char *storage_variable)
+char *get_shell_name()
 {
   char *shell = getenv("0");
   if (shell != NULL)
@@ -547,33 +556,41 @@ void get_shell_name(char *storage_variable)
     {
       return_base(shell, shell);
     }
-    strcpy(storage_variable, shell);
-    return;
+    char *shellname = (char *)calloc((strlen(shell) + 1), sizeof(char));
+    strcpy(shellname, shell);
+    return shellname;
   }
 
   int ppid = getppid();
   char *token;
-  char process[1024] = "";
-  char *buf = NULL; /* declare a pointer, and initialize to NULL */
-  buf = malloc(MAXLINE * sizeof *buf);
-  if (!buf)
+  char *process = (char *)calloc(BUFFERSIZE, sizeof(char));
+  char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
+
+  if (!buffer)
   {
-    perror("malloc");
+    perror("calloc");
     exit(EXIT_FAILURE);
   }
-  sprintf(buf, "/proc/%d/exe", ppid);
+  sprintf(buffer, "/proc/%d/exe", ppid);
   while (strcmp(process, "") == 0)
-    if (readlink(buf, process, sizeof(process)) < 0)
+    if (readlink(buffer, process, BUFFERSIZE - 1) < 0)
     {
       perror("readlink");
       exit(1);
     }
-  free(buf);
+  free(buffer);
+
+  char *tokbuffer = (char *)calloc(BUFFERSIZE, sizeof(char));
   char *rest = process;
   while ((token = strtok_r(rest, "/", &rest)))
   {
-    strcpy(storage_variable, token);
+    strcpy(tokbuffer, token);
   }
+
+  char *shellname = (char *)calloc((strlen(tokbuffer) + 1), sizeof(char));
+  strcpy(shellname, tokbuffer);
+  free(tokbuffer); // 🥲
+  return shellname;
 }
 
 packagecount get_num_packages(unsigned short package_manager_id)

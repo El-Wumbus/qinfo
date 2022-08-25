@@ -30,6 +30,7 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <sys/utsname.h>
 
 #define MAXLINE 12
+#define BUFFERSIZE 4024
 
 #define PACMAN_PACKAGE_MANAGER 0
 #define APT_PACKAGE_MANAGER 1
@@ -37,12 +38,12 @@ Author: Aidan Neal <decator.c@proton.me>
 #define FLATPAK_PACKAGE_MANAGER 3
 #define SNAP_PACKAGE_MANAGER 4
 
-
 typedef unsigned short int iterator;
 typedef unsigned long int packagecount;
 typedef pid_t pid;
 
-struct date {
+struct date
+{
   unsigned int day;
   unsigned int month;
   unsigned int year;
@@ -84,14 +85,14 @@ long get_uptime();
  * @param storage_variable
  * @return int
  */
-int get_cpu_model(char *storage_variable);
+char *get_cpu_model();
 
 /**
  * @brief Get the operating system name
  *
  * @return char*
  */
-int get_operating_system_name(char *storage_variable);
+char *get_operating_system_name();
 
 /**
  * @brief Get the system hostname
@@ -99,7 +100,7 @@ int get_operating_system_name(char *storage_variable);
  * @param storage_variable
  * @return int
  */
-int get_hostname(char *storage_variable);
+char *get_hostname();
 
 /**
  * @brief return the output of the uname --kernel-name --kernel-release command
@@ -107,9 +108,9 @@ int get_hostname(char *storage_variable);
  * @param storage_variable
  * @return int
  */
-int kuname(char *storage_variable);
+char *kuname();
 int get_rootfs_age(struct date *storage_variable);
-void get_board_model();
+char *get_board_model();
 
 /**
  * It gets the creation date of the file system and stores it in a struct date
@@ -118,11 +119,10 @@ void get_board_model();
  *
  * @return The date of the file system's creation.
  */
-int get_creation_date(struct date *storage_variable);
+struct date get_creation_date();
 
 char *get_username();
-int get_operating_system_name_bedrock(char *storage_variable);
+char *get_operating_system_name_bedrock();
 packagecount get_num_packages(unsigned short package_manager_id);
-void get_shell_name();
-
+char *get_shell_name();
 #endif // UNIX_H

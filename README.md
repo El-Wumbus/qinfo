@@ -1,6 +1,6 @@
 # qinfo
 
-A Linux system info program. Fetches system info and displays it.  
+A Linux🐧 system info program. Fetches system info and displays it.  
 
 ## Feature Set
 
@@ -38,7 +38,7 @@ On Arch linux and Arch Linux based systems (systems with `pacman` and `makepkg`)
    makepkg -si
   ```
 
-### Compile *Manually*
+### Compile *Manually* 😎
 
 To get the source code of this software you'll need the `git` version control software.
 You probably already have it installed, you can check `git --version`.
@@ -155,10 +155,6 @@ DISPLAY_DATES = MDY ; supported formats are YMD (YYYY/MM/DD) and MDY(MM/DD/YYYY)
 ```
 
 If no configuration is found then this notice will appear above the defualt output: `$HOME/.config/.qinfo.conf' not found, not loading configuration`.
-
-The output with the above configuration looks like this:
-
-![configuration Screenshot](https://i.imgur.com/7hhoUpy.png)
 
 ## Contributing
 
