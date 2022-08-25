@@ -175,10 +175,8 @@ char *get_cpu_model()
     fscanf(cpu_info, "%*[^m]");
   fclose(cpu_info);
 
-  char *cpuname = (char *)calloc((strlen(buffer) + 1), sizeof(char));
-  strcpy(cpuname, buffer);
-  free(buffer); // 🥲
-  return cpuname;
+  buffer = (char *)realloc(buffer, (strlen(buffer) + 1) * sizeof(char));
+  return buffer;
 }
 
 /**
@@ -201,10 +199,8 @@ char *get_operating_system_name()
     fscanf(os_info, "%*[^P]");
   fclose(os_info);
 
-  char *osname = (char *)calloc((strlen(buffer) + 1), sizeof(char));
-  strcpy(osname, buffer);
-  free(buffer); // 🥲
-  return osname;
+  buffer = (char *)realloc(buffer, (strlen(buffer) + 1) * sizeof(char));
+  return buffer;
 }
 
 char *get_operating_system_name_bedrock()
@@ -221,10 +217,8 @@ char *get_operating_system_name_bedrock()
     fscanf(os_info, "%*[^P]");
   fclose(os_info);
 
-  char *osname = (char *)calloc((strlen(buffer) + 1), sizeof(char));
-  strcpy(osname, buffer);
-  free(buffer); // 🥲
-  return osname;
+  buffer = (char *)realloc(buffer, (strlen(buffer) + 1) * sizeof(char));
+  return buffer;
 }
 
 /**
@@ -248,10 +242,8 @@ char *get_hostname()
     fscanf(hostname_file, "%*[^\n]");
   fclose(hostname_file);
 
-  char *hostname = (char *)calloc((strlen(buffer) + 1), sizeof(char));
-  strcpy(hostname, buffer);
-  free(buffer); // 🥲
-  return hostname;
+  buffer = (char *)realloc(buffer, (strlen(buffer) + 1) * sizeof(char));
+  return buffer;
 }
 
 /**
@@ -272,10 +264,8 @@ char *kuname()
   char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
   sprintf(buffer, "Linux %s", unameData.release);
 
-  char *kernelrel = (char *)calloc((strlen(buffer) + 1), sizeof(char));
-  strcpy(kernelrel, buffer);
-  free(buffer); // 🥲
-  return kernelrel;
+  buffer = (char *)realloc(buffer, (strlen(buffer) + 1) * sizeof(char));
+  return buffer;
 }
 
 /**
@@ -362,10 +352,8 @@ char *get_board_model()
 {
   char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
   sprintf(buffer, "%s (%s)", get_board_name(), get_board_vendor());
-  char *model = (char *)calloc((strlen(buffer) + 1), sizeof(char));
-  strcpy(model, buffer);
-  free(buffer); // 🥲
-  return model;
+  buffer = (char *)realloc(buffer, (strlen(buffer) + 1) * sizeof(char));
+  return buffer;
 }
 
 /**
@@ -587,10 +575,8 @@ char *get_shell_name()
     strcpy(tokbuffer, token);
   }
 
-  char *shellname = (char *)calloc((strlen(tokbuffer) + 1), sizeof(char));
-  strcpy(shellname, tokbuffer);
-  free(tokbuffer); // 🥲
-  return shellname;
+  tokbuffer = (char *)realloc(tokbuffer, (strlen(tokbuffer) + 1) * sizeof(char));
+  return tokbuffer;
 }
 
 packagecount get_num_packages(unsigned short package_manager_id)
