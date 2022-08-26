@@ -368,7 +368,7 @@ struct date get_creation_date()
 {
 
   struct statx stx;
-  statx(AT_FDCWD, "/", AT_STATX_SYNC_AS_STAT, STATX_BTIME, &stx);
+  mstatx(AT_FDCWD, "/", AT_STATX_SYNC_AS_STAT, STATX_BTIME, &stx);
   time_t epochtime = stx.stx_btime.tv_sec;
   struct tm t;
   char buf[11];

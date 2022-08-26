@@ -4,7 +4,7 @@
 #include <string.h>
 
 const char *argp_program_version =
-  "qinfo 0.0.1";
+  VERSION;
 const char *argp_program_bug_address =
   "<decator.c@proton.me>";
 

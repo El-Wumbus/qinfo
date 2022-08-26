@@ -20,6 +20,6 @@
 #define __NR_statx -1
 #endif
 
-extern ssize_t statx(int dfd, const char *filename,
+extern ssize_t mstatx(int dfd, const char *filename,
                                              unsigned flags, unsigned int mask,
                                              struct statx *buffer);

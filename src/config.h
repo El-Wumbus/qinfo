@@ -6,7 +6,7 @@
 #include "color.h"
 #define MAX_PATH 2048
 #define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
-
+#define VERSION "qinfo 0.0.1"
 /* A macro that compares the section and name to the strings passed in. */
 
 typedef struct {
