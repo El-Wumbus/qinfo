@@ -109,7 +109,6 @@ char *get_hostname();
  * @return int
  */
 char *kuname();
-int get_rootfs_age(struct date *storage_variable);
 char *get_board_model();
 
 /**
