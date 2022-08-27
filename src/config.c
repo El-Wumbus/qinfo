@@ -131,6 +131,7 @@ int parse_config(configuration *pconfig, char* CONFIG_FILE_NAME, bool silent) {
   if (ini_parse(CONFIG_FILE_NAME, handler, &config) < 0 && !silent) {
     fprintf(stderr, "'%s' not found, not loading configuration\n",
             CONFIG_FILE_NAME);
+  return 1;
   }
 
   *pconfig = config;
