@@ -262,7 +262,7 @@ char *kuname()
     return NULL;
   }
   char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
-  sprintf(buffer, "Linux %s", unameData.release);
+  sprintf(buffer, "%s %s",unameData.sysname, unameData.release);
 
   buffer = (char *)realloc(buffer, (strlen(buffer) + 1) * sizeof(char));
   return buffer;
