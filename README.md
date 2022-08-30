@@ -15,7 +15,8 @@ A Linux🐧 system info program. Fetches system info and displays it.
 * Show formatted uptime
 * Runtime ini configuration parsing (using [inih](https://github.com/benhoyt/inih))
 * Show number of installed packages
-* Print kernel version
+* Print kernel name and release
+* Print disk usage
   
 ## How to install
 
