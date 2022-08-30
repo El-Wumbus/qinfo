@@ -26,12 +26,15 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <stdlib.h>
 #include <argp.h>
 
+
 #define SECOND_DAY_CONVERSION 86400 // Number of seconds in a day
 #define SECOND_HOUR_CONVERSION 3600 // Number of seconds in an hour
 #define SECOND_MINUTE_CONVERSION 60 // Number of seconds in a minute
 #define HOUR_DAY_CONVERSION 24      // Number of hours in a day
 #define MINUTE_HOUR_CONVERSION 60   // Number of minutes in an hour
 
+#define BYTE_GIGABYTE_CONVERSION 1073741824L
+#define BYTE_KILOBYTE_CONVERSION 1024
 #define KILOBYTE_GIGABYTE_CONVERSION 1048576 // Number of kilobytes in a gigabyte
 
 struct uptime
@@ -50,6 +53,7 @@ struct packages
   packagecount flatpak_packages;
   packagecount snap_packages;
 };
+
 
 /* Used by main to communicate with parse_opt. */
 
@@ -81,5 +85,6 @@ static void printrootfsbirth(bool format);
 static void printuptime();
 static void printkernel();
 static void printpackages();
+static void printdiskinfo(bool gigs);
 
 #endif

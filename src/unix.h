@@ -21,13 +21,14 @@ Author: Aidan Neal <decator.c@proton.me>
 
 #include <ctype.h>
 #include <errno.h>
-#include "statx.h"
+#include "statx.h" // Statx syscall
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <pwd.h>
 #include <fcntl.h>
-#include <sys/utsname.h>
+#include <sys/utsname.h> // Uname Syscall
+#include <sys/statvfs.h>
 
 #define MAXLINE 12
 #define BUFFERSIZE 4024
@@ -124,4 +125,5 @@ char *get_username();
 char *get_operating_system_name_bedrock();
 packagecount get_num_packages(unsigned short package_manager_id);
 char *get_shell_name();
+struct statvfs df(const char* path);
 #endif // UNIX_H

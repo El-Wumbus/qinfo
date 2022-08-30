@@ -20,6 +20,7 @@ Author: Aidan Neal <decator.c@proton.me>
 #include "qinfo.h"
 #include "cpu.h"
 #include "logo.h"
+#include <math.h> // Rounding
 
 static struct color col;
 static configuration config;
@@ -138,11 +139,16 @@ int main(int argc, char **argv)
     printkernel();
   }
 
+  if (config.DISPLAY_DISK_USAGE)
+  {
+    printdiskinfo(config.USE_GIGABYTES);
+  }
+
   if (config.DISPLAY_PACKAGES)
   {
     printpackages();
   }
-
+  
   return 0;
 }
 
@@ -242,7 +248,7 @@ static void printlogo()
   {
     printf("%s%s%s\n", col.logo_color, arcolinux_logo, COLOR_END);
   }
-  else if (strstr(os_name, "Aritx Linux") != NULL)
+  else if (strcmp(os_name, "Aritx Linux") == 0)
   {
     printf("%s%s%s\n", col.logo_color, artix_logo, COLOR_END);
   }
@@ -394,7 +400,7 @@ static void printkernel()
 {
   char *kernel_version = kuname();
 
-  if (kernel_version == NULL)
+  if (strcmp(kernel_version, "") == 0)
   {
     strcpy(kernel_version, "Unknown");
   }
@@ -441,4 +447,68 @@ static void printpackages()
     printf("%lu (Snap)", pkgs.snap_packages);
   }
   printf("%s\n", COLOR_END);
+}
+
+static void printdiskinfo(bool gigs)
+{
+  /*
+   * WARNING: I didnt put much thought into this function, feel free go ahead and fix it.
+   **/
+
+  char unit[3];
+  struct statvfs info = df("/");
+  struct statvfs homeinfo = df("/home");
+  bool home = true;
+
+  if (info.f_fsid == homeinfo.f_fsid)
+  {
+    home = false;
+  }
+
+  float totalbytes = info.f_bsize * info.f_blocks,
+        avaliblebytes = info.f_bsize * info.f_bavail,
+        usedbytes = totalbytes - avaliblebytes;
+  signed int usageprecentage = round(100 * (((float)totalbytes - avaliblebytes) / (((float)totalbytes + avaliblebytes) / 2.0)));
+  float total, used;
+
+  if (gigs)
+  {
+    total = roundf(totalbytes / BYTE_GIGABYTE_CONVERSION);
+    used = (usedbytes / BYTE_GIGABYTE_CONVERSION);
+    strcpy(unit, "GB");
+  }
+  else
+  {
+    total = roundf(totalbytes / BYTE_KILOBYTE_CONVERSION);
+    used = (usedbytes / BYTE_KILOBYTE_CONVERSION);
+    strcpy(unit, "kB");
+  }
+
+  printf("%sRoot Usage:%s\t%s%.2f/%.0f %s (%d%%)%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, used, total, unit, usageprecentage, COLOR_END);
+
+  if (!home)
+  {
+    return;
+  }
+
+  float hometotalbytes = homeinfo.f_bsize * homeinfo.f_blocks,
+        homeavaliblebytes = homeinfo.f_bsize * homeinfo.f_bavail,
+        homeusedbytes = hometotalbytes - homeavaliblebytes;
+  signed int homeusageprecentage = round(100 * (((float)hometotalbytes - homeavaliblebytes) / (((float)hometotalbytes + homeavaliblebytes) / 2.0)));
+  float hometotal, homeused;
+
+  if (gigs)
+  {
+    hometotal = roundf(hometotalbytes / BYTE_GIGABYTE_CONVERSION);
+    homeused = (homeusedbytes / BYTE_GIGABYTE_CONVERSION);
+  }
+  else
+  {
+    hometotal = roundf(hometotalbytes / BYTE_KILOBYTE_CONVERSION);
+    homeused = (homeusedbytes / BYTE_KILOBYTE_CONVERSION);
+  }
+
+  printf("%sHome Usage:%s\t%s%.2f/%.0f %s (%d%%)%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, homeused, hometotal, unit, homeusageprecentage, COLOR_END);
 }

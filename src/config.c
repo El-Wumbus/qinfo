@@ -97,6 +97,8 @@ static int handler(void *user, const char *section, const char *name,
     pconfig->DISPLAY_USERNAME = (strcmp(value, "true") == 0) ? true : false;
   } else if (MATCH("Display", "DISPLAY_SHELL")) {
     pconfig->DISPLAY_SHELL = (strcmp(value, "true") == 0) ? true : false;
+  } else if (MATCH("Display", "DISPLAY_DISK_USAGE")) {
+    pconfig->DISPLAY_DISK_USAGE = (strcmp(value, "true") == 0) ? true : false;
   } 
   else {
   }
@@ -123,6 +125,7 @@ int parse_config(configuration *pconfig, char* CONFIG_FILE_NAME, bool silent) {
   config.DISPLAY_USERNAME = true;
   config.DISPLAY_PACKAGES = true;
   config.DISPLAY_SHELL = true;
+  config.DISPLAY_DISK_USAGE = true;
   config.IDCOLOR = BWHT;
   config.TXTCOLOR = WHT;
   config.LOGOCOLOR = WHT;

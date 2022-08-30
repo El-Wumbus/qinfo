@@ -259,7 +259,7 @@ char *kuname()
   if (uname(&unameData) != 0)
   {
     perror("Uname");
-    return NULL;
+    return "";
   }
   char *buffer = (char *)calloc(BUFFERSIZE, sizeof(char));
   sprintf(buffer, "%s %s",unameData.sysname, unameData.release);
@@ -600,4 +600,16 @@ packagecount get_num_packages(unsigned short package_manager_id)
     break;
   }
   return 0;
+}
+
+struct statvfs df(const char* path)
+{
+  struct statvfs stat;
+
+  if (statvfs(path, &stat) != 0) {
+    perror("statvfs");
+    exit(1);
+  }
+
+  return stat;
 }
