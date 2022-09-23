@@ -25,6 +25,7 @@ Author: Aidan Neal <decator.c@proton.me>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <pwd.h>
 #include <fcntl.h>
 #include <sys/utsname.h> // Uname Syscall
@@ -32,17 +33,19 @@ Author: Aidan Neal <decator.c@proton.me>
 
 #define MAXLINE 12
 #define BUFFERSIZE 4024
-
 #define PACMAN_PACKAGE_MANAGER 0
 #define APT_PACKAGE_MANAGER 1
 #define APK_PACKAGE_MANAGER 2
 #define FLATPAK_PACKAGE_MANAGER 3
 #define SNAP_PACKAGE_MANAGER 4
 
-typedef unsigned short int iterator;
+#define BYTE_GIGABYTE_CONVERSION 1073741824L
+#define BYTE_KILOBYTE_CONVERSION 1024
+#define KILOBYTE_GIGABYTE_CONVERSION 1048576 // Number of kilobytes in a gigabyte
+
+typedef unsigned short int iter;
 typedef unsigned long int packagecount;
 typedef pid_t pid;
-
 struct date
 {
   unsigned int day;
@@ -50,80 +53,20 @@ struct date
   unsigned int year;
 };
 
-/**
- * @brief Get the number of cores
- *
- * @return unsigned int
- */
-unsigned int get_core_count();
-
-/**
- * @brief Get the thread count
- *
- * @return unsigned int
- */
-unsigned int get_thread_count();
-
-/**
- * @brief Get the total memory
- *
- * @return unsigned int
- */
-int get_total_memory();
-
-/**
- * @brief Get the avalible memory
- *
- * @return int
- */
-int get_avalible_memory();
-
-long get_uptime();
-
-/**
- * @brief Get the cpu model object
- *
- * @param storage_variable
- * @return int
- */
-char *get_cpu_model();
-
-/**
- * @brief Get the operating system name
- *
- * @return char*
- */
-char *get_operating_system_name();
-
-/**
- * @brief Get the system hostname
- *
- * @param storage_variable
- * @return int
- */
-char *get_hostname();
-
-/**
- * @brief return the output of the uname --kernel-name --kernel-release command
- *
- * @param storage_variable
- * @return int
- */
-char *kuname();
-char *get_board_model();
-
-/**
- * It gets the creation date of the file system and stores it in a struct date
- *
- * @param storage_variable A pointer to a struct date variable that will be used to
- *
- * @return The date of the file system's creation.
- */
-struct date get_creation_date();
-
-char *get_username();
-char *get_operating_system_name_bedrock();
+unsigned int get_core_count(void);
+unsigned int get_thread_count(void);
+int get_total_memory(void);
+int get_avalible_memory(void);
+long get_uptime(void);
+size_t get_cpu_model(char * dest);
+size_t get_hostname(char *dest);
+size_t get_kernel_release(char *dest);
+size_t get_operating_system_name(char *dest);
+size_t get_board_model(char* dest);
+struct date get_creation_date(void);
+char *get_username(void);
 packagecount get_num_packages(unsigned short package_manager_id);
-char *get_shell_name();
-struct statvfs df(const char* path);
+size_t get_shell_name(char *dest);
+unsigned short get_disk_usage(char **dest, bool gigs);
+
 #endif // UNIX_H

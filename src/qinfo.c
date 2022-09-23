@@ -1,6 +1,6 @@
 
 /* qinfo -- Query (Quick) info fetches system info and displays it.
-Author: Aidan Neal <decator.c@proton.me>
+  Author: Aidan Neal <decator.c@proton.me>
   qinfo is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
     License as published by the Free Software Foundation; either
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
   {
     printpackages();
   }
-  
+
   return 0;
 }
 
@@ -215,13 +215,15 @@ static struct packages formatted_packages(packagecount pacman_packages,
   return pkgs;
 }
 
+static char *new_string()
+{
+  return malloc(BUFFERSIZE * sizeof(char));
+}
+
 static void printos()
 {
-  char *os_name;
-  if ((os_name = get_operating_system_name_bedrock()) == NULL)
-  {
-    os_name = get_operating_system_name();
-  }
+  char *os_name = new_string();
+  os_name = realloc(os_name, get_operating_system_name(os_name));
 
   printf("%sOS:%s\t\t%s%s (%s)%s\n", col.ansi_id_color, COLOR_END,
          col.ansi_text_color, os_name, OPERATING_SYSTEM, COLOR_END);
@@ -231,11 +233,9 @@ static void printos()
 static void printlogo()
 {
 
-  char *os_name;
-  if ((os_name = get_operating_system_name_bedrock()) == NULL)
-  {
-    os_name = get_operating_system_name();
-  }
+  char *os_name = new_string();
+  os_name = realloc(os_name, get_operating_system_name(os_name));
+
   if (strcmp(os_name, "Arch Linux") == 0)
   {
     printf("%s%s%s\n", col.logo_color, logo_arch, COLOR_END);
@@ -281,7 +281,9 @@ static void printcpuinfo(bool extra)
   }
   else
   {
-    char *cpu_model = get_cpu_model();
+    char *cpu_model = new_string();
+    cpu_model = realloc(cpu_model, get_cpu_model(cpu_model));
+
     unsigned int core_count = 0;
     unsigned int thread_count = 0;
     core_count = get_core_count();
@@ -328,9 +330,8 @@ static void printuser()
 
 static void printshell()
 {
-
-  char *shell = get_shell_name();
-
+  char *shell = new_string();
+  shell = realloc(shell, get_shell_name(shell));
   printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END,
          col.ansi_text_color, shell, COLOR_END);
   free(shell);
@@ -338,7 +339,8 @@ static void printshell()
 
 static void printhostname()
 {
-  char *hostname = get_hostname();
+  char *hostname = malloc(sizeof(char) * BUFFERSIZE);
+  hostname = realloc(hostname, get_hostname(hostname));
   printf("%sHostname:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END,
          col.ansi_text_color, hostname, COLOR_END);
   free(hostname);
@@ -346,7 +348,9 @@ static void printhostname()
 
 static void printboard()
 {
-  char *motherboard_info = get_board_model();
+  char *motherboard_info = new_string();
+  motherboard_info = realloc(motherboard_info, get_board_model(motherboard_info));
+
   printf("%sMotherboard:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END,
          col.ansi_text_color, motherboard_info, COLOR_END);
   free(motherboard_info);
@@ -398,7 +402,8 @@ static void printuptime()
 
 static void printkernel()
 {
-  char *kernel_version = kuname();
+  char *kernel_version = new_string();
+  kernel_version = realloc(kernel_version, get_kernel_release(kernel_version));
 
   if (strcmp(kernel_version, "") == 0)
   {
@@ -412,18 +417,12 @@ static void printkernel()
 static void printpackages()
 {
   struct packages pkgs;
-  packagecount pacman_packages = 0;
-  packagecount apt_packages = 0;
-  packagecount apk_packages = 0;
-  packagecount flatpak_packages = 0;
-  packagecount snap_packages = 0;
-  flatpak_packages = get_num_packages(FLATPAK_PACKAGE_MANAGER);
-  snap_packages = get_num_packages(SNAP_PACKAGE_MANAGER);
-  pacman_packages = get_num_packages(PACMAN_PACKAGE_MANAGER);
-  apt_packages = get_num_packages(APT_PACKAGE_MANAGER);
-  apk_packages = get_num_packages(APK_PACKAGE_MANAGER);
-  pkgs = formatted_packages(pacman_packages, apt_packages, apk_packages,
-                            flatpak_packages, snap_packages);
+  pkgs = formatted_packages(get_num_packages(PACMAN_PACKAGE_MANAGER),
+                            get_num_packages(APT_PACKAGE_MANAGER),
+                            get_num_packages(APK_PACKAGE_MANAGER),
+                            get_num_packages(FLATPAK_PACKAGE_MANAGER),
+                            get_num_packages(SNAP_PACKAGE_MANAGER));
+
   printf("%sPackages:%s\t%s", col.ansi_id_color, COLOR_END,
          col.ansi_text_color);
   if (pkgs.pacman_packages > 0)
@@ -451,64 +450,23 @@ static void printpackages()
 
 static void printdiskinfo(bool gigs)
 {
-  /*
-   * WARNING: I didnt put much thought into this function, feel free go ahead and fix it.
-   **/
+  char **data = calloc(2, sizeof(char *));
+  // if there's data in the second array, 'home' will be '1'.
+  // Otherwise 'home' will be '0'.
+  short int home = get_disk_usage(data, gigs);
+  printf("%sRoot Usage:%s\t%s%s%s\n", col.ansi_id_color, COLOR_END,
+         col.ansi_text_color, data[0], COLOR_END);
 
-  char unit[3];
-  struct statvfs info = df("/");
-  struct statvfs homeinfo = df("/home");
-  bool home = true;
-
-  if (info.f_fsid == homeinfo.f_fsid)
+  if (home)
   {
-    home = false;
+    printf("%sHome Usage:%s\t%s%s%s\n", col.ansi_id_color, COLOR_END,
+           col.ansi_text_color, data[1], COLOR_END);
   }
 
-  float totalbytes = info.f_bsize * info.f_blocks,
-        avaliblebytes = info.f_bsize * info.f_bavail,
-        usedbytes = totalbytes - avaliblebytes;
-  signed int usageprecentage = round(100 * (((float)totalbytes - avaliblebytes) / (((float)totalbytes + avaliblebytes) / 2.0)));
-  float total, used;
-
-  if (gigs)
+  for (iter i = 0; i < 2; i++)
   {
-    total = roundf(totalbytes / BYTE_GIGABYTE_CONVERSION);
-    used = (usedbytes / BYTE_GIGABYTE_CONVERSION);
-    strcpy(unit, "GB");
-  }
-  else
-  {
-    total = roundf(totalbytes / BYTE_KILOBYTE_CONVERSION);
-    used = (usedbytes / BYTE_KILOBYTE_CONVERSION);
-    strcpy(unit, "kB");
+    free(data[i]);
   }
 
-  printf("%sRoot Usage:%s\t%s%.2f/%.0f %s (%d%%)%s\n", col.ansi_id_color, COLOR_END,
-         col.ansi_text_color, used, total, unit, usageprecentage, COLOR_END);
-
-  if (!home)
-  {
-    return;
-  }
-
-  float hometotalbytes = homeinfo.f_bsize * homeinfo.f_blocks,
-        homeavaliblebytes = homeinfo.f_bsize * homeinfo.f_bavail,
-        homeusedbytes = hometotalbytes - homeavaliblebytes;
-  signed int homeusageprecentage = round(100 * (((float)hometotalbytes - homeavaliblebytes) / (((float)hometotalbytes + homeavaliblebytes) / 2.0)));
-  float hometotal, homeused;
-
-  if (gigs)
-  {
-    hometotal = roundf(hometotalbytes / BYTE_GIGABYTE_CONVERSION);
-    homeused = (homeusedbytes / BYTE_GIGABYTE_CONVERSION);
-  }
-  else
-  {
-    hometotal = roundf(hometotalbytes / BYTE_KILOBYTE_CONVERSION);
-    homeused = (homeusedbytes / BYTE_KILOBYTE_CONVERSION);
-  }
-
-  printf("%sHome Usage:%s\t%s%.2f/%.0f %s (%d%%)%s\n", col.ansi_id_color, COLOR_END,
-         col.ansi_text_color, homeused, hometotal, unit, homeusageprecentage, COLOR_END);
+  free(data);
 }
