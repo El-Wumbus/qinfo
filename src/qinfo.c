@@ -252,6 +252,10 @@ static void printlogo()
   {
     printf("%s%s%s\n", col.logo_color, artix_logo, COLOR_END);
   }
+  else if (strstr(os_name, "Debian GNU/Linux") != NULL)
+  {
+    printf("%s%s%s\n", col.logo_color, debian_logo, COLOR_END);
+  }
   else if (strstr(os_name, "Bedrock Linux") != NULL)
   {
     printf("%s%s%s\n", col.logo_color, bedrock_logo, COLOR_END);
