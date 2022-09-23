@@ -33,10 +33,6 @@ Author: Aidan Neal <decator.c@proton.me>
 #define HOUR_DAY_CONVERSION 24      // Number of hours in a day
 #define MINUTE_HOUR_CONVERSION 60   // Number of minutes in an hour
 
-#define BYTE_GIGABYTE_CONVERSION 1073741824L
-#define BYTE_KILOBYTE_CONVERSION 1024
-#define KILOBYTE_GIGABYTE_CONVERSION 1048576 // Number of kilobytes in a gigabyte
-
 struct uptime
 {
   unsigned int days;
