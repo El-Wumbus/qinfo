@@ -1,21 +1,22 @@
 CC = gcc
-CFLAGS=-g -Wall -O2 -lm
+CFLAGS=-g -Wall -lm -O2
 source_files = $(wildcard src/*.c) $(wildcard library/*.c)
-output_dir = dist
-output_file = qinfo
+BUILD_LOCATION = dist
+INSTALL_LOCATION = /usr/bin
+BIN = qinfo
 
 default: build
 
 build:
-	mkdir -p $(output_dir)
-	$(CC) -o $(output_dir)/$(output_file) $(source_files) $(CFLAGS)
+	mkdir -p $(BUILD_LOCATION)
+	$(CC) -o $(BUILD_LOCATION)/$(BIN) $(source_files) $(CFLAGS)
 
 clean:
 	rm -rf $(output_dir)
 
 install: build
-	mkdir -p $(PREFIX)$(DESTDIR)/usr/bin/
-	install -m 0755 $(output_dir)/$(output_file) $(PREFIX)$(DESTDIR)/usr/bin/qinfo
+	mkdir -p $(PREFIX)$(DESTDIR)$(INSTALL_LOCATION)
+	install -m 0755 $(output_dir)/$(BIN) $(PREFIX)$(DESTDIR)$(INSTALL_LOCATION)/$(BIN)
 
 run: clean build
-	dist/qinfo
+	$(BUILD_LOCATION)/$(BIN)

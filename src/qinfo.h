@@ -22,10 +22,9 @@ Author: Aidan Neal <decator.c@proton.me>
 #include "config.h"
 #include "system.h"
 #include "unix.h"
+#include <argp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <argp.h>
-
 
 #define SECOND_DAY_CONVERSION 86400 // Number of seconds in a day
 #define SECOND_HOUR_CONVERSION 3600 // Number of seconds in an hour
@@ -35,52 +34,50 @@ Author: Aidan Neal <decator.c@proton.me>
 
 struct uptime
 {
-  unsigned int days;
-  unsigned int hours;
-  unsigned int minutes;
-  unsigned int seconds;
+    unsigned int days;
+    unsigned int hours;
+    unsigned int minutes;
+    unsigned int seconds;
 };
 
 struct packages
 {
-  packagecount pacman_packages;
-  packagecount apt_packages;
-  packagecount apk_packages;
-  packagecount flatpak_packages;
-  packagecount snap_packages;
+    packagecount pacman_packages;
+    packagecount apt_packages;
+    packagecount apk_packages;
+    packagecount flatpak_packages;
+    packagecount snap_packages;
 };
-
 
 /* Used by main to communicate with parse_opt. */
 
-static struct argp_option options[] = {
-    {"hide_warnings", 's', 0, 0, "Hide any non-critical warnings."},
-    {"config", 'c', "CONFIG_FILE", 0,
-     "Use this config file instead of the defualt location."},
-    {0}
-    };
+static struct argp_option options[]
+    = { { "hide_warnings", 's', 0, 0, "Hide any non-critical warnings." },
+        { "config", 'c', "CONFIG_FILE", 0,
+          "Use this config file instead of the defualt location." },
+        { 0 } };
 
 struct arguments
 {
-  bool silent;
-  char *config_file;
+    bool silent;
+    char *config_file;
 };
 
-static struct uptime formatted_uptime(long uptime);
-static struct packages formatted_packages();
+static struct uptime formatted_uptime (long uptime);
+static struct packages formatted_packages ();
 
-static void printos();
-static void printlogo();
-static void printcpuinfo(bool extra);
-static void printmem(bool gigs);
-static void printuser();
-static void printshell();
-static void printhostname();
-static void printboard();
-static void printrootfsbirth(bool format);
-static void printuptime();
-static void printkernel();
-static void printpackages();
-static void printdiskinfo(bool gigs);
+static void printos ();
+static void printlogo ();
+static void printcpuinfo (bool extra);
+static void printmem (bool gigs);
+static void printuser ();
+static void printshell ();
+static void printhostname ();
+static void printboard ();
+static void printrootfsbirth (bool format);
+static void printuptime ();
+static void printkernel ();
+static void printpackages ();
+static void printdiskinfo (bool gigs);
 
 #endif

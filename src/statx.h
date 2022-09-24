@@ -1,9 +1,9 @@
 #include <linux/stat.h>
+#include <sys/stat.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <time.h>
+#include <unistd.h>
 /* Special value used to indicate openat should use the current working
  * directory. */
 #define AT_FDCWD -100
@@ -20,6 +20,5 @@
 #define __NR_statx -1
 #endif
 
-extern ssize_t mstatx(int dfd, const char *filename,
-                                             unsigned flags, unsigned int mask,
-                                             struct statx *buffer);
+extern ssize_t mstatx (int dfd, const char *filename, unsigned flags, unsigned int mask,
+                       struct statx *buffer);
