@@ -174,7 +174,7 @@ handler (void *user, const char *section, const char *name, const char *value)
 }
 
 int
-parse_config (configuration *pconfig, char *CONFIG_FILE_NAME, bool silent)
+parse_config (configuration *pconfig, char *config_file_name, bool silent)
 {
 
     configuration config;
@@ -200,9 +200,9 @@ parse_config (configuration *pconfig, char *CONFIG_FILE_NAME, bool silent)
     config.TXTCOLOR = WHT;
     config.LOGOCOLOR = WHT;
 
-    if (ini_parse (CONFIG_FILE_NAME, handler, &config) < 0 && !silent)
+    if (ini_parse (config_file_name, handler, &config) < 0 && !silent)
         {
-            fprintf (stderr, "'%s' not found, not loading configuration\n", CONFIG_FILE_NAME);
+            fprintf (stderr, "'%s' not found, not loading configuration\n", config_file_name);
             return 1;
         }
 

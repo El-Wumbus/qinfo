@@ -46,11 +46,10 @@ You probably already have it installed, you can check `git --version`.
 If you get an error message then you must install `git` from your distro's repositories.
 
 For the installation of this software a C compiler is required. Your distro already has one installed, it's probably `gcc`.
-If not, then you need to install `gcc` (or have another compiler symlinked to it) You can check with `gcc --version`. If you get an error message then you must install
-`gcc` from your distro's repositories.
+If you get an error message then you must install one like `gcc` or `clang` from your distro's repositories.
 
-You'll also need `make`, you likely already have this installed. You can check with `make --version`.
-If you get an error message then you must install `make` from your distro's repositories.
+You'll also need `meson` and `ninja`, you might already have theese installed. You can check with `meson --version; ninja --version`.
+If you get an error message then you must install `meson` and `ninja` from your distro's repositories or compile them from source.
 
 This program is built with `glibc` in mind. If you use a different C library it may not function as expected.
 This does not mean it doesn't work with other C libraries, this means i haven't confirmed functionality with
@@ -58,10 +57,24 @@ all the C libraries out there. Ensure you're using `glibc` before complaining ab
 
 Now that we have all the dependencies present we can compile the project. The following instructions assume the bash shell, though these instructions will work with the *vast* majority of linux shells (everything you're likely to use).
 
+```bash
+git clone https://github.com/El-Wumbus/qinfo.git
+cd qinfo
+./install.sh
+```
+
+If using Arch Linux you can Compile with pkgbuild to manage the package with pacman.
+
+```bash
+git clone https://github.com/El-Wumbus/qinfo.git
+cd qinfo/archpkg
+makepkg -si
+```
+
 #### Compiling on Alpine
 
 Despite having previously noted that this program isn't validated to work when compiling
-using any stdlib other than `glibc`, i've provided some instructions to *hopefully* get
+using any stdlib other than `glibc`, i've provided some instructions to get
 the program to compile on a non-glibc using distro, Alpine.  
 
 qinfo uses `argp` for argument parsing. `argp` is a GNU extention to libc,
@@ -73,22 +86,6 @@ apk add argp-standalone
 ```
 
 This is required because Alpine Linux uses the `musl` C library.
-
-You'll also need to install `gcc`, or symlink `clang` to it. You'll need `make` as well.
-
-```bash
-git clone https://github.com/El-Wumbus/qinfo.git
-cd qinfo
-sudo make install
-```
-
-If using Arch Linux you can Compile with pkgbuild to manage the package with pacman.
-
-```bash
-git clone https://github.com/El-Wumbus/qinfo.git
-cd qinfo/archpkg
-makepkg -si
-```
 
 ## Usage
 
