@@ -21,7 +21,7 @@ Author: Aidan Neal <decator.c@proton.me>
 /* #include "color.h" */
 #include "config.h"
 #include "system.h"
-#include "unix.h"
+#include "linux.h"
 #include <argp.h>
 #include <stdio.h>
 #include <stdlib.h>
