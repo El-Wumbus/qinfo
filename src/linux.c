@@ -1,3 +1,5 @@
+#ifdef __linux__
+
 #include "unix.h"
 #include <math.h>
 #include <stdlib.h>
@@ -757,3 +759,4 @@ get_disk_usage (char **dest, bool gigs)
         }
     return 1;
 }
+#endif

@@ -21,8 +21,6 @@ Author: Aidan Neal <decator.c@proton.me>
 /* #include "color.h" */
 #include "config.h"
 #include "system.h"
-#include "linux.h"
-#include <argp.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -50,12 +48,6 @@ struct packages
 };
 
 /* Used by main to communicate with parse_opt. */
-
-static struct argp_option options[]
-    = { { "hide_warnings", 's', 0, 0, "Hide any non-critical warnings." },
-        { "config", 'c', "CONFIG_FILE", 0,
-          "Use this config file instead of the defualt location." },
-        { 0 } };
 
 struct arguments
 {

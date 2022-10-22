@@ -1,3 +1,5 @@
+
+#ifdef __linux__
 #include "cpu.h"
 
 // Register values for CPUID.
@@ -33,3 +35,18 @@ cpu_get_family_value (void)
     uint32_t family_code = (eax >> 8) & 0x1F;
     return extended_family + family_code;
 }
+
+
+#else
+
+int cpu_get_modelnum (void)
+{
+ return 0;
+}
+
+int cpu_get_family_value (void)
+{
+    return 0;
+}
+
+#endif

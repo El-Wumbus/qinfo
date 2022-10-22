@@ -16,19 +16,17 @@ Author: Aidan Neal <decator.c@proton.me>
     USA
 */
 
-#ifndef UNIX_H
-#define UNIX_H
-
+#pragma once
+#include<windows.h>
 #include <ctype.h>
 #include <errno.h>
-/* #include <fcntl.h> */
-#include <pwd.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <malloc.h>
 #include <string.h>
-/* #include <sys/statvfs.h> */
-/* #include <sys/utsname.h> // Uname Syscall */
+#include <sysinfoapi.h>
+
 
 #define MAXLINE 12
 #define BUFFERSIZE 4024
@@ -41,10 +39,13 @@ Author: Aidan Neal <decator.c@proton.me>
 #define BYTE_GIGABYTE_CONVERSION 1073741824L
 #define BYTE_KILOBYTE_CONVERSION 1024
 #define KILOBYTE_GIGABYTE_CONVERSION 1048576 // Number of kilobytes in a gigabyte
-
+#define MILLISECONDS_SECONDS_CONVERSION 1000
 typedef unsigned short int iter;
 typedef unsigned long int packagecount;
-typedef pid_t pid;
+typedef BOOL (WINAPI *LPFN_GLPI)(PSYSTEM_LOGICAL_PROCESSOR_INFORMATION, PDWORD);
+typedef PSYSTEM_LOGICAL_PROCESSOR_INFORMATION PSLPI;
+typedef unsigned long long size_t;
+
 struct date
 {
     unsigned int day;
@@ -52,6 +53,7 @@ struct date
     unsigned int year;
 };
 
+void init(void);
 unsigned int get_core_count (void);
 unsigned int get_thread_count (void);
 int get_total_memory (void);
@@ -67,5 +69,3 @@ char *get_username (void);
 packagecount get_num_packages (unsigned short package_manager_id);
 size_t get_shell_name (char *dest);
 short get_disk_usage (char **dest, bool gigs);
-
-#endif // UNIX_H

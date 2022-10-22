@@ -15,9 +15,8 @@ Author: Aidan Neal <decator.c@proton.me>
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
     USA
 */
-
-#ifndef UNIX_H
-#define UNIX_H
+#ifdef __linux__
+#pragma once
 
 #include "statx.h" // Statx syscall
 #include <ctype.h>
@@ -69,4 +68,4 @@ packagecount get_num_packages (unsigned short package_manager_id);
 size_t get_shell_name (char *dest);
 short get_disk_usage (char **dest, bool gigs);
 
-#endif // UNIX_H
+#endif

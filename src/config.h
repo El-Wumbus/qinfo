@@ -4,9 +4,15 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_PATH 2048
+#define MAXPATH 2048
 #define MATCH(s, n) strcmp (section, s) == 0 && strcmp (name, n) == 0
 #define VERSION "qinfo 0.0.1"
+#ifdef _WIN32
+#define CONFIGFILE "%s%s\\Documents\\qinfo.ini"
+#else
+#define CONFIGFILE "%s/.config/.qinfo.conf"
+#endif
+
 /* A macro that compares the section and name to the strings passed in. */
 
 typedef struct

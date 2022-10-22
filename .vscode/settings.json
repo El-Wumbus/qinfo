@@ -1,3 +1,13 @@
 {
-    "mesonbuild.configureOnOpen": true
+    "mesonbuild.configureOnOpen": true,
+    "files.associations": {
+        "config.h": "c",
+        "wbemidl.h": "c",
+        "statx.h": "c",
+        "system.h": "c",
+        "win32.h": "c",
+        "malloc.h": "c",
+        "stdio.h": "c",
+        "stdbool.h": "c"
+    }
 }

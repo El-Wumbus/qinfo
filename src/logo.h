@@ -156,6 +156,44 @@ const char *debian_logo =
     "          `\"Y$b._"
     "              `\"\"\"";
 
+const char *windows11_logo =
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "                                  \n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n"
+    "################  ################\n";
+
+const char *windows10_logo =
+    "                                ..,\n"
+    "                    ....,,:;+ccllll\n"
+    "      ...,,+:;  cllllllllllllllllll\n"
+    ",cclllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "                                   \n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "llllllllllllll  lllllllllllllllllll\n"
+    "`'ccllllllllll  lllllllllllllllllll\n"
+    "       `' \\*::  :ccllllllllllllllll\n"
+    "                       ````''*::cll\n"
+    "                                 ``\n";
+
 const char *generic_logo =
     "           @@@%%%%%%%%%@@\n"
     "        @@@%%%%%%%%%#######%@@\n"
