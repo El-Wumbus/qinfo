@@ -20,7 +20,11 @@ A Linux🐧 system info program. Fetches system info and displays it.
   
 ## How to install
 
-## Arch User Repository
+### Windows Compatablility
+
+Windows's API is mind numbingly infuriating so not everything is supported yet, if something doesn't work blame windows.
+
+### Arch User Repository
 
 On Arch linux and Arch Linux based systems (systems with `pacman` and `makepkg`) there's an AUR package available to you. You can install it in one of two ways:
 
@@ -39,7 +43,7 @@ On Arch linux and Arch Linux based systems (systems with `pacman` and `makepkg`)
    makepkg -si
   ```
 
-### Compile *Manually* 😎
+### Compile & Install *Manually* 😎
 
 To get the source code of this software you'll need the `git` version control software.
 You probably already have it installed, you can check `git --version`.
@@ -61,6 +65,15 @@ Now that we have all the dependencies present we can compile the project. The fo
 git clone https://github.com/El-Wumbus/qinfo.git
 cd qinfo
 ./install.sh
+```
+
+If you just want to compile the program, run the following
+
+```bash
+git clone https://github.com/El-Wumbus/qinfo.git
+cd qinfo
+meson setup build
+meson compile -C build
 ```
 
 If using Arch Linux you can Compile with pkgbuild to manage the package with pacman.

@@ -27,11 +27,11 @@ char CONFIG_FILE_NAME[MAXPATH];
 static void
 initconfig(char *config_file, bool silent)
 {
-    if (parse_config(&config, config_file, silent) >= 0)
-    {
-        if (!silent)
-        fprintf(stderr, "Critical Error: unexpected error while parsing configuration\n");
-    }
+    if (parse_config (&config, config_file, silent) < 0)
+        {
+            fprintf (stderr, "Critical Error: unexpected error while parsing configuration");
+            exit (1);
+        }
 
     col.ansi_id_color = config.IDCOLOR;
     col.ansi_text_color = config.TXTCOLOR;
@@ -86,31 +86,28 @@ int main(int argc, char **argv)
     arguments.silent = false;
     arguments.config_file = CONFIG_FILE_NAME;
 
-#ifdef __linux__
+#ifdef _WIN32
+    char *homedir = getenv("HOMEPATH");
+    char *homedrive = getenv("HOMEDRIVE");
+    sprintf(CONFIG_FILE_NAME, CONFIGFILE, homedrive, homedir);
+    init(); // Do dumb windows API things
 
+    // TODO: support silencing stderr
+#else
     /*Parse our arguments; every option seen by parse_opt will
        be reflected in arguments. */
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
     char *homedir = getenv("HOME");
-#else
-    char *homedir = getenv("HOMEPATH");
-    char *homedrive = getenv("HOMEDRIVE");
-#endif
+    sprintf(CONFIG_FILE_NAME, CONFIGFILE, homedir);
 
-
-    sprintf(CONFIG_FILE_NAME, CONFIGFILE, homedrive, homedir);
-    initconfig(arguments.config_file, arguments.silent);
-
-
-#ifdef _WIN32
-    init();
-#else
     if (arguments.silent)
     {
         freopen("/dev/null", "w", stderr);
     }
 #endif
 
+
+    initconfig(arguments.config_file, arguments.silent);
     if (config.DISPLAY_LOGO)
     {
         printlogo();

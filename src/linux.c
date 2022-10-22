@@ -1,6 +1,6 @@
 #ifdef __linux__
 
-#include "unix.h"
+#include "linux.h"
 #include <math.h>
 #include <stdlib.h>
 /*

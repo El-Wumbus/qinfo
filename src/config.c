@@ -196,9 +196,9 @@ parse_config (configuration *pconfig, char *config_file_name, bool silent)
     config.DISPLAY_PACKAGES = true;
     config.DISPLAY_SHELL = true;
     config.DISPLAY_DISK_USAGE = true;
-    config.IDCOLOR = BBLU;
+    config.IDCOLOR = BWHT;
     config.TXTCOLOR = WHT;
-    config.LOGOCOLOR = BBLU;
+    config.LOGOCOLOR = WHT;
 
     if (ini_parse (config_file_name, handler, &config) < 0 && !silent)
         {
