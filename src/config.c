@@ -210,7 +210,6 @@ int parse_config(configuration *pconfig, char *config_file_name, bool silent)
         return 1;
     }
 
-
     int i = 0;
     while (i < 12)
     {
@@ -218,60 +217,49 @@ int parse_config(configuration *pconfig, char *config_file_name, bool silent)
         switch (i)
         {
         case 0:
-            if (DISPLAY_LOGO)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_LOGO;
             break;
         case 1:
-            if (DISPLAY_CPU_INFO)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_CPU_INFO;
             break;
         case 2:
-            if (DISPLAY_MEMORY_INFO)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_MEMORY_INFO;
             break;
         case 3:
-            if (DISPLAY_OPERATING_SYSTEM)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_OPERATING_SYSTEM;
             break;
         case 4:
-            if (DISPLAY_USERNAME)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_USERNAME;
             break;
         case 5:
-            if (DISPLAY_SHELL)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_SHELL;
             break;
         case 6:
-            if (DISPLAY_HOSTNAME)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_HOSTNAME;
             break;
         case 7:
-            if (DISPLAY_MOTHERBOARD_INFO)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_MOTHERBOARD_INFO;
             break;
         case 8:
-            if (DISPLAY_ROOTFS_BIRTHDAY)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_ROOTFS_BIRTHDAY;
             break;
         case 9:
-            if (DISPLAY_UPTIME)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_UPTIME;
             break;
         case 10:
-            if (DISPLAY_KERNEL_VERSION)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_KERNEL_VERSION;
             break;
         case 11:
-            if (DISPLAY_DISK_USAGE)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_DISK_USAGE;
             break;
         case 12:
-            if (DISPLAY_PACKAGES)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_PACKAGES;
             break;
         case 13:
-            if (DISPLAY_ETC_CPU_INFO)
-                config.configuration_array[i] = true;
+            config.configuration_array[i] = DISPLAY_ETC_CPU_INFO;
+            break;
+        case 14:
+            config.configuration_array[i] = DISPLAY_PACKAGES;
             break;
         }
         i++;
