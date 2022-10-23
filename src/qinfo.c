@@ -111,7 +111,6 @@ int main(int argc, char **argv)
     int i = 0;
     while (i < 12)
     {
-
         bool x = config.configuration_array[i];
         switch (i)
         {
@@ -200,8 +199,8 @@ int main(int argc, char **argv)
                 printcpuinfo(true);
             }
             break;
-            i++;
         }
+            i++;
     }
     return 0;
 }
