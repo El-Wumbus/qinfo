@@ -294,7 +294,7 @@ printcpuinfo(bool extra)
 static void
 printmem(bool gigs)
 {
-    char unit[3] = gigs ? "GB" : "kB";
+    char unit[3] = (gigs ? "GB" : "kB");
     float total_memory = gigs ? get_total_memory() / (float)KILOBYTE_GIGABYTE_CONVERSION : (float)get_total_memory(),
           used_memory = gigs ? ((total_memory - get_avalible_memory()) / (float)KILOBYTE_GIGABYTE_CONVERSION) : total_memory - get_avalible_memory();
 
@@ -313,7 +313,8 @@ static void
 printshell()
 {
     char *shell = new_string();
-    printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, realloc(shell, get_shell_name(shell)),
+    shell = realloc(shell, get_shell_name(shell));
+    printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, shell,
            COLOR_END);
     free(shell);
 }
