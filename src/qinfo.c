@@ -27,11 +27,11 @@ char CONFIG_FILE_NAME[MAXPATH];
 static void
 initconfig(char *config_file, bool silent)
 {
-    if (parse_config (&config, config_file, silent) < 0)
-        {
-            fprintf (stderr, "Critical Error: unexpected error while parsing configuration");
-            exit (1);
-        }
+    if (parse_config(&config, config_file, silent) < 0)
+    {
+        fprintf(stderr, "Critical Error: unexpected error while parsing configuration");
+        exit(1);
+    }
 
     col.ansi_id_color = config.IDCOLOR;
     col.ansi_text_color = config.TXTCOLOR;
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
 
     initconfig(arguments.config_file, arguments.silent);
 
-        int i = 0;
+    int i = 0;
     while (i < 12)
     {
 
@@ -200,13 +200,13 @@ int main(int argc, char **argv)
                 printcpuinfo(true);
             }
             break;
-        i++;
+            i++;
+        }
     }
     return 0;
 }
 
-static struct uptime
-formatted_uptime(long uptime)
+static struct uptime formatted_uptime(long uptime)
 {
     struct uptime upt;
     /*Calculating the number of days, hours, minutes and seconds. */
