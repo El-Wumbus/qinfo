@@ -283,10 +283,8 @@ printcpuinfo(bool extra)
         char *cpu_model = new_string();
         cpu_model = realloc(cpu_model, get_cpu_model(cpu_model));
 
-        unsigned int core_count = 0;
-        unsigned int thread_count = 0;
-        core_count = get_core_count();
-        thread_count = get_thread_count();
+        unsigned int core_count = get_core_count(),
+                     thread_count = get_thread_count();
         printf("%sCPU:%s\t\t%s%s (%u cores, %u threads)%s\n", col.ansi_id_color, COLOR_END,
                col.ansi_text_color, cpu_model, core_count, thread_count, COLOR_END);
         free(cpu_model);
@@ -296,23 +294,9 @@ printcpuinfo(bool extra)
 static void
 printmem(bool gigs)
 {
-    char unit[3];
-    float available_memory, used_memory = 0, total_memory = 0;
-
-    available_memory = (float)get_avalible_memory();
-    total_memory = (float)get_total_memory();
-    used_memory = total_memory - available_memory;
-
-    if (gigs)
-    {
-        used_memory = ((total_memory - available_memory) / (float)KILOBYTE_GIGABYTE_CONVERSION);
-        total_memory = get_total_memory() / (float)KILOBYTE_GIGABYTE_CONVERSION;
-        strcpy(unit, "GB");
-    }
-    else
-    {
-        strcpy(unit, "kB");
-    }
+    char unit[3] = gigs ? "GB" : "kB";
+    float total_memory = gigs ? get_total_memory() / (float)KILOBYTE_GIGABYTE_CONVERSION : (float)get_total_memory(),
+          used_memory = gigs ? ((total_memory - get_avalible_memory()) / (float)KILOBYTE_GIGABYTE_CONVERSION) : total_memory - get_avalible_memory();
 
     printf("%sRAM:%s\t\t%s%.2f/%.2f %s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color,
            used_memory, total_memory, unit, COLOR_END);
@@ -321,8 +305,7 @@ printmem(bool gigs)
 static void
 printuser()
 {
-    char *username = get_username();
-    printf("%sUser:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, username,
+    printf("%sUser:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, get_username(),
            COLOR_END);
 }
 
@@ -330,8 +313,7 @@ static void
 printshell()
 {
     char *shell = new_string();
-    shell = realloc(shell, get_shell_name(shell));
-    printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, shell,
+    printf("%sShell:%s%s\t\t%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, realloc(shell, get_shell_name(shell)),
            COLOR_END);
     free(shell);
 }
@@ -339,7 +321,7 @@ printshell()
 static void
 printhostname()
 {
-    char *hostname = malloc(sizeof(char) * BUFFERSIZE);
+    char *hostname = new_string();
     hostname = realloc(hostname, get_hostname(hostname));
     printf("%sHostname:%s%s\t%s%s\n", col.ansi_id_color, COLOR_END, col.ansi_text_color, hostname,
            COLOR_END);
@@ -376,30 +358,17 @@ printrootfsbirth(bool format)
 static void
 printuptime()
 {
-    long uptime = get_uptime();
-    struct uptime upt = formatted_uptime(uptime);
+    struct uptime upt = formatted_uptime(get_uptime());
 
     printf("%sUptime:%s%s\t\t", col.ansi_id_color, COLOR_END, col.ansi_text_color);
     if (upt.days > 0)
-    {
         printf("%u days ", upt.days);
-    }
-
     if (upt.hours > 0)
-    {
         printf("%u hours ", upt.hours);
-    }
-
     if (upt.minutes > 0)
-    {
         printf("%u minutes ", upt.minutes);
-    }
-
     if (upt.seconds > 0)
-    {
         printf("%u seconds", upt.seconds);
-    }
-
     printf("%s\n", COLOR_END);
 }
 
@@ -430,30 +399,15 @@ printpackages()
 
     printf("%sPackages:%s\t%s", col.ansi_id_color, COLOR_END, col.ansi_text_color);
     if (pkgs.pacman_packages > 0)
-    {
         printf("%lu (Pacman) ", pkgs.pacman_packages);
-    }
-
     if (pkgs.apt_packages > 0)
-    {
         printf("%lu (Apt) ", pkgs.apt_packages);
-    }
-
     if (pkgs.apk_packages > 0)
-    {
         printf("%lu (Apk)", pkgs.apk_packages);
-    }
-
     if (pkgs.flatpak_packages > 0)
-    {
         printf("%lu (Flatpak)", pkgs.flatpak_packages);
-    }
-
     if (pkgs.snap_packages > 0)
-    {
         printf("%lu (Snap)", pkgs.snap_packages);
-    }
-
     printf("%s\n", COLOR_END);
 }
 

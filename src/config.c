@@ -73,8 +73,7 @@ get_color(const char *value)
     {
         return BBLK;
     }
-    else
-        return "";
+    return "";
 }
 
 static bool DISPLAY_CPU_INFO, DISPLAY_ETC_CPU_INFO, DISPLAY_MEMORY_INFO,
@@ -125,15 +124,7 @@ handler(void *user, const char *section, const char *name, const char *value)
     }
     else if (MATCH("Extra", "DISPLAY_DATES"))
     {
-        if (strcmp(value, "YMD") == 0)
-        {
-            pconfig->DISPLAY_DATES_YYYY_MM_DD = true;
-        }
-
-        else if (strcmp(value, "MDY") == 0)
-        {
-            pconfig->DISPLAY_DATES_YYYY_MM_DD = false;
-        }
+        pconfig->DISPLAY_DATES_YYYY_MM_DD = (strcmp(value, "YMD") == 0) ? true : false;
     }
     else if (MATCH("Display", "DISPLAY_MOTHERBOARD_INFO"))
     {
@@ -158,7 +149,6 @@ handler(void *user, const char *section, const char *name, const char *value)
     else if (MATCH("Color", "LOGOCOLOR"))
     {
         pconfig->LOGOCOLOR = get_color(value);
-        return 0; /* unknown section/name, error */
     }
     else if (MATCH("Display", "DISPLAY_USERNAME"))
     {
@@ -172,9 +162,6 @@ handler(void *user, const char *section, const char *name, const char *value)
     {
         DISPLAY_DISK_USAGE = (strcmp(value, "true") == 0) ? true : false;
     }
-    else
-    {
-    }
     return 1;
 }
 
@@ -185,7 +172,7 @@ int parse_config(configuration *pconfig, char *config_file_name, bool silent)
 
     /* Setting the default values for the configuration. */
     DISPLAY_CPU_INFO = true;
-    DISPLAY_ETC_CPU_INFO = true;
+    DISPLAY_ETC_CPU_INFO = false;
     DISPLAY_MEMORY_INFO = true;
     DISPLAY_MOTHERBOARD_INFO = true;
     DISPLAY_HOSTNAME = true;
@@ -210,8 +197,7 @@ int parse_config(configuration *pconfig, char *config_file_name, bool silent)
         return 1;
     }
 
-    int i = 0;
-    while (i < 12)
+    for (int i = 0; i < 12; i++)
     {
 
         switch (i)
@@ -262,7 +248,6 @@ int parse_config(configuration *pconfig, char *config_file_name, bool silent)
             config.configuration_array[i] = DISPLAY_PACKAGES;
             break;
         }
-        i++;
     }
     *pconfig = config;
     return 0;
