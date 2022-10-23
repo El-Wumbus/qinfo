@@ -17,14 +17,14 @@ Author: Aidan Neal <decator.c@proton.me>
 */
 
 #pragma once
-#include<windows.h>
 #include <ctype.h>
 #include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
+// #include <malloc.h>
 #include <string.h>
+#include <windows.h>
 #include <sysinfoapi.h>
 
 

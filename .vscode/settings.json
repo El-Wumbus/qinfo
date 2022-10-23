@@ -8,6 +8,7 @@
         "win32.h": "c",
         "malloc.h": "c",
         "stdio.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "sysinfoapi.h": "c"
     }
 }

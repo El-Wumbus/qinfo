@@ -17,22 +17,9 @@
 
 typedef struct
 {
-    bool DISPLAY_CPU_INFO;
-    bool DISPLAY_ETC_CPU_INFO;
-    bool DISPLAY_MEMORY_INFO;
-    bool DISPLAY_HOSTNAME;
-    bool DISPLAY_UPTIME;
-    bool DISPLAY_OPERATING_SYSTEM;
+    bool configuration_array[14];
     bool USE_GIGABYTES;
-    bool DISPLAY_KERNEL_VERSION;
-    bool DISPLAY_ROOTFS_BIRTHDAY;
     bool DISPLAY_DATES_YYYY_MM_DD;
-    bool DISPLAY_MOTHERBOARD_INFO;
-    bool DISPLAY_LOGO;
-    bool DISPLAY_USERNAME;
-    bool DISPLAY_PACKAGES;
-    bool DISPLAY_SHELL;
-    bool DISPLAY_DISK_USAGE;
     char *IDCOLOR;
     char *TXTCOLOR;
     char *LOGOCOLOR;

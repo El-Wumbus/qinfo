@@ -174,7 +174,6 @@ const char *windows11_logo =
     "################  ################\n";
 
 const char *windows10_logo =
-    "                                ..,\n"
     "                    ....,,:;+ccllll\n"
     "      ...,,+:;  cllllllllllllllllll\n"
     ",cclllllllllll  lllllllllllllllllll\n"
@@ -190,7 +189,7 @@ const char *windows10_logo =
     "llllllllllllll  lllllllllllllllllll\n"
     "llllllllllllll  lllllllllllllllllll\n"
     "`'ccllllllllll  lllllllllllllllllll\n"
-    "       `' \\*::  :ccllllllllllllllll\n"
+    "      `' \\\\*::  :ccllllllllllllllll\n"
     "                       ````''*::cll\n"
     "                                 ``\n";
 

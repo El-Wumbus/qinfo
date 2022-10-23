@@ -106,78 +106,102 @@ int main(int argc, char **argv)
     }
 #endif
 
-
     initconfig(arguments.config_file, arguments.silent);
-    if (config.DISPLAY_LOGO)
-    {
-        printlogo();
-    }
 
-    if (config.DISPLAY_CPU_INFO)
+        int i = 0;
+    while (i < 12)
     {
-        printcpuinfo(false);
-    }
 
-    if (config.DISPLAY_ETC_CPU_INFO)
-    {
-        printcpuinfo(true);
-    }
+        bool x = config.configuration_array[i];
+        switch (i)
+        {
+        case 0:
+            if (x)
+            {
+                printlogo();
+            }
+            break;
+        case 1:
+            if (x)
+            {
+                printcpuinfo(false);
+            }
+            break;
+        case 2:
+            if (x)
+            {
+                printmem(config.USE_GIGABYTES);
+            }
+            break;
+        case 3:
+            if (x)
+            {
+                printos();
+            }
+            break;
 
-    if (config.DISPLAY_MEMORY_INFO)
-    {
-        printmem(config.USE_GIGABYTES);
+        case 4:
+            if (x)
+            {
+                printuser();
+            }
+            break;
+        case 5:
+            if (x)
+            {
+                printshell();
+            }
+            break;
+        case 6:
+            if (x)
+            {
+                printhostname();
+            }
+            break;
+        case 7:
+            if (x)
+            {
+                printboard();
+            }
+            break;
+        case 8:
+            if (x)
+            {
+                printrootfsbirth(config.DISPLAY_DATES_YYYY_MM_DD);
+            }
+            break;
+        case 9:
+            if (x)
+            {
+                printuptime();
+            }
+            break;
+        case 10:
+            if (x)
+            {
+                printkernel();
+            }
+            break;
+        case 11:
+            if (x)
+            {
+                printdiskinfo(config.USE_GIGABYTES);
+            }
+            break;
+        case 12:
+            if (x)
+            {
+                printpackages();
+            }
+            break;
+        case 13:
+            if (x)
+            {
+                printcpuinfo(true);
+            }
+            break;
+        i++;
     }
-
-    if (config.DISPLAY_OPERATING_SYSTEM)
-    {
-        printos();
-    }
-
-    if (config.DISPLAY_USERNAME)
-    {
-        printuser();
-    }
-
-    if (config.DISPLAY_SHELL)
-    {
-        printshell();
-    }
-
-    if (config.DISPLAY_HOSTNAME)
-    {
-        printhostname();
-    }
-
-    if (config.DISPLAY_MOTHERBOARD_INFO)
-    {
-        printboard();
-    }
-
-    if (config.DISPLAY_ROOTFS_BIRTHDAY)
-    {
-        printrootfsbirth(config.DISPLAY_DATES_YYYY_MM_DD);
-    }
-
-    if (config.DISPLAY_UPTIME)
-    {
-        printuptime();
-    }
-
-    if (config.DISPLAY_KERNEL_VERSION)
-    {
-        printkernel();
-    }
-
-    if (config.DISPLAY_DISK_USAGE)
-    {
-        printdiskinfo(config.USE_GIGABYTES);
-    }
-
-    if (config.DISPLAY_PACKAGES)
-    {
-        printpackages();
-    }
-
     return 0;
 }
 
