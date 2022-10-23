@@ -223,51 +223,11 @@ formatted_packages(packagecount pacman_packages, packagecount apt_packages,
                    packagecount snap_packages)
 {
     struct packages pkgs;
-    if (pacman_packages > 0)
-    {
-        pkgs.pacman_packages = pacman_packages;
-    }
-    else
-    {
-        pkgs.pacman_packages = 0;
-    }
-
-    if (apt_packages > 0)
-    {
-        pkgs.apt_packages = apt_packages;
-    }
-    else
-    {
-        pkgs.apt_packages = 0;
-    }
-
-    if (apk_packages > 0)
-    {
-        pkgs.apk_packages = apk_packages;
-    }
-    else
-    {
-        pkgs.apk_packages = 0;
-    }
-
-    if (flatpak_packages > 0)
-    {
-        pkgs.flatpak_packages = flatpak_packages;
-    }
-    else
-    {
-        pkgs.flatpak_packages = 0;
-    }
-
-    if (snap_packages > 0)
-    {
-        pkgs.snap_packages = snap_packages;
-    }
-    else
-    {
-        pkgs.snap_packages = 0;
-    }
-
+    pkgs.pacman_packages = (pacman_packages > 0 ? pacman_packages : 0);
+    pkgs.apt_packages = (apt_packages > 0 ? apt_packages : 0);
+    pkgs.apk_packages = (apk_packages > 0 ? apk_packages : 0);
+    pkgs.flatpak_packages = (flatpak_packages > 0 ? flatpak_packages : 0);
+    pkgs.snap_packages = (snap_packages > 0 ? snap_packages : 0);
     return pkgs;
 }
 

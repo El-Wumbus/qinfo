@@ -15,8 +15,9 @@ Author: Aidan Neal <decator.c@proton.me>
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
     USA
 */
-#ifndef QINFO_H
-#define QINFO_Hstruct packages;
+
+#pragma once
+struct packages;
 
 /* #include "color.h" */
 #include "config.h"
@@ -71,5 +72,3 @@ static void printuptime ();
 static void printkernel ();
 static void printpackages ();
 static void printdiskinfo (bool gigs);
-
-#endif
