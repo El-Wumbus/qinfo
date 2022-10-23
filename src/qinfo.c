@@ -116,91 +116,67 @@ int main(int argc, char **argv)
         {
         case 0:
             if (x)
-            {
                 printlogo();
-            }
             break;
         case 1:
             if (x)
-            {
                 printcpuinfo(false);
-            }
             break;
         case 2:
             if (x)
-            {
                 printmem(config.USE_GIGABYTES);
-            }
             break;
         case 3:
             if (x)
-            {
                 printos();
-            }
             break;
 
         case 4:
             if (x)
-            {
                 printuser();
-            }
             break;
         case 5:
             if (x)
-            {
                 printshell();
-            }
             break;
         case 6:
             if (x)
-            {
                 printhostname();
-            }
             break;
         case 7:
             if (x)
-            {
                 printboard();
-            }
             break;
         case 8:
             if (x)
-            {
                 printrootfsbirth(config.DISPLAY_DATES_YYYY_MM_DD);
-            }
             break;
         case 9:
             if (x)
-            {
                 printuptime();
-            }
             break;
         case 10:
             if (x)
-            {
                 printkernel();
-            }
             break;
         case 11:
             if (x)
-            {
                 printdiskinfo(config.USE_GIGABYTES);
-            }
             break;
         case 12:
             if (x)
-            {
                 printpackages();
-            }
             break;
         case 13:
             if (x)
-            {
                 printcpuinfo(true);
-            }
+            break;
+        case 14:
+            if (x)
+                printpackages();
             break;
         }
-            i++;
+        i++;
     }
     return 0;
 }
