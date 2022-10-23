@@ -293,8 +293,9 @@ printcpuinfo(bool extra)
 
 static void
 printmem(bool gigs)
-{
-    char unit[3] = (gigs ? "GB" : "kB");
+{   
+    char *unit;
+    unit = gigs ? "GB" : "kB";
     float total_memory = gigs ? get_total_memory() / (float)KILOBYTE_GIGABYTE_CONVERSION : (float)get_total_memory(),
           used_memory = gigs ? ((total_memory - get_avalible_memory()) / (float)KILOBYTE_GIGABYTE_CONVERSION) : total_memory - get_avalible_memory();
 
